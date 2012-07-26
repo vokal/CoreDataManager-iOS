@@ -1,0 +1,282 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		EA5F19A515C196500089AA44 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5F19A415C196500089AA44 /* UIKit.framework */; };
+		EA5F19A715C196500089AA44 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5F19A615C196500089AA44 /* Foundation.framework */; };
+		EA5F19A915C196500089AA44 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5F19A815C196500089AA44 /* CoreGraphics.framework */; };
+		EA5F19AF15C196500089AA44 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = EA5F19AD15C196500089AA44 /* InfoPlist.strings */; };
+		EA5F19B115C196500089AA44 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EA5F19B015C196500089AA44 /* main.m */; };
+		EA5F19B515C196500089AA44 /* VIAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EA5F19B415C196500089AA44 /* VIAppDelegate.m */; };
+		EA5F19B815C196500089AA44 /* VIViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA5F19B715C196500089AA44 /* VIViewController.m */; };
+		EA5F19BB15C196500089AA44 /* VIViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EA5F19B915C196500089AA44 /* VIViewController.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		EA5F19A015C196500089AA44 /* CoreData.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoreData.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EA5F19A415C196500089AA44 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		EA5F19A615C196500089AA44 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		EA5F19A815C196500089AA44 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		EA5F19AC15C196500089AA44 /* CoreData-Info.plist */ = {isa = PBXFileReference; path = "CoreData-Info.plist"; sourceTree = "<group>"; };
+		EA5F19AE15C196500089AA44 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		EA5F19B015C196500089AA44 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		EA5F19B215C196500089AA44 /* CoreData-Prefix.pch */ = {isa = PBXFileReference; path = "CoreData-Prefix.pch"; sourceTree = "<group>"; };
+		EA5F19B315C196500089AA44 /* VIAppDelegate.h */ = {isa = PBXFileReference; path = VIAppDelegate.h; sourceTree = "<group>"; };
+		EA5F19B415C196500089AA44 /* VIAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VIAppDelegate.m; sourceTree = "<group>"; };
+		EA5F19B615C196500089AA44 /* VIViewController.h */ = {isa = PBXFileReference; path = VIViewController.h; sourceTree = "<group>"; };
+		EA5F19B715C196500089AA44 /* VIViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VIViewController.m; sourceTree = "<group>"; };
+		EA5F19BA15C196500089AA44 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/VIViewController.xib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		EA5F199D15C196500089AA44 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA5F19A515C196500089AA44 /* UIKit.framework in Frameworks */,
+				EA5F19A715C196500089AA44 /* Foundation.framework in Frameworks */,
+				EA5F19A915C196500089AA44 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		EA5F199515C196500089AA44 = {
+			isa = PBXGroup;
+			children = (
+				EA5F19AA15C196500089AA44 /* CoreData */,
+				EA5F19A315C196500089AA44 /* Frameworks */,
+				EA5F19A115C196500089AA44 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		EA5F19A115C196500089AA44 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EA5F19A015C196500089AA44 /* CoreData.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EA5F19A315C196500089AA44 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EA5F19A415C196500089AA44 /* UIKit.framework */,
+				EA5F19A615C196500089AA44 /* Foundation.framework */,
+				EA5F19A815C196500089AA44 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		EA5F19AA15C196500089AA44 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				EA5F19B315C196500089AA44 /* VIAppDelegate.h */,
+				EA5F19B415C196500089AA44 /* VIAppDelegate.m */,
+				EA5F19B615C196500089AA44 /* VIViewController.h */,
+				EA5F19B715C196500089AA44 /* VIViewController.m */,
+				EA5F19B915C196500089AA44 /* VIViewController.xib */,
+				EA5F19AB15C196500089AA44 /* Supporting Files */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
+		EA5F19AB15C196500089AA44 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				EA5F19AC15C196500089AA44 /* CoreData-Info.plist */,
+				EA5F19AD15C196500089AA44 /* InfoPlist.strings */,
+				EA5F19B015C196500089AA44 /* main.m */,
+				EA5F19B215C196500089AA44 /* CoreData-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		EA5F199F15C196500089AA44 /* CoreData */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EA5F19BE15C196500089AA44 /* Build configuration list for PBXNativeTarget "CoreData" */;
+			buildPhases = (
+				EA5F199C15C196500089AA44 /* Sources */,
+				EA5F199D15C196500089AA44 /* Frameworks */,
+				EA5F199E15C196500089AA44 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CoreData;
+			productName = CoreData;
+			productReference = EA5F19A015C196500089AA44 /* CoreData.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		EA5F199715C196500089AA44 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = VI;
+				LastUpgradeCheck = 0430;
+			};
+			buildConfigurationList = EA5F199A15C196500089AA44 /* Build configuration list for PBXProject "CoreData" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = EA5F199515C196500089AA44;
+			productRefGroup = EA5F19A115C196500089AA44 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EA5F199F15C196500089AA44 /* CoreData */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		EA5F199E15C196500089AA44 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA5F19AF15C196500089AA44 /* InfoPlist.strings in Resources */,
+				EA5F19BB15C196500089AA44 /* VIViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		EA5F199C15C196500089AA44 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA5F19B115C196500089AA44 /* main.m in Sources */,
+				EA5F19B515C196500089AA44 /* VIAppDelegate.m in Sources */,
+				EA5F19B815C196500089AA44 /* VIViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		EA5F19AD15C196500089AA44 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EA5F19AE15C196500089AA44 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		EA5F19B915C196500089AA44 /* VIViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EA5F19BA15C196500089AA44 /* en */,
+			);
+			name = VIViewController.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		EA5F19BC15C196500089AA44 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		EA5F19BD15C196500089AA44 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		EA5F19BF15C196500089AA44 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CoreData/CoreData-Prefix.pch";
+				INFOPLIST_FILE = "CoreData/CoreData-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		EA5F19C015C196500089AA44 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CoreData/CoreData-Prefix.pch";
+				INFOPLIST_FILE = "CoreData/CoreData-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		EA5F199A15C196500089AA44 /* Build configuration list for PBXProject "CoreData" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EA5F19BC15C196500089AA44 /* Debug */,
+				EA5F19BD15C196500089AA44 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EA5F19BE15C196500089AA44 /* Build configuration list for PBXNativeTarget "CoreData" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EA5F19BF15C196500089AA44 /* Debug */,
+				EA5F19C015C196500089AA44 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = EA5F199715C196500089AA44 /* Project object */;
+}
