@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EA24611B15C6CD3A0065C12D /* VIFetchResultsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = EA24611A15C6CD3A0065C12D /* VIFetchResultsDataSource.m */; };
+		EA26603315C251BF00D61F01 /* VIPersonDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = EA26603215C251BF00D61F01 /* VIPersonDataSource.m */; };
+		EA4FE17915C2EEC700424469 /* VICoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EA4FE17715C2EEC700424469 /* VICoreDataModel.xcdatamodeld */; };
+		EA4FE17C15C2EF1000424469 /* VIPerson.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4FE17B15C2EF1000424469 /* VIPerson.m */; };
 		EA5F19A515C196500089AA44 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5F19A415C196500089AA44 /* UIKit.framework */; };
 		EA5F19A715C196500089AA44 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5F19A615C196500089AA44 /* Foundation.framework */; };
 		EA5F19A915C196500089AA44 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5F19A815C196500089AA44 /* CoreGraphics.framework */; };
@@ -15,22 +19,37 @@
 		EA5F19B515C196500089AA44 /* VIAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EA5F19B415C196500089AA44 /* VIAppDelegate.m */; };
 		EA5F19B815C196500089AA44 /* VIViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA5F19B715C196500089AA44 /* VIViewController.m */; };
 		EA5F19BB15C196500089AA44 /* VIViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EA5F19B915C196500089AA44 /* VIViewController.xib */; };
+		EA5F19CE15C197990089AA44 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5F19CD15C197990089AA44 /* CoreData.framework */; };
+		EA5F19D115C197F40089AA44 /* VICoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EA5F19D015C197F40089AA44 /* VICoreDataManager.m */; };
+		EA5F19E915C1CB4A0089AA44 /* VIManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = EA5F19E815C1CB4A0089AA44 /* VIManagedObject.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		EA24611915C6CD3A0065C12D /* VIFetchResultsDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VIFetchResultsDataSource.h; path = VICoreDataManager/VIFetchResultsDataSource.h; sourceTree = "<group>"; };
+		EA24611A15C6CD3A0065C12D /* VIFetchResultsDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VIFetchResultsDataSource.m; path = VICoreDataManager/VIFetchResultsDataSource.m; sourceTree = "<group>"; };
+		EA26603115C251BF00D61F01 /* VIPersonDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIPersonDataSource.h; sourceTree = "<group>"; };
+		EA26603215C251BF00D61F01 /* VIPersonDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIPersonDataSource.m; sourceTree = "<group>"; };
+		EA4FE17815C2EEC700424469 /* VICoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = VICoreDataModel.xcdatamodel; sourceTree = "<group>"; };
+		EA4FE17A15C2EF1000424469 /* VIPerson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIPerson.h; sourceTree = "<group>"; };
+		EA4FE17B15C2EF1000424469 /* VIPerson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIPerson.m; sourceTree = "<group>"; };
 		EA5F19A015C196500089AA44 /* CoreData.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoreData.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA5F19A415C196500089AA44 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		EA5F19A615C196500089AA44 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		EA5F19A815C196500089AA44 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		EA5F19AC15C196500089AA44 /* CoreData-Info.plist */ = {isa = PBXFileReference; path = "CoreData-Info.plist"; sourceTree = "<group>"; };
+		EA5F19AC15C196500089AA44 /* CoreData-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CoreData-Info.plist"; sourceTree = "<group>"; };
 		EA5F19AE15C196500089AA44 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		EA5F19B015C196500089AA44 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		EA5F19B215C196500089AA44 /* CoreData-Prefix.pch */ = {isa = PBXFileReference; path = "CoreData-Prefix.pch"; sourceTree = "<group>"; };
-		EA5F19B315C196500089AA44 /* VIAppDelegate.h */ = {isa = PBXFileReference; path = VIAppDelegate.h; sourceTree = "<group>"; };
+		EA5F19B215C196500089AA44 /* CoreData-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CoreData-Prefix.pch"; sourceTree = "<group>"; };
+		EA5F19B315C196500089AA44 /* VIAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VIAppDelegate.h; sourceTree = "<group>"; };
 		EA5F19B415C196500089AA44 /* VIAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VIAppDelegate.m; sourceTree = "<group>"; };
-		EA5F19B615C196500089AA44 /* VIViewController.h */ = {isa = PBXFileReference; path = VIViewController.h; sourceTree = "<group>"; };
+		EA5F19B615C196500089AA44 /* VIViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VIViewController.h; sourceTree = "<group>"; };
 		EA5F19B715C196500089AA44 /* VIViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VIViewController.m; sourceTree = "<group>"; };
 		EA5F19BA15C196500089AA44 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/VIViewController.xib; sourceTree = "<group>"; };
+		EA5F19CD15C197990089AA44 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		EA5F19CF15C197F40089AA44 /* VICoreDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VICoreDataManager.h; path = VICoreDataManager/VICoreDataManager.h; sourceTree = "<group>"; };
+		EA5F19D015C197F40089AA44 /* VICoreDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VICoreDataManager.m; path = VICoreDataManager/VICoreDataManager.m; sourceTree = "<group>"; };
+		EA5F19E715C1CB4A0089AA44 /* VIManagedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VIManagedObject.h; path = VICoreDataManager/VIManagedObject.h; sourceTree = "<group>"; };
+		EA5F19E815C1CB4A0089AA44 /* VIManagedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VIManagedObject.m; path = VICoreDataManager/VIManagedObject.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,6 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA5F19CE15C197990089AA44 /* CoreData.framework in Frameworks */,
 				EA5F19A515C196500089AA44 /* UIKit.framework in Frameworks */,
 				EA5F19A715C196500089AA44 /* Foundation.framework in Frameworks */,
 				EA5F19A915C196500089AA44 /* CoreGraphics.framework in Frameworks */,
@@ -47,9 +67,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		EA26602615C24B5B00D61F01 /* DataSource */ = {
+			isa = PBXGroup;
+			children = (
+				EA26603115C251BF00D61F01 /* VIPersonDataSource.h */,
+				EA26603215C251BF00D61F01 /* VIPersonDataSource.m */,
+			);
+			name = DataSource;
+			sourceTree = "<group>";
+		};
 		EA5F199515C196500089AA44 = {
 			isa = PBXGroup;
 			children = (
+				EA5F19CD15C197990089AA44 /* CoreData.framework */,
 				EA5F19AA15C196500089AA44 /* CoreData */,
 				EA5F19A315C196500089AA44 /* Frameworks */,
 				EA5F19A115C196500089AA44 /* Products */,
@@ -77,6 +107,9 @@
 		EA5F19AA15C196500089AA44 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				EA5F19C515C1976C0089AA44 /* CoreDataManager */,
+				EA26602615C24B5B00D61F01 /* DataSource */,
+				EA5F19D215C1A6010089AA44 /* Models */,
 				EA5F19B315C196500089AA44 /* VIAppDelegate.h */,
 				EA5F19B415C196500089AA44 /* VIAppDelegate.m */,
 				EA5F19B615C196500089AA44 /* VIViewController.h */,
@@ -96,6 +129,29 @@
 				EA5F19B215C196500089AA44 /* CoreData-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		EA5F19C515C1976C0089AA44 /* CoreDataManager */ = {
+			isa = PBXGroup;
+			children = (
+				EA24611915C6CD3A0065C12D /* VIFetchResultsDataSource.h */,
+				EA24611A15C6CD3A0065C12D /* VIFetchResultsDataSource.m */,
+				EA5F19E715C1CB4A0089AA44 /* VIManagedObject.h */,
+				EA5F19E815C1CB4A0089AA44 /* VIManagedObject.m */,
+				EA5F19CF15C197F40089AA44 /* VICoreDataManager.h */,
+				EA5F19D015C197F40089AA44 /* VICoreDataManager.m */,
+			);
+			name = CoreDataManager;
+			sourceTree = "<group>";
+		};
+		EA5F19D215C1A6010089AA44 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				EA4FE17715C2EEC700424469 /* VICoreDataModel.xcdatamodeld */,
+				EA4FE17A15C2EF1000424469 /* VIPerson.h */,
+				EA4FE17B15C2EF1000424469 /* VIPerson.m */,
+			);
+			name = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -164,6 +220,12 @@
 				EA5F19B115C196500089AA44 /* main.m in Sources */,
 				EA5F19B515C196500089AA44 /* VIAppDelegate.m in Sources */,
 				EA5F19B815C196500089AA44 /* VIViewController.m in Sources */,
+				EA5F19D115C197F40089AA44 /* VICoreDataManager.m in Sources */,
+				EA5F19E915C1CB4A0089AA44 /* VIManagedObject.m in Sources */,
+				EA26603315C251BF00D61F01 /* VIPersonDataSource.m in Sources */,
+				EA4FE17915C2EEC700424469 /* VICoreDataModel.xcdatamodeld in Sources */,
+				EA4FE17C15C2EF1000424469 /* VIPerson.m in Sources */,
+				EA24611B15C6CD3A0065C12D /* VIFetchResultsDataSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -275,8 +337,22 @@
 				EA5F19C015C196500089AA44 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		EA4FE17715C2EEC700424469 /* VICoreDataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				EA4FE17815C2EEC700424469 /* VICoreDataModel.xcdatamodel */,
+			);
+			currentVersion = EA4FE17815C2EEC700424469 /* VICoreDataModel.xcdatamodel */;
+			path = VICoreDataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = EA5F199715C196500089AA44 /* Project object */;
 }

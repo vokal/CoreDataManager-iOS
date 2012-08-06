@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+#import "VIPersonDataSource.h"
+
 @interface VIViewController : UIViewController
+
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+
+@property (strong, nonatomic) VIPersonDataSource *dataSource;
 
 @end

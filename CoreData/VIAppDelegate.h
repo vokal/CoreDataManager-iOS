@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "VICoreDataManager.h"
 
 @class VIViewController;
 
@@ -15,5 +16,7 @@
 @property (strong, nonatomic) UIWindow *window;
 
 @property (strong, nonatomic) VIViewController *viewController;
+
++ (VIAppDelegate *)appDelegate;
 
 @end

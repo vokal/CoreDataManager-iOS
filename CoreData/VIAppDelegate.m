@@ -9,6 +9,7 @@
 #import "VIAppDelegate.h"
 
 #import "VIViewController.h"
+#import "VICoreDataManager.h"
 
 @implementation VIAppDelegate
 
@@ -17,6 +18,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [[VICoreDataManager getInstance] setResource:@"VICoreDataModel" database:@"coreDataModel.sqlite"];
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.viewController = [[VIViewController alloc] initWithNibName:@"VIViewController" bundle:nil];
@@ -50,6 +53,11 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
++ (VIAppDelegate *)appDelegate
+{
+    return (VIAppDelegate *)[[UIApplication sharedApplication] delegate];
 }
 
 @end
