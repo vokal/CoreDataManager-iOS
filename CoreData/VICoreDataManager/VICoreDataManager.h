@@ -19,6 +19,7 @@
 
 @property (nonatomic, strong) NSString *resource;
 @property (nonatomic, strong) NSString *database;
+@property (nonatomic, strong) NSString *iCloudAppId;
 
 + (VICoreDataManager *)getInstance;
 

@@ -25,6 +25,7 @@
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 @synthesize resource = _resource;
 @synthesize database = _database;
+@synthesize iCloudAppId = _iCloudAppId;
 
 + (VICoreDataManager *)getInstance
 {
@@ -218,7 +219,11 @@
     _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc]
                                        initWithManagedObjectModel:[self managedObjectModel]];
     
-    if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType
+    if ([_iCloudAppId length] > 0) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            [self setupICloudForPersistantStoreCoordinator:_persistentStoreCoordinator];
+        });
+    } else if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType
                                                        configuration:nil 
                                                                  URL:storeURL 
                                                              options:options 
@@ -227,6 +232,79 @@
     }    
     
     return _persistentStoreCoordinator;
+}
+
+- (void)setupICloudForPersistantStoreCoordinator:(NSPersistentStoreCoordinator *)psc
+{
+    NSString *iCloudEnabledAppID = _iCloudAppId;
+    NSString *dataFileName = _database;
+    NSString *iCloudDataDirectoryName = @"Data.nosync";
+    NSString *iCloudLogsDirectoryName = @"Logs";
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSURL *localStore = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:dataFileName];
+    NSURL *iCloud = [fileManager URLForUbiquityContainerIdentifier:nil];
+    
+    if (iCloud) {
+        
+        NSLog(@"iCloud is working");
+        
+        NSURL *iCloudLogsPath = [NSURL fileURLWithPath:[[iCloud path] stringByAppendingPathComponent:iCloudLogsDirectoryName]];
+        
+        NSLog(@"iCloudEnabledAppID = %@",iCloudEnabledAppID);
+        NSLog(@"dataFileName = %@", dataFileName);
+        NSLog(@"iCloudDataDirectoryName = %@", iCloudDataDirectoryName);
+        NSLog(@"iCloudLogsDirectoryName = %@", iCloudLogsDirectoryName);
+        NSLog(@"iCloud = %@", iCloud);
+        NSLog(@"iCloudLogsPath = %@", iCloudLogsPath);
+        
+        if([fileManager fileExistsAtPath:[[iCloud path] stringByAppendingPathComponent:iCloudDataDirectoryName]] == NO) {
+            NSError *fileSystemError;
+            [fileManager createDirectoryAtPath:[[iCloud path] stringByAppendingPathComponent:iCloudDataDirectoryName]
+                   withIntermediateDirectories:YES
+                                    attributes:nil
+                                         error:&fileSystemError];
+            if(fileSystemError != nil) {
+                NSLog(@"Error creating database directory %@", fileSystemError);
+            }
+        }
+        
+        NSString *iCloudData = [[[iCloud path]
+                                 stringByAppendingPathComponent:iCloudDataDirectoryName]
+                                stringByAppendingPathComponent:dataFileName];
+        
+        NSLog(@"iCloudData = %@", iCloudData);
+        
+        NSMutableDictionary *options = [NSMutableDictionary dictionary];
+        [options setObject:[NSNumber numberWithBool:YES] forKey:NSMigratePersistentStoresAutomaticallyOption];
+        [options setObject:[NSNumber numberWithBool:YES] forKey:NSInferMappingModelAutomaticallyOption];
+        [options setObject:iCloudEnabledAppID            forKey:NSPersistentStoreUbiquitousContentNameKey];
+        [options setObject:iCloudLogsPath                forKey:NSPersistentStoreUbiquitousContentURLKey];
+        
+        [psc lock];
+        
+        [psc addPersistentStoreWithType:NSSQLiteStoreType
+                          configuration:nil
+                                    URL:[NSURL fileURLWithPath:iCloudData]
+                                options:options
+                                  error:nil];
+        
+        [psc unlock];
+    } else {
+        NSLog(@"iCloud is NOT working - using a local store");
+        NSMutableDictionary *options = [NSMutableDictionary dictionary];
+        [options setObject:[NSNumber numberWithBool:YES] forKey:NSMigratePersistentStoresAutomaticallyOption];
+        [options setObject:[NSNumber numberWithBool:YES] forKey:NSInferMappingModelAutomaticallyOption];
+        
+        [psc lock];
+        
+        [psc addPersistentStoreWithType:NSSQLiteStoreType
+                          configuration:nil
+                                    URL:localStore
+                                options:options
+                                  error:nil];
+        [psc unlock];
+        
+    }
 }
 
 #pragma mark - Application's Documents directory
