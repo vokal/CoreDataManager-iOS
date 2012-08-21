@@ -9,7 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-#define NOTIFICATION_DATA_UPDATED   @"CDDataUpdated"
+#define NOTIFICATION_DATA_UPDATED       @"CDDataUpdated"
+#define NOTIFICATION_ICLOUD_UPDATED     @"CDICloudUpdated"
 
 @interface VICoreDataManager : NSObject
 

@@ -40,9 +40,36 @@
         _tableView = tableView;
         _tableView.delegate = self;
         _tableView.dataSource = self;
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(reloadFetchedResults:)
+                                                     name:NOTIFICATION_ICLOUD_UPDATED
+                                                   object:nil];
     }
     
     return self;
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:NOTIFICATION_ICLOUD_UPDATED
+                                                  object:nil];
+}
+
+#pragma mark - Instance Methods
+
+- (void)reloadFetchedResults:(NSNotification*)note
+{
+    NSLog(@"Underlying data changed ... refreshing!");
+    
+    NSError *error = nil;
+	if (![self.fetchedResultsController performFetch:&error]) {
+	    NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+	    abort();
+	}
+    
+    [self.tableView reloadData];
 }
 
 #pragma mark - UITableViewDelegate
