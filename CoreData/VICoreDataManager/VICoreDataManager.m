@@ -33,7 +33,6 @@
     
     dispatch_once(&pred, ^{
         _sharedObject = [[self alloc] init];
-        [_sharedObject managedObjectContext];
     });
     
     return _sharedObject;
@@ -41,8 +40,11 @@
 
 - (void)setResource:(NSString *)resource database:(NSString *)database
 {
+   
     _resource = resource;
     _database = database;
+    
+     [self managedObjectContext];
 }
 
 #pragma mark - CDMethods
