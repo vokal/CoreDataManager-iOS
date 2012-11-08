@@ -13,9 +13,9 @@
 
 //Use If No Relationship Is Being Made
 
-+ (void)addWithArray:(NSArray *)array forManagedObjectContext:(NSManagedObjectContext *)context;
++ (id)addWithArray:(NSArray *)array forManagedObjectContext:(NSManagedObjectContext *)context;
 + (BOOL)cleanForArray:(NSArray *)array forManagedObjectContext:(NSManagedObjectContext *)context;
-+ (void)addWithParams:(NSDictionary *)params forManagedObjectContext:(NSManagedObjectContext *)context;
++ (id)addWithParams:(NSDictionary *)params forManagedObjectContext:(NSManagedObjectContext *)context;
 + (id)editWithParams:(NSDictionary *)params forObject:(NSManagedObject*)object;
 + (id)syncWithParams:(NSDictionary *)params forManagedObjectContext:(NSManagedObjectContext *)context;
 + (BOOL)existsForPredicate:(NSPredicate *)predicate forManagedObjectContext:(NSManagedObjectContext *)context;
@@ -23,9 +23,9 @@
 
 //Use If A Relationship Is Being Made
 
-+ (void)addWithArray:(NSArray *)array forManagedObject:(NSManagedObject *)managedObject;
++ (id)addWithArray:(NSArray *)array forManagedObject:(NSManagedObject *)managedObject;
 + (BOOL)cleanForArray:(NSArray *)array forManagedObject:(NSManagedObject *)managedObject;
-+ (void)addWithParams:(NSDictionary *)params forManagedObject:(NSManagedObject *)managedObject;
++ (id)addWithParams:(NSDictionary *)params forManagedObject:(NSManagedObject *)managedObject;
 + (id)editWithParams:(NSDictionary *)params forObject:(NSManagedObject*)object forManagedObject:(NSManagedObject *)managedObject;
 + (id)syncWithParams:(NSDictionary *)params forManagedObject:(NSManagedObject *)managedObject;
 + (BOOL)existsForPredicate:(NSPredicate *)predicate forManagedObject:(NSManagedObject *)managedObject;

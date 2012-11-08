@@ -30,9 +30,12 @@
 {
     static dispatch_once_t pred = 0;
     __strong static VICoreDataManager  *_sharedObject = nil;
+    
     dispatch_once(&pred, ^{
         _sharedObject = [[self alloc] init];
+        [_sharedObject managedObjectContext];
     });
+    
     return _sharedObject;
 }
 
