@@ -53,7 +53,7 @@
 
 - (NSArray *)arrayForModel:(NSString *)model 
 {
-    return [self arrayForModel:model forContext:_managedObjectContext];
+    return [self arrayForModel:model forContext:self.managedObjectContext];
 }
 
 - (NSArray *)arrayForModel:(NSString *)model forContext:(NSManagedObjectContext *)context
@@ -87,7 +87,7 @@
 - (void)saveMainContext
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self saveContext:_managedObjectContext];
+        [self saveContext:self.managedObjectContext];
     });
 }   
 
@@ -120,13 +120,13 @@
 {
     id mergePolicy = [[NSMergePolicy alloc] initWithMergeType:NSOverwriteMergePolicyType];
     
-    [_managedObjectContext setMergePolicy:mergePolicy];
+    [self.managedObjectContext setMergePolicy:mergePolicy];
     
     if ([[UIApplication sharedApplication] applicationState] == UIApplicationStateBackground) {
-        [_managedObjectContext mergeChangesFromContextDidSaveNotification:notification];
+        [self.managedObjectContext mergeChangesFromContextDidSaveNotification:notification];
     } else {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [_managedObjectContext mergeChangesFromContextDidSaveNotification:notification];
+            [self.managedObjectContext mergeChangesFromContextDidSaveNotification:notification];
         });
     }
     
@@ -136,14 +136,16 @@
 
 - (void)resetCoreData 
 {
-    NSArray *stores = [_persistentStoreCoordinator persistentStores];
+    NSArray *stores = [self.persistentStoreCoordinator persistentStores];
     
     for(NSPersistentStore *store in stores) {
-        [_persistentStoreCoordinator removePersistentStore:store error:nil];
+        [self.persistentStoreCoordinator removePersistentStore:store error:nil];
         [[NSFileManager defaultManager] removeItemAtPath:store.URL.path error:nil];
     }
     
     _persistentStoreCoordinator = nil;
+    _managedObjectContext = nil;
+    _managedObjectModel = nil;
 }
 
 - (NSManagedObjectContext *)startTransaction

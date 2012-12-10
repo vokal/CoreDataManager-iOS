@@ -15,7 +15,7 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
-@property (strong, nonatomic) VIViewController *viewController;
+@property (strong, nonatomic) UINavigationController *navController;
 
 + (VIAppDelegate *)appDelegate;
 

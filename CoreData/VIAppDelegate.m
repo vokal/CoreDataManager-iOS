@@ -14,7 +14,7 @@
 @implementation VIAppDelegate
 
 @synthesize window = _window;
-@synthesize viewController = _viewController;
+@synthesize navController = _navController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -22,8 +22,9 @@
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
-    self.viewController = [[VIViewController alloc] initWithNibName:@"VIViewController" bundle:nil];
-    self.window.rootViewController = self.viewController;
+    VIViewController *viewController = [[VIViewController alloc] initWithNibName:@"VIViewController" bundle:nil];
+    self.navController = [[UINavigationController alloc] initWithRootViewController:viewController];
+    self.window.rootViewController = self.navController;
     [self.window makeKeyAndVisible];
     return YES;
 }
