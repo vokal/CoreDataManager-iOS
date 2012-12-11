@@ -138,7 +138,7 @@
                                                         object:nil];
 }
 
-- (void)dropTableForEntity:(NSString *)model
+- (void)dropTableForModel:(NSString *)model
 {
 
     
@@ -153,7 +153,6 @@
     NSArray *results = [_managedObjectContext executeFetchRequest:fetchRequest error:&error];
 
     for (NSManagedObject*obj in results) {
-        DLog(@"Deleted Something");
         [self deleteObject:obj];
     }
     

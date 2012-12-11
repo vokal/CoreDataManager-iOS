@@ -26,11 +26,12 @@
 
 - (void)saveMainContext;
 - (void)saveContext:(NSManagedObjectContext *)managedObjectContex;
+
 - (void)resetCoreData;
-- (void)dropTableForEntity:(NSString *)model;
+- (void)deleteObject:(id)object;
+- (void)dropTableForEntityWithName:(NSString*)name;
 
 - (id)addObjectForModel:(NSString *)model context:(NSManagedObjectContext *)context;
-- (void)deleteObject:(id)object;
 - (NSArray *)arrayForModel:(NSString *)model;
 - (NSArray *)arrayForModel:(NSString *)model forContext:(NSManagedObjectContext *)context;
 - (NSArray *)arrayForModel:(NSString *)model withPredicate:(NSPredicate *)predicate forContext:(NSManagedObjectContext *)context;
