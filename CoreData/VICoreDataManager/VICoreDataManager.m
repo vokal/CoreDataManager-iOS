@@ -142,7 +142,7 @@
 {
 
     
-    NSEntityDescription *entity = [NSEntityDescription entityForName:model
+    NSEntityDescription *entity = [NSEntityDescription entityForName:name
                                               inManagedObjectContext:_managedObjectContext];
     
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
