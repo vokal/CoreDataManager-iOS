@@ -138,7 +138,7 @@
                                                         object:nil];
 }
 
-- (void)dropTableForModel:(NSString *)model
+- (void)dropTableForEntityWithName:(NSString*)name
 {
 
     
