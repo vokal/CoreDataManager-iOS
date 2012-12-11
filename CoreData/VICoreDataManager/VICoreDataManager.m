@@ -188,7 +188,7 @@
     NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
     
     if (coordinator != nil) {
-        tempManagedObjectContext = [[NSManagedObjectContext alloc] init];
+        tempManagedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSConfinementConcurrencyType];
         [tempManagedObjectContext setPersistentStoreCoordinator:coordinator];
     }
     
