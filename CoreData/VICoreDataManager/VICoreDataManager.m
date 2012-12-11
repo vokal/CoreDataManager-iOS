@@ -138,6 +138,29 @@
                                                         object:nil];
 }
 
+- (void)dropTableForEntity:(NSString *)model
+{
+
+    
+    NSEntityDescription *entity = [NSEntityDescription entityForName:model
+                                              inManagedObjectContext:_managedObjectContext];
+    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    [fetchRequest setEntity:entity];
+    [fetchRequest setIncludesPropertyValues:NO];
+    
+    NSError *error = nil;
+    NSArray *results = [_managedObjectContext executeFetchRequest:fetchRequest error:&error];
+
+    for (NSManagedObject*obj in results) {
+        DLog(@"Deleted Something");
+        [self deleteObject:obj];
+    }
+    
+    [self saveMainContext];
+
+}
+
 - (void)resetCoreData 
 {
     NSArray *stores = [_persistentStoreCoordinator persistentStores];
@@ -187,9 +210,12 @@
     
     NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
     
+
     if (coordinator != nil) {
         tempManagedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSConfinementConcurrencyType];
         [tempManagedObjectContext setPersistentStoreCoordinator:coordinator];
+    }else{
+        NSLog(@"Coordinator is nil & context is %@", [tempManagedObjectContext description]);
     }
     
     return tempManagedObjectContext;

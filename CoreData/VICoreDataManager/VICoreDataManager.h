@@ -27,6 +27,7 @@
 - (void)saveMainContext;
 - (void)saveContext:(NSManagedObjectContext *)managedObjectContex;
 - (void)resetCoreData;
+- (void)dropTableForEntity:(NSString *)model;
 
 - (id)addObjectForModel:(NSString *)model context:(NSManagedObjectContext *)context;
 - (void)deleteObject:(id)object;

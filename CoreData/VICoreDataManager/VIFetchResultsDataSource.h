@@ -30,12 +30,23 @@
 @property (assign, nonatomic) Class managedObjectClass;
 @property (assign, nonatomic) id <VIFetchResultsDataSourceDelegate> delegate;
 
+@property (assign, nonatomic) NSInteger batchSize;
+
 - (id)initWithPredicate:(NSPredicate *)predicate
               cacheName:(NSString *)cacheName
               tableView:(UITableView *)tableView
      sectionNameKeyPath:(NSString *)sectionNameKeyPath
         sortDescriptors:(NSArray *)sortDescriptors
      managedObjectClass:(Class)managedObjectClass;
+
+- (id)initWithPredicate:(NSPredicate *)predicate
+              cacheName:(NSString *)cacheName
+              tableView:(UITableView *)tableView
+     sectionNameKeyPath:(NSString *)sectionNameKeyPath
+        sortDescriptors:(NSArray *)sortDescriptors
+     managedObjectClass:(Class)managedObjectClass
+              batchSize:(NSInteger)batchSize;
+
 - (UITableViewCell *)cellAtIndexPath:(NSIndexPath *)indexPath;
 
 @end
