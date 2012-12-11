@@ -43,8 +43,13 @@ With core data being a standard for our applications, I have created some new cl
 	* This method deletes the desired object from the database
 
             - (void)deleteObject:(id)object
+            
+* dropTableForEntityWithName:
+	* This method deletes every instance of an entity from the database
 
-* arrayForModel
+            - (void)dropTableForEntityWithName:(NSString*)name;
+
+* arrayForModel:
     * This method just grabs all of a model from the database and returns it in no specific order from the main context
 
             - (NSArray *)arrayForModel:(NSString *)model
@@ -284,6 +289,7 @@ With core data being a standard for our applications, I have created some new cl
                      sectionNameKeyPath:(NSString *)sectionNameKeyPath
                         sortDescriptors:(NSArray *)sortDescriptors
                      managedObjectClass:(Class)managedObjectClass
+                     	      batchSize:(NSInteger)batchSize
 
             * predicate
                 * The predicate will tell the NSFetchedResultsController what to filter. Can be nil.
