@@ -14,7 +14,7 @@
 @dynamic lastName;
 @dynamic firstName;
 
-+ (void)addWithParams:(NSDictionary *)params forManagedObjectContext:(NSManagedObjectContext *)context
++ (id)addWithParams:(NSDictionary *)params forManagedObjectContext:(NSManagedObjectContext *)context
 {
     NSPredicate *predicate = [NSCompoundPredicate andPredicateWithSubpredicates:
                               [NSArray arrayWithObjects:
@@ -26,8 +26,10 @@
     if (person != nil) {
         [self editWithParams:params forObject:person];
     } else {
-        [self syncWithParams:params forManagedObjectContext:context];
+        person = [self syncWithParams:params forManagedObjectContext:context];
     }
+    
+    return person;
 }
 
 + (id)setInformationFromDictionary:(NSDictionary *)params forObject:(NSManagedObject *)object

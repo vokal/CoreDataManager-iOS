@@ -12,13 +12,17 @@
 
 #pragma mark - No Relationship
 
-+ (void)addWithArray:(NSArray *)array forManagedObjectContext:(NSManagedObjectContext *)context
++ (id)addWithArray:(NSArray *)array forManagedObjectContext:(NSManagedObjectContext *)context
 {
+    NSMutableArray*createdObjects = [@[] mutableCopy];
+    
     if ([self cleanForArray:array forManagedObjectContext:context]) {
         for (NSDictionary *params in array) {
-            [self addWithParams:params forManagedObjectContext:context];
+          [createdObjects addObject:[self addWithParams:params forManagedObjectContext:context]];
         }
     }
+    
+    return createdObjects;
 }
 
 + (BOOL)cleanForArray:(NSArray *)array forManagedObjectContext:(NSManagedObjectContext *)context
@@ -26,9 +30,9 @@
     return YES;
 }
 
-+ (void)addWithParams:(NSDictionary *)params forManagedObjectContext:(NSManagedObjectContext *)context
++ (id)addWithParams:(NSDictionary *)params forManagedObjectContext:(NSManagedObjectContext *)context
 {
-    
+    return nil;
 }
 
 + (id)editWithParams:(NSDictionary *)params forObject:(NSManagedObject*)object
@@ -64,13 +68,15 @@
 
 #pragma mark - Relationship
 
-+ (void)addWithArray:(NSArray *)array forManagedObject:(NSManagedObject *)managedObject
++ (id)addWithArray:(NSArray *)array forManagedObject:(NSManagedObject *)managedObject
 {
+    NSMutableArray*createdObjects = [@[] mutableCopy];
     if ([self cleanForArray:array forManagedObject:managedObject]) {
         for (NSDictionary *params in array) {
-            [self addWithParams:params forManagedObject:managedObject];
+           [createdObjects addObject:[self addWithParams:params forManagedObject:managedObject]];
         }
     }
+    return createdObjects;
 }
 
 + (BOOL)cleanForArray:(NSArray *)array forManagedObject:(NSManagedObject *)managedObject
@@ -78,9 +84,9 @@
     return YES;
 }
 
-+ (void)addWithParams:(NSDictionary *)params forManagedObject:(NSManagedObject *)managedObject
++ (id)addWithParams:(NSDictionary *)params forManagedObject:(NSManagedObject *)managedObject
 {
-    
+    return nil;
 }
 
 + (id)editWithParams:(NSDictionary *)params forObject:(NSManagedObject*)object forManagedObject:(NSManagedObject *)managedObject
