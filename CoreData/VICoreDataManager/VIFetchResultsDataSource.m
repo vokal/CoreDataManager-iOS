@@ -20,6 +20,8 @@
 @synthesize sortDescriptors = _sortDescriptors;
 @synthesize managedObjectClass = _managedObjectClass;
 @synthesize sectionNameKeyPath = _sectionNameKeyPath;
+@synthesize batchSize = _batchSize;
+
 
 - (id)initWithPredicate:(NSPredicate *)predicate
               cacheName:(NSString *)cacheName
@@ -27,6 +29,7 @@
      sectionNameKeyPath:(NSString *)sectionNameKeyPath
         sortDescriptors:(NSArray *)sortDescriptors
      managedObjectClass:(Class)managedObjectClass
+              batchSize:(NSInteger)batchSize
 {
     self = [super init];
     
@@ -40,9 +43,28 @@
         _tableView = tableView;
         _tableView.delegate = self;
         _tableView.dataSource = self;
+        _batchSize = batchSize;
     }
     
     return self;
+}
+
+- (id)initWithPredicate:(NSPredicate *)predicate
+              cacheName:(NSString *)cacheName
+              tableView:(UITableView *)tableView
+     sectionNameKeyPath:(NSString *)sectionNameKeyPath
+        sortDescriptors:(NSArray *)sortDescriptors
+     managedObjectClass:(Class)managedObjectClass
+{
+
+    
+   return [self initWithPredicate:predicate
+                        cacheName:cacheName
+                        tableView:tableView
+               sectionNameKeyPath:sectionNameKeyPath
+                  sortDescriptors:sortDescriptors
+               managedObjectClass:managedObjectClass
+                        batchSize:20];
 }
 
 #pragma mark - UITableViewDelegate
@@ -96,7 +118,7 @@
     NSEntityDescription *entity = [NSEntityDescription entityForName:NSStringFromClass(_managedObjectClass) inManagedObjectContext:__managedObjectContext];
     [fetchRequest setEntity:entity];
     
-    [fetchRequest setFetchBatchSize:20];
+    [fetchRequest setFetchBatchSize:_batchSize];
     
     [fetchRequest setSortDescriptors:_sortDescriptors];
     
