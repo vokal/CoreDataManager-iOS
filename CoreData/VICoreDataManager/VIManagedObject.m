@@ -18,7 +18,10 @@
     
     if ([self cleanForArray:array forManagedObjectContext:context]) {
         for (NSDictionary *params in array) {
-          [createdObjects addObject:[self addWithParams:params forManagedObjectContext:context]];
+            id obj = [self addWithParams:params forManagedObjectContext:context];
+            if (obj !=nil) {
+                [createdObjects addObject:obj];
+            }
         }
     }
     
@@ -73,7 +76,12 @@
     NSMutableArray*createdObjects = [@[] mutableCopy];
     if ([self cleanForArray:array forManagedObject:managedObject]) {
         for (NSDictionary *params in array) {
-           [createdObjects addObject:[self addWithParams:params forManagedObject:managedObject]];
+            
+            id obj = [self addWithParams:params forManagedObject:managedObject];
+            if (obj !=nil) {
+                [createdObjects addObject:obj];
+            }
+        
         }
     }
     return createdObjects;
