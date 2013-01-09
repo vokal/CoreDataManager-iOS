@@ -23,7 +23,7 @@
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (strong, nonatomic) NSPredicate *predicate;
-@property (strong, nonatomic) UITableView *tableView;
+@property (weak, nonatomic) UITableView *tableView;
 @property (strong, nonatomic) NSString *cacheName;
 @property (strong, nonatomic) NSArray *sortDescriptors;
 @property (strong, nonatomic) NSString *sectionNameKeyPath;
