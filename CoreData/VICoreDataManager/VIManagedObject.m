@@ -135,4 +135,13 @@
     return object;
 }
 
++ (id)setObject:(id)object toParam:(id)param
+{
+        if (param == nil) {
+            return object;
+        }else{
+            return [param isKindOfClass:[NSNull class]] ? object : param;
+        }
+}
+
 @end
