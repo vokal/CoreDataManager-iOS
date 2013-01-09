@@ -34,5 +34,5 @@
 //Set Content (should always be overwritten)
 
 + (id)setInformationFromDictionary:(NSDictionary *)params forObject:(NSManagedObject *)object;
-
++ (id)setObject:(id)object toParam:(id)param;
 @end
