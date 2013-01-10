@@ -135,4 +135,13 @@
     return object;
 }
 
++ (id)attribute:(id)attribute forParam:(id)param
+{
+    if ([[NSNull null] isEqual:param]) {
+        return attribute;
+    }
+    
+    return param;
+}
+
 @end
