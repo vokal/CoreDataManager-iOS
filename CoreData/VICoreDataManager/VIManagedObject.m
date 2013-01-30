@@ -19,7 +19,7 @@
     if ([self cleanForArray:array forManagedObjectContext:context]) {
         for (NSDictionary *params in array) {
             id obj = [self addWithParams:params forManagedObjectContext:context];
-            if (obj !=nil) {
+            if (obj != nil) {
                 [createdObjects addObject:obj];
             }
         }
@@ -78,7 +78,7 @@
         for (NSDictionary *params in array) {
             
             id obj = [self addWithParams:params forManagedObject:managedObject];
-            if (obj !=nil) {
+            if (obj != nil) {
                 [createdObjects addObject:obj];
             }
         
