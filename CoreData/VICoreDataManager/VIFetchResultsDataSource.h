@@ -28,7 +28,7 @@
 @property (strong, nonatomic) NSArray *sortDescriptors;
 @property (strong, nonatomic) NSString *sectionNameKeyPath;
 @property (assign, nonatomic) Class managedObjectClass;
-@property (weak, nonatomic) id <VIFetchResultsDataSourceDelegate> delegate;
+@property (assign, nonatomic) id <VIFetchResultsDataSourceDelegate> delegate;
 
 @property (assign, nonatomic) NSInteger batchSize;
 
