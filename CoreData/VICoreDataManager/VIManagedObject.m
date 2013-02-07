@@ -56,11 +56,17 @@
     return [self fetchForPredicate:predicate forManagedObjectContext:context] != nil;
 }
 
-+ (id)fetchForPredicate:(NSPredicate *)predicate forManagedObjectContext:(NSManagedObjectContext *)context
++ (NSArray *)fetchAllForPredicate:(NSPredicate *)predicate forManagedObjectContext:(NSManagedObjectContext *)context
 {
     NSArray *results = [[VICoreDataManager getInstance] arrayForModel:NSStringFromClass([self class])
                                                         withPredicate:predicate
                                                            forContext:context];
+    return results;
+}
+
++ (id)fetchForPredicate:(NSPredicate *)predicate forManagedObjectContext:(NSManagedObjectContext *)context
+{
+    NSArray *results = [self fetchAllForPredicate:predicate forManagedObjectContext:context];
     
     if ([results count] > 0) {
         return [results lastObject];
@@ -81,7 +87,7 @@
             if (obj != nil) {
                 [createdObjects addObject:obj];
             }
-        
+            
         }
     }
     return createdObjects;
@@ -115,11 +121,18 @@
     return [self fetchForPredicate:predicate forManagedObject:managedObject] != nil;
 }
 
-+ (id)fetchForPredicate:(NSPredicate *)predicate forManagedObject:(NSManagedObject *)managedObject
++ (NSArray *)fetchAllForPredicate:(NSPredicate *)predicate forManagedObject:(NSManagedObject *)managedObject
 {
     NSArray *results = [[VICoreDataManager getInstance] arrayForModel:NSStringFromClass([self class])
                                                         withPredicate:predicate
                                                            forContext:[managedObject managedObjectContext]];
+    
+    return results;
+}
+
++ (id)fetchForPredicate:(NSPredicate *)predicate forManagedObject:(NSManagedObject *)managedObject
+{
+    NSArray *results = [self fetchAllForPredicate:predicate forManagedObject:managedObject];
     
     if ([results count] > 0) {
         return [results lastObject];
