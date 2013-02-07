@@ -137,11 +137,27 @@
 
 + (id)attribute:(id)attribute forParam:(id)param
 {
-    if ([[NSNull null] isEqual:param]) {
-        return attribute;
-    }
+    return [VIManagedObject attribute:attribute forParam:param nilInvalidKeys:YES];
+}
+
++ (id)attribute:(id)attribute forParam:(id)param nilInvalidKeys:(BOOL)shouldNil
+{
     
-    return param;
+    if (shouldNil) {
+        
+        if ([[NSNull null] isEqual:param]) {
+            return attribute;
+        }else{
+            return param;
+        }
+        
+    }else{
+        if ([[NSNull null] isEqual:param] || param == nil) {
+            return attribute;
+        }else{
+            return param;
+        }
+    }
 }
 
 @end
