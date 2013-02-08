@@ -16,21 +16,30 @@
 
 @end
 
-@interface VIFetchResultsDataSource : NSObject
+@interface VIFetchResultsDataSource : NSObject<NSFetchedResultsControllerDelegate, UITableViewDelegate, UITableViewDataSource> {
+@protected
+    NSFetchedResultsController *_fetchedResultsController;
+    NSManagedObjectContext *_managedObjectContext;
+    NSString *_cacheName;
+    NSString *_sectionNameKeyPath;
+    Class _managedObjectClass;
+}
 
-<NSFetchedResultsControllerDelegate, UITableViewDelegate, UITableViewDataSource>
+@property (assign, readonly) Class managedObjectClass;
+@property (weak, readonly) UITableView *tableView;
+@property (strong, readonly) NSManagedObjectContext *managedObjectContext;
 
-@property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
-@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
-@property (strong, nonatomic) NSPredicate *predicate;
-@property (weak, nonatomic) UITableView *tableView;
-@property (strong, nonatomic) NSString *cacheName;
-@property (strong, nonatomic) NSArray *sortDescriptors;
-@property (strong, nonatomic) NSString *sectionNameKeyPath;
-@property (assign, nonatomic) Class managedObjectClass;
 @property (weak, nonatomic) id <VIFetchResultsDataSourceDelegate> delegate;
 
+//these are exposed to handle reconfiguration of the protected _fetchedResultsController, when they change
 @property (assign, nonatomic) NSInteger batchSize;
+@property (strong, nonatomic) NSPredicate *predicate;
+@property (strong, nonatomic) NSArray *sortDescriptors;
+
+//you can ignore deprecation warnings in subclasses
+@property (strong, readonly) NSFetchedResultsController *fetchedResultsController DEPRECATED_ATTRIBUTE;
+//adding for common use of access to the fetchedResultsController, which should be hidden except for this (I think?)
+- (NSArray *)fetchedObjects;
 
 - (id)initWithPredicate:(NSPredicate *)predicate
               cacheName:(NSString *)cacheName
@@ -46,6 +55,23 @@
         sortDescriptors:(NSArray *)sortDescriptors
      managedObjectClass:(Class)managedObjectClass
               batchSize:(NSInteger)batchSize;
+
+- (id)initWithPredicate:(NSPredicate *)predicate
+              cacheName:(NSString *)cacheName
+              tableView:(UITableView *)tableView
+     sectionNameKeyPath:(NSString *)sectionNameKeyPath
+        sortDescriptors:(NSArray *)sortDescriptors
+     managedObjectClass:(Class)managedObjectClass
+               delegate:(id<VIFetchResultsDataSourceDelegate>)delegate;
+
+- (id)initWithPredicate:(NSPredicate *)predicate
+              cacheName:(NSString *)cacheName
+              tableView:(UITableView *)tableView
+     sectionNameKeyPath:(NSString *)sectionNameKeyPath
+        sortDescriptors:(NSArray *)sortDescriptors
+     managedObjectClass:(Class)managedObjectClass
+              batchSize:(NSInteger)batchSize
+               delegate:(id<VIFetchResultsDataSourceDelegate>)delegate;
 
 - (UITableViewCell *)cellAtIndexPath:(NSIndexPath *)indexPath;
 

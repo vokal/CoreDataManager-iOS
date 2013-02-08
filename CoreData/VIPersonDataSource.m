@@ -21,7 +21,7 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
-    VIPerson *person = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    VIPerson *person = [_fetchedResultsController objectAtIndexPath:indexPath];
     
     cell.textLabel.text = [NSString stringWithFormat:@"%@, %@", person.lastName, person.firstName];
     
