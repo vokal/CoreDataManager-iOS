@@ -150,26 +150,24 @@
 
 + (id)attribute:(id)attribute forParam:(id)param
 {
-    return [VIManagedObject attribute:attribute forParam:param nilInvalidKeys:YES];
+    return [VIManagedObject attribute:attribute forParam:param preserveExistingAttributes:NO];
 }
 
-+ (id)attribute:(id)attribute forParam:(id)param nilInvalidKeys:(BOOL)shouldNil
++ (id)attribute:(id)attribute forParam:(id)param preserveExistingAttributes:(BOOL)preserveAttributes
 {
-    
-    if (shouldNil) {
+    if (preserveAttributes) {
         
-        if ([[NSNull null] isEqual:param]) {
-            return attribute;
-        }else{
-            return param;
-        }
-        
-    }else{
         if ([[NSNull null] isEqual:param] || param == nil) {
             return attribute;
         }else{
             return param;
         }
+        
+    } else {
+        if ([[NSNull null] isEqual:param]) {
+            param = nil;
+        }
+        return param;
     }
 }
 
