@@ -7,7 +7,7 @@
 //
 
 #import "VIPersonDataSource.h"
-#import "VIPerson.h"
+#import "VIPerson+Behavior.h"
 
 @implementation VIPersonDataSource
 
