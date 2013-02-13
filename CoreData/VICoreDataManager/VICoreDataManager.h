@@ -9,34 +9,43 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-#define NOTIFICATION_DATA_UPDATED       @"CDDataUpdated"
 #define NOTIFICATION_ICLOUD_UPDATED     @"CDICloudUpdated"
 
 @interface VICoreDataManager : NSObject
-
+{
+@private
+    NSManagedObjectContext *_managedObjectContext;
+    NSManagedObjectModel *_managedObjectModel;
+    NSPersistentStoreCoordinator *_persistentStoreCoordinator;
+    NSString *_resource;
+    NSString *_database;
+    NSString *_iCloudAppId;
+}
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
-@property (nonatomic, strong) NSString *resource;
-@property (nonatomic, strong) NSString *database;
-@property (nonatomic, strong) NSString *iCloudAppId;
+@property (nonatomic, strong) NSString *resource DEPRECATED_ATTRIBUTE;
+@property (nonatomic, strong) NSString *database DEPRECATED_ATTRIBUTE;
+@property (nonatomic, strong) NSString *iCloudAppId DEPRECATED_ATTRIBUTE;
 
 + (VICoreDataManager *)getInstance;
 
 - (void)setResource:(NSString *)resource database:(NSString *)database;
 
-- (void)saveMainContext;
-- (void)saveContext:(NSManagedObjectContext *)managedObjectContex;
-
-- (void)resetCoreData;
-- (void)deleteObject:(id)object;
-- (void)dropTableForEntityWithName:(NSString*)name;
-
+//TODO these should all be named <something>ForEntityName, not <something>ForModel
 - (id)addObjectForModel:(NSString *)model context:(NSManagedObjectContext *)context;
 - (NSArray *)arrayForModel:(NSString *)model;
 - (NSArray *)arrayForModel:(NSString *)model forContext:(NSManagedObjectContext *)context;
 - (NSArray *)arrayForModel:(NSString *)model withPredicate:(NSPredicate *)predicate forContext:(NSManagedObjectContext *)context;
+
+- (void)deleteObject:(id)object;
+
+- (void)saveMainContext;
+
+- (void)saveContext:(NSManagedObjectContext *)managedObjectContext;
+
+- (void)dropTableForEntityWithName:(NSString *)name;
 
 - (NSManagedObjectContext *)startTransaction;
 - (void)endTransactionForContext:(NSManagedObjectContext *)context;
