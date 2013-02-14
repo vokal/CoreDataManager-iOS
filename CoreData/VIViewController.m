@@ -18,19 +18,20 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     [self setupDataSource];
-    [self updateCoreData];
-
+    
+    [self initializeCoreData];
+    
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
                                                                                            target:self
-                                                                                           action:@selector(updateCoreData)];
+                                                                                           action:@selector(reloadData)];
 }
 
 - (void)viewDidUnload
 {
     [self setTableView:nil];
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -49,10 +50,15 @@
                                                  managedObjectClass:[VIPerson class]];
 }
 
-- (void)updateCoreData
+- (void)reloadData {
+    [self.dataSource reloadData];
+}
+
+- (void)initializeCoreData
 {
+    [self resetCoreData];
+    
     NSManagedObjectContext *context = [[VICoreDataManager getInstance] managedObjectContext];
-    //NSManagedObjectContext* context = [[VICoreDataManager getInstance] startTransaction];
     NSArray *array = [NSArray arrayWithObjects:
             [NSDictionary dictionaryWithObjectsAndKeys:@"Anthony", PARAM_FIRST_NAME, @"Alesia", PARAM_LAST_NAME, nil],
             [NSDictionary dictionaryWithObjectsAndKeys:@"Reid", PARAM_FIRST_NAME, @"Lappin", PARAM_LAST_NAME, nil],
@@ -74,7 +80,22 @@
             [NSDictionary dictionaryWithObjectsAndKeys:@"Jamie", PARAM_FIRST_NAME, @"Calder", PARAM_LAST_NAME, nil], nil];
 
     [VIPerson addWithArray:array forManagedObjectContext:context];
-    //[[VICoreDataManager getInstance] endTransactionForContext:context];
+}
+
+- (void)resetCoreData
+{
+    NSManagedObjectContext *context = [[VICoreDataManager getInstance] managedObjectContext];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:NSStringFromClass([VIPerson class]) inManagedObjectContext:context];
+    [fetchRequest setEntity:entity];
+    
+    NSError *error = nil;
+    NSArray *fetchedObjects = [context executeFetchRequest:fetchRequest error:&error];
+    
+    for (NSManagedObject *nsManagedObject in fetchedObjects) {
+        [[VICoreDataManager getInstance] deleteObject:nsManagedObject];
+    }
+    
 }
 
 @end

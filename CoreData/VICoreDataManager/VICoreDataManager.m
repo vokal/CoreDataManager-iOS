@@ -100,21 +100,44 @@
 }
 
 #pragma mark - CDMethods
+/* DEPRECATED */
+- (NSArray *)arrayForModel:(NSString *)model
+{
+    return [self arrayForEntityNamed:model];
+}
 
+/* DEPRECATED */
 - (id)addObjectForModel:(NSString *)model context:(NSManagedObjectContext *)context
 {
-    return [NSEntityDescription insertNewObjectForEntityForName:model
+    return [self addObjectForEntityNamed:model forContext:context];
+}
+
+/* DEPRECATED */
+- (NSArray *)arrayForModel:(NSString *)model forContext:(NSManagedObjectContext *)context
+{
+    return [self arrayForEntityNamed:model forContext:context];
+}
+
+/* DEPRECATED */
+- (NSArray *)arrayForModel:(NSString *)model withPredicate:(NSPredicate *)predicate forContext:(NSManagedObjectContext *)context
+{
+    return [self arrayForEntityNamed:model withPredicate:predicate forContext:context];
+}
+
+- (id)addObjectForEntityNamed:(NSString *)entityName forContext:(NSManagedObjectContext *)context
+{
+    return [NSEntityDescription insertNewObjectForEntityForName:entityName
                                          inManagedObjectContext:context];
 }
 
-- (NSArray *)arrayForModel:(NSString *)model
+- (NSArray *)arrayForEntityNamed:(NSString *)entityName
 {
-    return [self arrayForModel:model forContext:self.managedObjectContext];
+    return [self arrayForEntityNamed:entityName forContext:self.managedObjectContext];
 }
 
-- (NSArray *)arrayForModel:(NSString *)model forContext:(NSManagedObjectContext *)context
+- (NSArray *)arrayForEntityNamed:(NSString *)entityName forContext:(NSManagedObjectContext *)context
 {
-    NSEntityDescription *entity = [NSEntityDescription entityForName:model
+    NSEntityDescription *entity = [NSEntityDescription entityForName:entityName
                                               inManagedObjectContext:context];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     [fetchRequest setEntity:entity];
@@ -122,10 +145,9 @@
     return [context executeFetchRequest:fetchRequest error:nil];
 }
 
-- (NSArray *)arrayForModel:(NSString *)model withPredicate:(NSPredicate *)predicate forContext:(NSManagedObjectContext *)context
+- (NSArray *)arrayForEntityNamed:(NSString *)entityName withPredicate:(NSPredicate *)predicate forContext:(NSManagedObjectContext *)context
 {
-    NSEntityDescription *entity = [NSEntityDescription entityForName:model
-                                              inManagedObjectContext:context];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:context];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     [fetchRequest setEntity:entity];
     [fetchRequest setPredicate:predicate];

@@ -137,7 +137,7 @@
 {
     NSLog(@"NSNotification: Underlying data changed ... refreshing!");
     NSError *error = nil;
-    if (![self.fetchedResultsController performFetch:&error]) {
+    if (![_fetchedResultsController performFetch:&error]) {
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
     }
@@ -170,7 +170,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([_delegate respondsToSelector:@selector(fetchResultsDataSourceSelectedObject:)]) {
-        [_delegate fetchResultsDataSourceSelectedObject:[self.fetchedResultsController objectAtIndexPath:indexPath]];
+        [_delegate fetchResultsDataSourceSelectedObject:[_fetchedResultsController objectAtIndexPath:indexPath]];
     }
 
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -180,12 +180,12 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return [[self.fetchedResultsController sections] count];
+    return [[_fetchedResultsController sections] count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:section];
+    id <NSFetchedResultsSectionInfo> sectionInfo = [[_fetchedResultsController sections] objectAtIndex:section];
 
     if ([_delegate respondsToSelector:@selector(fetchResultsDataSourceHasResults:)]) {
         [_delegate fetchResultsDataSourceHasResults:([sectionInfo numberOfObjects] > 0)];

@@ -43,7 +43,7 @@
 
 + (id)fetchForPredicate:(NSPredicate *)predicate forManagedObject:(NSManagedObject *)managedObject;
 
-//Set Content (should always be overwritten)
+//Set Content (should always be implemented - you will get a compiler warning, if not)
 
 + (id)setInformationFromDictionary:(NSDictionary *)params forObject:(NSManagedObject *)object;
 

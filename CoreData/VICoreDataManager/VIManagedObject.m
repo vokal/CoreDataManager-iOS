@@ -45,8 +45,8 @@
 
 + (id)syncWithParams:(NSDictionary *)params forManagedObjectContext:(NSManagedObjectContext *)context
 {
-    NSManagedObject *object = [[VICoreDataManager getInstance] addObjectForModel:NSStringFromClass([self class])
-                                                                         context:context];
+    NSManagedObject *object = [[VICoreDataManager getInstance] addObjectForEntityNamed:NSStringFromClass([self class])
+                                                                         forContext:context];
 
     return [self setInformationFromDictionary:params forObject:object];
 }
@@ -58,7 +58,7 @@
 
 + (id)fetchForPredicate:(NSPredicate *)predicate forManagedObjectContext:(NSManagedObjectContext *)context
 {
-    NSArray *results = [[VICoreDataManager getInstance] arrayForModel:NSStringFromClass([self class])
+    NSArray *results = [[VICoreDataManager getInstance] arrayForEntityNamed:NSStringFromClass([self class])
                                                         withPredicate:predicate
                                                            forContext:context];
 
@@ -104,8 +104,8 @@
 
 + (id)syncWithParams:(NSDictionary *)params forManagedObject:(NSManagedObject *)managedObject
 {
-    NSManagedObject *object = [[VICoreDataManager getInstance] addObjectForModel:NSStringFromClass([self class])
-                                                                         context:[managedObject managedObjectContext]];
+    NSManagedObject *object = [[VICoreDataManager getInstance] addObjectForEntityNamed:NSStringFromClass([self class])
+                                                                         forContext:[managedObject managedObjectContext]];
 
     return [self setInformationFromDictionary:params forObject:object];
 }
@@ -117,7 +117,7 @@
 
 + (id)fetchForPredicate:(NSPredicate *)predicate forManagedObject:(NSManagedObject *)managedObject
 {
-    NSArray *results = [[VICoreDataManager getInstance] arrayForModel:NSStringFromClass([self class])
+    NSArray *results = [[VICoreDataManager getInstance] arrayForEntityNamed:NSStringFromClass([self class])
                                                         withPredicate:predicate
                                                            forContext:[managedObject managedObjectContext]];
 
@@ -129,19 +129,9 @@
 }
 
 #pragma mark - Set Content
-
+/* MUST IMPLEMENT
 + (id)setInformationFromDictionary:(NSDictionary *)params forObject:(NSManagedObject *)object
-{
-    return object;
-}
-
 + (id)attribute:(id)attribute forParam:(id)param
-{
-    if ([[NSNull null] isEqual:param]) {
-        return attribute;
-    }
-
-    return param;
-}
+*/
 
 @end

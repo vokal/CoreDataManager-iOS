@@ -9,10 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "VIFetchResultsDataSource.h"
 
-@class VIPersonDataSource;
-
 @interface VITestControllerDelegate : UITableViewController<VIFetchResultsDataSourceDelegate>
 
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic, readonly) BOOL delegateNotifiedHasResults;
 
 @end

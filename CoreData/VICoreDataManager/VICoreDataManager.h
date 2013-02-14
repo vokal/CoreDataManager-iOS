@@ -33,11 +33,16 @@
 
 - (void)setResource:(NSString *)resource database:(NSString *)database;
 
-//TODO these should all be named <something>ForEntityName, not <something>ForModel
-- (id)addObjectForModel:(NSString *)model context:(NSManagedObjectContext *)context;
-- (NSArray *)arrayForModel:(NSString *)model;
-- (NSArray *)arrayForModel:(NSString *)model forContext:(NSManagedObjectContext *)context;
-- (NSArray *)arrayForModel:(NSString *)model withPredicate:(NSPredicate *)predicate forContext:(NSManagedObjectContext *)context;
+//DEPRECATE: these should all be named <something>ForEntityNamed, not <something>ForModel
+- (id)addObjectForModel:(NSString *)model context:(NSManagedObjectContext *)context DEPRECATED_ATTRIBUTE;
+- (NSArray *)arrayForModel:(NSString *)model DEPRECATED_ATTRIBUTE;
+- (NSArray *)arrayForModel:(NSString *)model forContext:(NSManagedObjectContext *)context DEPRECATED_ATTRIBUTE;
+- (NSArray *)arrayForModel:(NSString *)model withPredicate:(NSPredicate *)predicate forContext:(NSManagedObjectContext *)context DEPRECATED_ATTRIBUTE;
+
+- (id)addObjectForEntityNamed:(NSString *)entityName forContext:(NSManagedObjectContext *)context;
+- (NSArray *)arrayForEntityNamed:(NSString *)entityName;
+- (NSArray *)arrayForEntityNamed:(NSString *)entityName forContext:(NSManagedObjectContext *)context;
+- (NSArray *)arrayForEntityNamed:(NSString *)entityName withPredicate:(NSPredicate *)predicate forContext:(NSManagedObjectContext *)context;
 
 - (void)deleteObject:(id)object;
 

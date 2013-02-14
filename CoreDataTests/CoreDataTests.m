@@ -61,13 +61,6 @@
                  [NSString stringWithFormat:@"no core data initialized yet, but rows count is %ld", (long)[self.viewController.tableView numberOfRowsInSection:0]]);
 
     [self updateVIPersonCoreData];
-    
-    //TODO: CD changes don't seem to propagate to VIFetchResultsDataSource without this 'pull'
-    //  what is the intended pattern?
-    // I'd thought these would push changes to VIFetchResultsDataSource, by invoking what is in [dataSource reloadData] (but they might be on another thread)
-    //      NSManagedObjectContext *context = [[VICoreDataManager getInstance] startTransaction];
-    //      [[VICoreDataManager getInstance] endTransactionForContext:context];
-
     [dataSource reloadData];
     
     STAssertTrue(dataSource.fetchedObjects.count == 1,
@@ -79,26 +72,36 @@
 
 - (void)testVIPersonDataSourceWithDelegate
 {
-    NSArray *sortDescriptors = [NSArray arrayWithObjects:
-                                [NSSortDescriptor sortDescriptorWithKey:@"lastName" ascending:YES],
-                                [NSSortDescriptor sortDescriptorWithKey:@"firstName" ascending:YES], nil];
-    
-    VIPersonDataSource* dataSource = [[VIPersonDataSource alloc] initWithPredicate:nil
+    VIPersonDataSource* dataSource = [[VIPersonDataSource alloc] initWithPredicate:self.predicate
                                                                          cacheName:nil
                                                                          tableView:self.viewController.tableView
                                                                 sectionNameKeyPath:nil
-                                                                   sortDescriptors:sortDescriptors
+                                                                   sortDescriptors:self.sortDescriptors
                                                                 managedObjectClass:[VIPerson class]
                                                                           delegate:self.viewController];
     STAssertTrue(dataSource != nil, @"dataSource should be initialized");
     STAssertTrue(dataSource.delegate != nil, @"dataSource delegate should NOT be nil");
     
+    [self updateVIPersonCoreData];
+    
+    //FOR REVIEW:
+    //CD changes don't seem to propagate to VIFetchResultsDataSource without this 'pull'
+    //  what is the intended pattern?
+    // I'd thought wrapping with these would push changes to VIFetchResultsDataSource,
+    //      NSManagedObjectContext *context = [[VICoreDataManager getInstance] startTransaction];
+    //      [[VICoreDataManager getInstance] endTransactionForContext:context];
+    //  but looks like you'd need a listener or delegate to invoke [dataSource reloadData] (might be on another thread, tho?)
+    
+    [dataSource reloadData];
+    STAssertTrue(self.viewController.delegateNotifiedHasResults, @"delegate was not called with fetched results on reloadData");
+
 }
 
 - (void)updateVIPersonCoreData
 {
     
     NSManagedObjectContext *context = [[VICoreDataManager getInstance] managedObjectContext];
+    //FOR REVIEW (see above):
     //NSManagedObjectContext *context = [[VICoreDataManager getInstance] startTransaction];
     NSArray *array = [NSArray arrayWithObjects:
                       [NSDictionary dictionaryWithObjectsAndKeys:@"Anthony", PARAM_FIRST_NAME, @"Alesia", PARAM_LAST_NAME, nil],
@@ -113,6 +116,7 @@
 - (void)resetCoreData
 {
     NSManagedObjectContext *context = [[VICoreDataManager getInstance] managedObjectContext];
+    //FOR REVIEW (see above):
     //NSManagedObjectContext *context = [[VICoreDataManager getInstance] startTransaction];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:NSStringFromClass([VIPerson class]) inManagedObjectContext:context];
