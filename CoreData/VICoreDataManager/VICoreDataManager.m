@@ -207,10 +207,6 @@
             [self.managedObjectContext mergeChangesFromContextDidSaveNotification:notification];
         });
     }
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_DATA_MERGED
-                                                        object:self.managedObjectContext
-                                                      userInfo:notification.userInfo];
 
 }
 
