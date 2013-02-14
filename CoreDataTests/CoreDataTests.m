@@ -44,6 +44,7 @@
                                                                 sectionNameKeyPath:nil
                                                                    sortDescriptors:self.sortDescriptors
                                                                 managedObjectClass:[VIPerson class]];
+    self.viewController.tableView.dataSource = dataSource;
     STAssertTrue(dataSource != nil, @"dataSource should be initialized");
 }
 
@@ -59,6 +60,8 @@
     STAssertTrue(dataSource.delegate == nil, @"dataSource delegate should be nil");
     STAssertTrue([self.viewController.tableView numberOfRowsInSection:0] == 0,
                  [NSString stringWithFormat:@"no core data initialized yet, but rows count is %ld", (long)[self.viewController.tableView numberOfRowsInSection:0]]);
+    STAssertTrue(dataSource.fetchedObjects.count == 0,
+                 [NSString stringWithFormat:@"no core data initialized yet, but fetchedObjects.count is %ld", (unsigned long)dataSource.fetchedObjects.count]);
 
     [self updateVIPersonCoreData];
     [dataSource reloadData];
@@ -115,9 +118,9 @@
 
 - (void)resetCoreData
 {
-    NSManagedObjectContext *context = [[VICoreDataManager getInstance] managedObjectContext];
-    //FOR REVIEW (see above):
-    //NSManagedObjectContext *context = [[VICoreDataManager getInstance] startTransaction];
+    //NSManagedObjectContext *context = [[VICoreDataManager getInstance] managedObjectContext];
+    //FOR REVIEW these tests don't pass unless I use transaction as follows:
+    NSManagedObjectContext *context = [[VICoreDataManager getInstance] startTransaction];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:NSStringFromClass([VIPerson class]) inManagedObjectContext:context];
     [fetchRequest setEntity:entity];
@@ -128,7 +131,7 @@
     for (NSManagedObject *nsManagedObject in fetchedObjects) {
         [[VICoreDataManager getInstance] deleteObject:nsManagedObject];
     }
-    //[[VICoreDataManager getInstance] endTransactionForContext:context];
+    [[VICoreDataManager getInstance] endTransactionForContext:context];
  
 }
 

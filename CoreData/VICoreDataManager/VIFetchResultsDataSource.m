@@ -141,8 +141,6 @@
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
     }
-
-    [self reloadData];
 }
 
 - (void)reloadData
@@ -152,6 +150,7 @@
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
     }
+    //FOR REVIEW controllerWillChangeContent is not being called in tests unless we do this explicitly
     [_tableView reloadData];
 }
 
@@ -243,6 +242,7 @@
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
 {
+    //FOR REVIEW this is not being called in tests at all
     [_tableView beginUpdates];
 }
 
