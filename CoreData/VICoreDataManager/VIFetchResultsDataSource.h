@@ -16,7 +16,8 @@
 
 @end
 
-@interface VIFetchResultsDataSource : NSObject<NSFetchedResultsControllerDelegate, UITableViewDelegate, UITableViewDataSource> {
+@interface VIFetchResultsDataSource : NSObject <NSFetchedResultsControllerDelegate, UITableViewDelegate, UITableViewDataSource>
+{
 @protected
     NSFetchedResultsController *_fetchedResultsController;
     NSManagedObjectContext *_managedObjectContext;
@@ -38,8 +39,10 @@
 
 //you can ignore deprecation warnings in subclasses
 @property (strong, readonly) NSFetchedResultsController *fetchedResultsController DEPRECATED_ATTRIBUTE;
-//adding for common use of access to the fetchedResultsController, which should be hidden except for this (I think?)
+
 - (NSArray *)fetchedObjects;
+
+- (void)reloadData;
 
 - (id)initWithPredicate:(NSPredicate *)predicate
               cacheName:(NSString *)cacheName
@@ -62,7 +65,7 @@
      sectionNameKeyPath:(NSString *)sectionNameKeyPath
         sortDescriptors:(NSArray *)sortDescriptors
      managedObjectClass:(Class)managedObjectClass
-               delegate:(id<VIFetchResultsDataSourceDelegate>)delegate;
+               delegate:(id <VIFetchResultsDataSourceDelegate>)delegate;
 
 - (id)initWithPredicate:(NSPredicate *)predicate
               cacheName:(NSString *)cacheName
@@ -71,7 +74,7 @@
         sortDescriptors:(NSArray *)sortDescriptors
      managedObjectClass:(Class)managedObjectClass
               batchSize:(NSInteger)batchSize
-               delegate:(id<VIFetchResultsDataSourceDelegate>)delegate;
+               delegate:(id <VIFetchResultsDataSourceDelegate>)delegate;
 
 - (UITableViewCell *)cellAtIndexPath:(NSIndexPath *)indexPath;
 

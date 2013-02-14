@@ -45,9 +45,9 @@
 
 + (id)syncWithParams:(NSDictionary *)params forManagedObjectContext:(NSManagedObjectContext *)context
 {
-    NSManagedObject *object = [[VICoreDataManager getInstance] addObjectForModel:NSStringFromClass([self class])
-                                                                         context:context];
-    
+    NSManagedObject *object = [[VICoreDataManager getInstance]
+                               addObjectForEntityNamed:NSStringFromClass([self class]) forContext:context];
+
     return [self setInformationFromDictionary:params forObject:object];
 }
 
@@ -58,7 +58,7 @@
 
 + (NSArray *)fetchAllForPredicate:(NSPredicate *)predicate forManagedObjectContext:(NSManagedObjectContext *)context
 {
-    NSArray *results = [[VICoreDataManager getInstance] arrayForModel:NSStringFromClass([self class])
+    NSArray *results = [[VICoreDataManager getInstance] arrayForEntityNamed:NSStringFromClass([self class])
                                                         withPredicate:predicate
                                                            forContext:context];
     return results;
@@ -110,8 +110,9 @@
 
 + (id)syncWithParams:(NSDictionary *)params forManagedObject:(NSManagedObject *)managedObject
 {
-    NSManagedObject *object = [[VICoreDataManager getInstance] addObjectForModel:NSStringFromClass([self class])
-                                                                         context:[managedObject managedObjectContext]];
+    NSManagedObject *object = [[VICoreDataManager getInstance]
+                               addObjectForEntityNamed:NSStringFromClass([self class])
+                               forContext:[managedObject managedObjectContext]];
     
     return [self setInformationFromDictionary:params forObject:object];
 }
@@ -123,7 +124,7 @@
 
 + (NSArray *)fetchAllForPredicate:(NSPredicate *)predicate forManagedObject:(NSManagedObject *)managedObject
 {
-    NSArray *results = [[VICoreDataManager getInstance] arrayForModel:NSStringFromClass([self class])
+    NSArray *results = [[VICoreDataManager getInstance] arrayForEntityNamed:NSStringFromClass([self class])
                                                         withPredicate:predicate
                                                            forContext:[managedObject managedObjectContext]];
     

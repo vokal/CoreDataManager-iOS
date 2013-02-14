@@ -2,7 +2,7 @@
 //  VIPerson.h
 //  CoreData
 //
-//  Created by Anthony Alesia on 7/27/12.
+//  Created by ckl on 2/12/13.
 //
 //
 
@@ -10,12 +10,9 @@
 #import <CoreData/CoreData.h>
 #import "VIManagedObject.h"
 
-#define PARAM_FIRST_NAME    @"firstName"
-#define PARAM_LAST_NAME     @"lastName"
-
 @interface VIPerson : VIManagedObject
 
-@property (nonatomic, retain) NSString * lastName;
-@property (nonatomic, retain) NSString * firstName;
+@property (nonatomic, retain) NSString *firstName;
+@property (nonatomic, retain) NSString *lastName;
 
 @end
