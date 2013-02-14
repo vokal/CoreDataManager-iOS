@@ -42,6 +42,10 @@
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(reloadFetchedResults:)
                                                      name:NOTIFICATION_ICLOUD_UPDATED object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(reloadFetchedResults:)
+                                                     name:NOTIFICATION_DATA_MERGED
+                                                   object:_managedObjectContext];
         [self initFetchedResultsController];
     }
 
@@ -128,7 +132,12 @@
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:NOTIFICATION_ICLOUD_UPDATED object:nil];
+                                                 name:NOTIFICATION_DATA_MERGED
+                                               object:_managedObjectContext];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:NOTIFICATION_ICLOUD_UPDATED
+                                                  object:nil];
 }
 
 #pragma mark - Instance Methods
@@ -136,12 +145,6 @@
 - (void)reloadFetchedResults:(NSNotification *)note
 {
     NSLog(@"NSNotification: Underlying data changed ... refreshing!");
-    NSError *error = nil;
-    if (![_fetchedResultsController performFetch:&error]) {
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        abort();
-    }
-
     [self reloadData];
 }
 

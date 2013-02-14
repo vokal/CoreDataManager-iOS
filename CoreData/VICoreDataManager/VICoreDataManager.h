@@ -10,6 +10,7 @@
 #import <CoreData/CoreData.h>
 
 #define NOTIFICATION_ICLOUD_UPDATED     @"CDICloudUpdated"
+#define NOTIFICATION_DATA_MERGED        @"CDManagedObjectContextMerged"
 
 @interface VICoreDataManager : NSObject
 {
