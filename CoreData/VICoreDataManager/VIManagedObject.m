@@ -14,8 +14,8 @@
 
 + (id)addWithArray:(NSArray *)array forManagedObjectContext:(NSManagedObjectContext *)context
 {
-    NSMutableArray *createdObjects = [@[] mutableCopy];
-
+    NSMutableArray*createdObjects = [@[] mutableCopy];
+    
     if ([self cleanForArray:array forManagedObjectContext:context]) {
         for (NSDictionary *params in array) {
             id obj = [self addWithParams:params forManagedObjectContext:context];
@@ -24,7 +24,7 @@
             }
         }
     }
-
+    
     return createdObjects;
 }
 
@@ -38,16 +38,16 @@
     return nil;
 }
 
-+ (id)editWithParams:(NSDictionary *)params forObject:(NSManagedObject *)object
++ (id)editWithParams:(NSDictionary *)params forObject:(NSManagedObject*)object
 {
     return [self setInformationFromDictionary:params forObject:object];
 }
 
 + (id)syncWithParams:(NSDictionary *)params forManagedObjectContext:(NSManagedObjectContext *)context
 {
-    NSManagedObject *object = [[VICoreDataManager getInstance] addObjectForEntityNamed:NSStringFromClass([self class])
-                                                                         forContext:context];
-
+    NSManagedObject *object = [[VICoreDataManager getInstance] addObjectForModel:NSStringFromClass([self class])
+                                                                         context:context];
+    
     return [self setInformationFromDictionary:params forObject:object];
 }
 
@@ -56,16 +56,22 @@
     return [self fetchForPredicate:predicate forManagedObjectContext:context] != nil;
 }
 
-+ (id)fetchForPredicate:(NSPredicate *)predicate forManagedObjectContext:(NSManagedObjectContext *)context
++ (NSArray *)fetchAllForPredicate:(NSPredicate *)predicate forManagedObjectContext:(NSManagedObjectContext *)context
 {
-    NSArray *results = [[VICoreDataManager getInstance] arrayForEntityNamed:NSStringFromClass([self class])
+    NSArray *results = [[VICoreDataManager getInstance] arrayForModel:NSStringFromClass([self class])
                                                         withPredicate:predicate
                                                            forContext:context];
+    return results;
+}
 
++ (id)fetchForPredicate:(NSPredicate *)predicate forManagedObjectContext:(NSManagedObjectContext *)context
+{
+    NSArray *results = [self fetchAllForPredicate:predicate forManagedObjectContext:context];
+    
     if ([results count] > 0) {
         return [results lastObject];
     }
-
+    
     return nil;
 }
 
@@ -73,15 +79,15 @@
 
 + (id)addWithArray:(NSArray *)array forManagedObject:(NSManagedObject *)managedObject
 {
-    NSMutableArray *createdObjects = [@[] mutableCopy];
+    NSMutableArray*createdObjects = [@[] mutableCopy];
     if ([self cleanForArray:array forManagedObject:managedObject]) {
         for (NSDictionary *params in array) {
-
+            
             id obj = [self addWithParams:params forManagedObject:managedObject];
             if (obj != nil) {
                 [createdObjects addObject:obj];
             }
-
+            
         }
     }
     return createdObjects;
@@ -97,16 +103,16 @@
     return nil;
 }
 
-+ (id)editWithParams:(NSDictionary *)params forObject:(NSManagedObject *)object forManagedObject:(NSManagedObject *)managedObject
++ (id)editWithParams:(NSDictionary *)params forObject:(NSManagedObject*)object forManagedObject:(NSManagedObject *)managedObject
 {
     return [self setInformationFromDictionary:params forObject:object];
 }
 
 + (id)syncWithParams:(NSDictionary *)params forManagedObject:(NSManagedObject *)managedObject
 {
-    NSManagedObject *object = [[VICoreDataManager getInstance] addObjectForEntityNamed:NSStringFromClass([self class])
-                                                                         forContext:[managedObject managedObjectContext]];
-
+    NSManagedObject *object = [[VICoreDataManager getInstance] addObjectForModel:NSStringFromClass([self class])
+                                                                         context:[managedObject managedObjectContext]];
+    
     return [self setInformationFromDictionary:params forObject:object];
 }
 
@@ -115,23 +121,40 @@
     return [self fetchForPredicate:predicate forManagedObject:managedObject] != nil;
 }
 
-+ (id)fetchForPredicate:(NSPredicate *)predicate forManagedObject:(NSManagedObject *)managedObject
++ (NSArray *)fetchAllForPredicate:(NSPredicate *)predicate forManagedObject:(NSManagedObject *)managedObject
 {
-    NSArray *results = [[VICoreDataManager getInstance] arrayForEntityNamed:NSStringFromClass([self class])
+    NSArray *results = [[VICoreDataManager getInstance] arrayForModel:NSStringFromClass([self class])
                                                         withPredicate:predicate
                                                            forContext:[managedObject managedObjectContext]];
+    
+    return results;
+}
 
++ (id)fetchForPredicate:(NSPredicate *)predicate forManagedObject:(NSManagedObject *)managedObject
+{
+    NSArray *results = [self fetchAllForPredicate:predicate forManagedObject:managedObject];
+    
     if ([results count] > 0) {
         return [results lastObject];
     }
-
+    
     return nil;
 }
 
 #pragma mark - Set Content
-/* MUST IMPLEMENT
+
 + (id)setInformationFromDictionary:(NSDictionary *)params forObject:(NSManagedObject *)object
+{
+    return object;
+}
+
 + (id)attribute:(id)attribute forParam:(id)param
-*/
+{
+    if ([[NSNull null] isEqual:param]) {
+        return attribute;
+    }
+    
+    return param;
+}
 
 @end
