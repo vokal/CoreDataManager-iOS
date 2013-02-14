@@ -7,10 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6F393DBC16CC0EA600AEA4C6 /* VITestControllerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F393DBA16CC0EA600AEA4C6 /* VITestControllerDelegate.m */; };
+		6F393DBD16CC0EA600AEA4C6 /* VITestControllerDelegate.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6F393DBB16CC0EA600AEA4C6 /* VITestControllerDelegate.xib */; };
+		6F393DBE16CC32E300AEA4C6 /* VITestControllerDelegate.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6F393DBB16CC0EA600AEA4C6 /* VITestControllerDelegate.xib */; };
+		6F393DBF16CC32E900AEA4C6 /* VITestControllerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F393DBA16CC0EA600AEA4C6 /* VITestControllerDelegate.m */; };
+		6F393DC016CC416500AEA4C6 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5F19CD15C197990089AA44 /* CoreData.framework */; };
+		6F8B5D0716CACF6B004DD1B2 /* VIPerson.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F8B5D0616CACF6B004DD1B2 /* VIPerson.m */; };
+		6F8B5D1716CBF764004DD1B2 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F8B5D1616CBF764004DD1B2 /* SenTestingKit.framework */; };
+		6F8B5D1816CBF764004DD1B2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5F19A415C196500089AA44 /* UIKit.framework */; };
+		6F8B5D1916CBF764004DD1B2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5F19A615C196500089AA44 /* Foundation.framework */; };
+		6FC8B69016CC0C40000B7733 /* CoreDataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F46A2D716CAACF700BE4F20 /* CoreDataTests.m */; };
+		6FE6F6ED16C556A600E79EDE /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6FE6F6EC16C556A600E79EDE /* Default-568h@2x.png */; };
 		EA24611B15C6CD3A0065C12D /* VIFetchResultsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = EA24611A15C6CD3A0065C12D /* VIFetchResultsDataSource.m */; };
 		EA26603315C251BF00D61F01 /* VIPersonDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = EA26603215C251BF00D61F01 /* VIPersonDataSource.m */; };
 		EA4FE17915C2EEC700424469 /* VICoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EA4FE17715C2EEC700424469 /* VICoreDataModel.xcdatamodeld */; };
-		EA4FE17C15C2EF1000424469 /* VIPerson.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4FE17B15C2EF1000424469 /* VIPerson.m */; };
+		EA4FE17C15C2EF1000424469 /* VIPerson+Behavior.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4FE17B15C2EF1000424469 /* VIPerson+Behavior.m */; };
 		EA5F19A515C196500089AA44 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5F19A415C196500089AA44 /* UIKit.framework */; };
 		EA5F19A715C196500089AA44 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5F19A615C196500089AA44 /* Foundation.framework */; };
 		EA5F19A915C196500089AA44 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5F19A815C196500089AA44 /* CoreGraphics.framework */; };
@@ -24,14 +35,37 @@
 		EA5F19E915C1CB4A0089AA44 /* VIManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = EA5F19E815C1CB4A0089AA44 /* VIManagedObject.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		6F8B5D2716CBF88D004DD1B2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EA5F199715C196500089AA44 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EA5F199F15C196500089AA44;
+			remoteInfo = CoreData;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		6F393DB916CC0EA600AEA4C6 /* VITestControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VITestControllerDelegate.h; sourceTree = "<group>"; };
+		6F393DBA16CC0EA600AEA4C6 /* VITestControllerDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VITestControllerDelegate.m; sourceTree = "<group>"; };
+		6F393DBB16CC0EA600AEA4C6 /* VITestControllerDelegate.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VITestControllerDelegate.xib; sourceTree = "<group>"; };
+		6F46A2D216CAACF700BE4F20 /* CoreDataTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CoreDataTests-Info.plist"; sourceTree = "<group>"; };
+		6F46A2D416CAACF700BE4F20 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		6F46A2D616CAACF700BE4F20 /* CoreDataTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CoreDataTests.h; sourceTree = "<group>"; };
+		6F46A2D716CAACF700BE4F20 /* CoreDataTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CoreDataTests.m; sourceTree = "<group>"; };
+		6F46A2D916CAACF700BE4F20 /* CoreDataTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CoreDataTests-Prefix.pch"; sourceTree = "<group>"; };
+		6F8B5D0516CACF6B004DD1B2 /* VIPerson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIPerson.h; sourceTree = "<group>"; };
+		6F8B5D0616CACF6B004DD1B2 /* VIPerson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIPerson.m; sourceTree = "<group>"; };
+		6F8B5D1516CBF764004DD1B2 /* CoreDataTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CoreDataTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6F8B5D1616CBF764004DD1B2 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		6FE6F6EC16C556A600E79EDE /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
 		EA24611915C6CD3A0065C12D /* VIFetchResultsDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VIFetchResultsDataSource.h; path = VICoreDataManager/VIFetchResultsDataSource.h; sourceTree = "<group>"; };
 		EA24611A15C6CD3A0065C12D /* VIFetchResultsDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VIFetchResultsDataSource.m; path = VICoreDataManager/VIFetchResultsDataSource.m; sourceTree = "<group>"; };
 		EA26603115C251BF00D61F01 /* VIPersonDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIPersonDataSource.h; sourceTree = "<group>"; };
 		EA26603215C251BF00D61F01 /* VIPersonDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIPersonDataSource.m; sourceTree = "<group>"; };
 		EA4FE17815C2EEC700424469 /* VICoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = VICoreDataModel.xcdatamodel; sourceTree = "<group>"; };
-		EA4FE17A15C2EF1000424469 /* VIPerson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIPerson.h; sourceTree = "<group>"; };
-		EA4FE17B15C2EF1000424469 /* VIPerson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIPerson.m; sourceTree = "<group>"; };
+		EA4FE17A15C2EF1000424469 /* VIPerson+Behavior.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "VIPerson+Behavior.h"; sourceTree = "<group>"; };
+		EA4FE17B15C2EF1000424469 /* VIPerson+Behavior.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "VIPerson+Behavior.m"; sourceTree = "<group>"; };
 		EA5F19A015C196500089AA44 /* CoreData.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoreData.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA5F19A415C196500089AA44 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		EA5F19A615C196500089AA44 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -53,6 +87,17 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		6F8B5D1116CBF764004DD1B2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6F393DC016CC416500AEA4C6 /* CoreData.framework in Frameworks */,
+				6F8B5D1716CBF764004DD1B2 /* SenTestingKit.framework in Frameworks */,
+				6F8B5D1816CBF764004DD1B2 /* UIKit.framework in Frameworks */,
+				6F8B5D1916CBF764004DD1B2 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EA5F199D15C196500089AA44 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -67,6 +112,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6F46A2D016CAACF700BE4F20 /* CoreDataTests */ = {
+			isa = PBXGroup;
+			children = (
+				6F46A2D616CAACF700BE4F20 /* CoreDataTests.h */,
+				6F46A2D716CAACF700BE4F20 /* CoreDataTests.m */,
+				6F393DB916CC0EA600AEA4C6 /* VITestControllerDelegate.h */,
+				6F393DBA16CC0EA600AEA4C6 /* VITestControllerDelegate.m */,
+				6F393DBB16CC0EA600AEA4C6 /* VITestControllerDelegate.xib */,
+				6F46A2D116CAACF700BE4F20 /* Supporting Files */,
+			);
+			path = CoreDataTests;
+			sourceTree = "<group>";
+		};
+		6F46A2D116CAACF700BE4F20 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				6F46A2D216CAACF700BE4F20 /* CoreDataTests-Info.plist */,
+				6F46A2D316CAACF700BE4F20 /* InfoPlist.strings */,
+				6F46A2D916CAACF700BE4F20 /* CoreDataTests-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		EA26602615C24B5B00D61F01 /* DataSource */ = {
 			isa = PBXGroup;
 			children = (
@@ -79,8 +147,8 @@
 		EA5F199515C196500089AA44 = {
 			isa = PBXGroup;
 			children = (
-				EA5F19CD15C197990089AA44 /* CoreData.framework */,
 				EA5F19AA15C196500089AA44 /* CoreData */,
+				6F46A2D016CAACF700BE4F20 /* CoreDataTests */,
 				EA5F19A315C196500089AA44 /* Frameworks */,
 				EA5F19A115C196500089AA44 /* Products */,
 			);
@@ -90,6 +158,7 @@
 			isa = PBXGroup;
 			children = (
 				EA5F19A015C196500089AA44 /* CoreData.app */,
+				6F8B5D1516CBF764004DD1B2 /* CoreDataTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -97,9 +166,11 @@
 		EA5F19A315C196500089AA44 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				EA5F19A415C196500089AA44 /* UIKit.framework */,
-				EA5F19A615C196500089AA44 /* Foundation.framework */,
+				EA5F19CD15C197990089AA44 /* CoreData.framework */,
 				EA5F19A815C196500089AA44 /* CoreGraphics.framework */,
+				EA5F19A615C196500089AA44 /* Foundation.framework */,
+				EA5F19A415C196500089AA44 /* UIKit.framework */,
+				6F8B5D1616CBF764004DD1B2 /* SenTestingKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -127,6 +198,7 @@
 				EA5F19AD15C196500089AA44 /* InfoPlist.strings */,
 				EA5F19B015C196500089AA44 /* main.m */,
 				EA5F19B215C196500089AA44 /* CoreData-Prefix.pch */,
+				6FE6F6EC16C556A600E79EDE /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -148,8 +220,10 @@
 			isa = PBXGroup;
 			children = (
 				EA4FE17715C2EEC700424469 /* VICoreDataModel.xcdatamodeld */,
-				EA4FE17A15C2EF1000424469 /* VIPerson.h */,
-				EA4FE17B15C2EF1000424469 /* VIPerson.m */,
+				6F8B5D0516CACF6B004DD1B2 /* VIPerson.h */,
+				6F8B5D0616CACF6B004DD1B2 /* VIPerson.m */,
+				EA4FE17A15C2EF1000424469 /* VIPerson+Behavior.h */,
+				EA4FE17B15C2EF1000424469 /* VIPerson+Behavior.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -157,6 +231,25 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		6F8B5D1416CBF764004DD1B2 /* CoreDataTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6F8B5D2416CBF764004DD1B2 /* Build configuration list for PBXNativeTarget "CoreDataTests" */;
+			buildPhases = (
+				6F8B5D1016CBF764004DD1B2 /* Sources */,
+				6F8B5D1116CBF764004DD1B2 /* Frameworks */,
+				6F8B5D1216CBF764004DD1B2 /* Resources */,
+				6F8B5D1316CBF764004DD1B2 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6F8B5D2816CBF88D004DD1B2 /* PBXTargetDependency */,
+			);
+			name = CoreDataTests;
+			productName = CoreDataTests;
+			productReference = 6F8B5D1516CBF764004DD1B2 /* CoreDataTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
 		EA5F199F15C196500089AA44 /* CoreData */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = EA5F19BE15C196500089AA44 /* Build configuration list for PBXNativeTarget "CoreData" */;
@@ -181,7 +274,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = VI;
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0460;
 			};
 			buildConfigurationList = EA5F199A15C196500089AA44 /* Build configuration list for PBXProject "CoreData" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -196,23 +289,59 @@
 			projectRoot = "";
 			targets = (
 				EA5F199F15C196500089AA44 /* CoreData */,
+				6F8B5D1416CBF764004DD1B2 /* CoreDataTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		6F8B5D1216CBF764004DD1B2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6F393DBD16CC0EA600AEA4C6 /* VITestControllerDelegate.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EA5F199E15C196500089AA44 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				EA5F19AF15C196500089AA44 /* InfoPlist.strings in Resources */,
 				EA5F19BB15C196500089AA44 /* VIViewController.xib in Resources */,
+				6FE6F6ED16C556A600E79EDE /* Default-568h@2x.png in Resources */,
+				6F393DBE16CC32E300AEA4C6 /* VITestControllerDelegate.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		6F8B5D1316CBF764004DD1B2 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
+		6F8B5D1016CBF764004DD1B2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6FC8B69016CC0C40000B7733 /* CoreDataTests.m in Sources */,
+				6F393DBC16CC0EA600AEA4C6 /* VITestControllerDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EA5F199C15C196500089AA44 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -224,14 +353,32 @@
 				EA5F19E915C1CB4A0089AA44 /* VIManagedObject.m in Sources */,
 				EA26603315C251BF00D61F01 /* VIPersonDataSource.m in Sources */,
 				EA4FE17915C2EEC700424469 /* VICoreDataModel.xcdatamodeld in Sources */,
-				EA4FE17C15C2EF1000424469 /* VIPerson.m in Sources */,
+				EA4FE17C15C2EF1000424469 /* VIPerson+Behavior.m in Sources */,
 				EA24611B15C6CD3A0065C12D /* VIFetchResultsDataSource.m in Sources */,
+				6F8B5D0716CACF6B004DD1B2 /* VIPerson.m in Sources */,
+				6F393DBF16CC32E900AEA4C6 /* VITestControllerDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		6F8B5D2816CBF88D004DD1B2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EA5F199F15C196500089AA44 /* CoreData */;
+			targetProxy = 6F8B5D2716CBF88D004DD1B2 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
+		6F46A2D316CAACF700BE4F20 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6F46A2D416CAACF700BE4F20 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 		EA5F19AD15C196500089AA44 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -251,12 +398,61 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		6F8B5D2516CBF764004DD1B2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/CoreData.app/CoreData";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CoreDataTests/CoreDataTests-Prefix.pch";
+				INFOPLIST_FILE = "CoreDataTests/CoreDataTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_AFTER_BUILD = YES;
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		6F8B5D2616CBF764004DD1B2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/CoreData.app/CoreData";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CoreDataTests/CoreDataTests-Prefix.pch";
+				INFOPLIST_FILE = "CoreDataTests/CoreDataTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_AFTER_BUILD = YES;
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
 		EA5F19BC15C196500089AA44 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -282,6 +478,10 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -299,6 +499,10 @@
 		EA5F19BF15C196500089AA44 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SYSTEM_APPS_DIR)/Xcode.app/Contents/Developer/Library/Frameworks\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CoreData/CoreData-Prefix.pch";
 				INFOPLIST_FILE = "CoreData/CoreData-Info.plist";
@@ -310,8 +514,13 @@
 		EA5F19C015C196500089AA44 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SYSTEM_APPS_DIR)/Xcode.app/Contents/Developer/Library/Frameworks\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CoreData/CoreData-Prefix.pch";
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "CoreData/CoreData-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -321,6 +530,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		6F8B5D2416CBF764004DD1B2 /* Build configuration list for PBXNativeTarget "CoreDataTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6F8B5D2516CBF764004DD1B2 /* Debug */,
+				6F8B5D2616CBF764004DD1B2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		EA5F199A15C196500089AA44 /* Build configuration list for PBXProject "CoreData" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
