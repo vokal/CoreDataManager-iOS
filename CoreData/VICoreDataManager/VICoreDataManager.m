@@ -425,6 +425,20 @@
     return cloned;
 }
 
+- (void)resetCoreData
+{
+    NSArray *stores = [self.persistentStoreCoordinator persistentStores];
+    
+    for(NSPersistentStore *store in stores) {
+        [self.persistentStoreCoordinator removePersistentStore:store error:nil];
+        [[NSFileManager defaultManager] removeItemAtPath:store.URL.path error:nil];
+    }
+    
+    _persistentStoreCoordinator = nil;
+    _managedObjectContext = nil;
+    _managedObjectModel = nil;
+}
+
 - (void)debugPersistentStore
 {
     NSLog(@"%@", [[_persistentStoreCoordinator managedObjectModel] entitiesByName]);

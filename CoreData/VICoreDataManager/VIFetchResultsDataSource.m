@@ -150,7 +150,7 @@
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
     }
-    //FOR REVIEW controllerWillChangeContent is not being called in tests unless we do this explicitly
+    //FOR REVIEW controllerWillChangeContent is not being called in tests - this updates the table explicitly
     [_tableView reloadData];
 }
 

@@ -54,5 +54,6 @@
 
 - (NSManagedObjectContext *)startTransaction;
 - (void)endTransactionForContext:(NSManagedObjectContext *)context;
+- (void)resetCoreData;
 
 @end
