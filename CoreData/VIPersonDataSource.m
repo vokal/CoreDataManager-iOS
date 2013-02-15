@@ -7,7 +7,7 @@
 //
 
 #import "VIPersonDataSource.h"
-#import "VIPerson.h"
+#import "VIPerson+Behavior.h"
 
 @implementation VIPersonDataSource
 
@@ -21,7 +21,7 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
-    VIPerson *person = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    VIPerson *person = [_fetchedResultsController objectAtIndexPath:indexPath];
     
     cell.textLabel.text = [NSString stringWithFormat:@"%@, %@", person.lastName, person.firstName];
     
