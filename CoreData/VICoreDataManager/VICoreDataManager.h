@@ -17,8 +17,9 @@
     NSManagedObjectContext *_managedObjectContext;
     NSManagedObjectModel *_managedObjectModel;
     NSPersistentStoreCoordinator *_persistentStoreCoordinator;
-    NSString *_resource;
+    NSString *_bundleIdentifier;
     NSString *_database;
+    NSString *_resource;
     NSString *_iCloudAppId;
 }
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
@@ -32,6 +33,7 @@
 + (VICoreDataManager *)getInstance;
 
 - (void)setResource:(NSString *)resource database:(NSString *)database;
+- (void)setResource:(NSString *)resource database:(NSString *)database forBundleIdentifier:(NSString *)bundleIdentifier;
 
 //DEPRECATE: these should all be named <something>ForEntityNamed, not <something>ForModel
 - (id)addObjectForModel:(NSString *)model context:(NSManagedObjectContext *)context DEPRECATED_ATTRIBUTE;

@@ -12,10 +12,17 @@
 		6F393DBE16CC32E300AEA4C6 /* VITestControllerDelegate.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6F393DBB16CC0EA600AEA4C6 /* VITestControllerDelegate.xib */; };
 		6F393DBF16CC32E900AEA4C6 /* VITestControllerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F393DBA16CC0EA600AEA4C6 /* VITestControllerDelegate.m */; };
 		6F393DC016CC416500AEA4C6 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5F19CD15C197990089AA44 /* CoreData.framework */; };
+		6F5288DA16D2BBF4005CD9E7 /* VIFetchResultsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = EA24611A15C6CD3A0065C12D /* VIFetchResultsDataSource.m */; };
+		6F5288DB16D2BBF4005CD9E7 /* VIManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = EA5F19E815C1CB4A0089AA44 /* VIManagedObject.m */; };
+		6F5288DC16D2BBF4005CD9E7 /* VICoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EA5F19D015C197F40089AA44 /* VICoreDataManager.m */; };
+		6F5288DD16D2BBF4005CD9E7 /* VIPersonDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = EA26603215C251BF00D61F01 /* VIPersonDataSource.m */; };
+		6F5288DE16D2BBF4005CD9E7 /* VIPerson.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F8B5D0616CACF6B004DD1B2 /* VIPerson.m */; };
+		6F5288DF16D2BBF4005CD9E7 /* VIPerson+Behavior.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4FE17B15C2EF1000424469 /* VIPerson+Behavior.m */; };
 		6F8B5D0716CACF6B004DD1B2 /* VIPerson.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F8B5D0616CACF6B004DD1B2 /* VIPerson.m */; };
 		6F8B5D1716CBF764004DD1B2 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F8B5D1616CBF764004DD1B2 /* SenTestingKit.framework */; };
 		6F8B5D1816CBF764004DD1B2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5F19A415C196500089AA44 /* UIKit.framework */; };
 		6F8B5D1916CBF764004DD1B2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5F19A615C196500089AA44 /* Foundation.framework */; };
+		6FA4D0E116D2C8E400692187 /* VICoreDataModel.xcdatamodeld in Resources */ = {isa = PBXBuildFile; fileRef = EA4FE17715C2EEC700424469 /* VICoreDataModel.xcdatamodeld */; };
 		6FC8B69016CC0C40000B7733 /* CoreDataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F46A2D716CAACF700BE4F20 /* CoreDataTests.m */; };
 		6FE6F6ED16C556A600E79EDE /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6FE6F6EC16C556A600E79EDE /* Default-568h@2x.png */; };
 		EA24611B15C6CD3A0065C12D /* VIFetchResultsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = EA24611A15C6CD3A0065C12D /* VIFetchResultsDataSource.m */; };
@@ -36,7 +43,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		6F8B5D2716CBF88D004DD1B2 /* PBXContainerItemProxy */ = {
+		6F5288E116D2BEDB005CD9E7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = EA5F199715C196500089AA44 /* Project object */;
 			proxyType = 1;
@@ -243,7 +250,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				6F8B5D2816CBF88D004DD1B2 /* PBXTargetDependency */,
+				6F5288E216D2BEDB005CD9E7 /* PBXTargetDependency */,
 			);
 			name = CoreDataTests;
 			productName = CoreDataTests;
@@ -299,6 +306,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6FA4D0E116D2C8E400692187 /* VICoreDataModel.xcdatamodeld in Resources */,
 				6F393DBD16CC0EA600AEA4C6 /* VITestControllerDelegate.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -337,6 +345,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6F5288DA16D2BBF4005CD9E7 /* VIFetchResultsDataSource.m in Sources */,
+				6F5288DB16D2BBF4005CD9E7 /* VIManagedObject.m in Sources */,
+				6F5288DC16D2BBF4005CD9E7 /* VICoreDataManager.m in Sources */,
+				6F5288DD16D2BBF4005CD9E7 /* VIPersonDataSource.m in Sources */,
+				6F5288DE16D2BBF4005CD9E7 /* VIPerson.m in Sources */,
+				6F5288DF16D2BBF4005CD9E7 /* VIPerson+Behavior.m in Sources */,
 				6FC8B69016CC0C40000B7733 /* CoreDataTests.m in Sources */,
 				6F393DBC16CC0EA600AEA4C6 /* VITestControllerDelegate.m in Sources */,
 			);
@@ -363,10 +377,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		6F8B5D2816CBF88D004DD1B2 /* PBXTargetDependency */ = {
+		6F5288E216D2BEDB005CD9E7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = EA5F199F15C196500089AA44 /* CoreData */;
-			targetProxy = 6F8B5D2716CBF88D004DD1B2 /* PBXContainerItemProxy */;
+			targetProxy = 6F5288E116D2BEDB005CD9E7 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -416,7 +430,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_AFTER_BUILD = YES;
-				TEST_HOST = "$(BUNDLE_LOADER)";
+				TEST_HOST = "";
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
@@ -438,7 +452,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_AFTER_BUILD = YES;
-				TEST_HOST = "$(BUNDLE_LOADER)";
+				TEST_HOST = "";
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;

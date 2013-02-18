@@ -43,11 +43,47 @@
 
 - (void)setResource:(NSString *)resource database:(NSString *)database
 {
-
+    
     _resource = resource;
     _database = database;
+    
+    [self setResource:resource database:database forBundleIdentifier:nil];
+}
 
+- (void)setResource:(NSString *)resource database:(NSString *)database forBundleIdentifier:(NSString *)bundleIdentifier
+{
+    
+    _resource = resource;
+    _database = database;
+    _bundleIdentifier = bundleIdentifier;
     [self initManagedObjectContext];
+}
+
+- (void)initManagedObjectModel
+{
+    NSURL *modelURL = [[self getBundle] URLForResource:_resource withExtension:@"momd"];
+    _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
+}
+
+-(NSBundle*) getBundle
+{
+    NSBundle *bundle = nil;
+    
+    // try your manually set bundles
+    NSArray *identifiers = [NSArray arrayWithObjects: _bundleIdentifier,
+                            nil];
+    for(NSString *bundleId in identifiers) {
+        bundle = [NSBundle bundleWithIdentifier:bundleId];
+        if (bundle != nil) break;
+    }
+    
+    // try the main bundle
+    if (bundle == nil) bundle = [NSBundle mainBundle];
+    
+    // abort
+    assert(bundle != nil && "Missing bundle. Check the Bundle identifier on the plist of this target vs the identifiers array in this class.");
+           
+    return bundle;
 }
 
 - (void)initManagedObjectContext
@@ -69,12 +105,6 @@
             }
         }];
     }
-}
-
-- (void)initManagedObjectModel
-{
-    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:_resource withExtension:@"momd"];
-    _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
 }
 
 - (void)initPersistentStoreCoordinator

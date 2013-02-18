@@ -19,13 +19,14 @@
 - (void)setUp
 {
     [super setUp];
+    
+    [[VICoreDataManager getInstance] setResource:@"VICoreDataModel" database:@"VICoreDataModel.sqlite" forBundleIdentifier:@"vokal.CoreDataTests"];
     [self resetCoreData];
-    [[VICoreDataManager getInstance] setResource:@"VICoreDataModel" database:@"CoreDataModelTest.sqlite"];
     self.predicate = [NSPredicate predicateWithFormat:@"lastName == %@", @"Passley"];
     self.sortDescriptors = [NSArray arrayWithObjects:
                         [NSSortDescriptor sortDescriptorWithKey:@"lastName" ascending:YES],
                         [NSSortDescriptor sortDescriptorWithKey:@"firstName" ascending:YES], nil];
-    self.viewController = [[VITestControllerDelegate alloc] initWithNibName:@"VITestControllerDelegate" bundle:nil];
+    self.viewController = [[VITestControllerDelegate alloc] initWithNibName:@"VITestControllerDelegate" bundle:[NSBundle bundleWithIdentifier:@"vokal.CoreDataTests"]];
 }
 
 - (void)tearDown
@@ -134,6 +135,5 @@
     [[VICoreDataManager getInstance] endTransactionForContext:context];
  
 }
-
 
 @end
