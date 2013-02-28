@@ -2,19 +2,19 @@
 //  CoreDataTests.m
 //  CoreDataTests
 //
-//  Created by ckl on 2/12/13.
-//
-//
 
 #import "CoreDataTests.h"
 #import <CoreData/CoreData.h>
-#import "VITestControllerDelegate.h"
-#import "VICoreDataManager.h"
-#import "VIFetchResultsDataSource.h"
-#import "VIPersonDataSource.h"
-#import "VIPerson+Behavior.h"
 
-#import "VICoreDataManager+Testing.h"
+#import "VITestControllerDelegate.h"
+
+#import "VIPersonDataSource.h"
+#import "VIPerson.h"
+
+//use this interface for publicizing private methods for testing
+@interface VICoreDataManager(privateTests)
+- (void)setResource:(NSString *)resource database:(NSString *)database iCloudAppId:(NSString *)iCloudAppId forBundleIdentifier:(NSString *)bundleIdentifier;
+@end
 
 @implementation CoreDataTests
 

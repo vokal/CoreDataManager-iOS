@@ -2,17 +2,15 @@
 //  VIFetchResultsDataSource.h
 //  CoreData
 //
-//  Created by Anthony Alesia on 7/26/12.
-//
-//
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
 @protocol VIFetchResultsDataSourceDelegate <NSObject>
 
-@optional - (void)fetchResultsDataSourceSelectedObject:(NSManagedObject *)object;
-@optional - (void)fetchResultsDataSourceHasResults:(BOOL)hasResults;
+@optional
+- (void)fetchResultsDataSourceSelectedObject:(NSManagedObject *)object;
+- (void)fetchResultsDataSourceHasResults:(BOOL)hasResults;
 
 @end
 

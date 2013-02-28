@@ -7,18 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3DB2781C16E0061F00835139 /* VIPerson.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DB2781B16E0061E00835139 /* VIPerson.m */; };
 		6F393DBC16CC0EA600AEA4C6 /* VITestControllerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F393DBA16CC0EA600AEA4C6 /* VITestControllerDelegate.m */; };
 		6F393DBD16CC0EA600AEA4C6 /* VITestControllerDelegate.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6F393DBB16CC0EA600AEA4C6 /* VITestControllerDelegate.xib */; };
 		6F393DBE16CC32E300AEA4C6 /* VITestControllerDelegate.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6F393DBB16CC0EA600AEA4C6 /* VITestControllerDelegate.xib */; };
 		6F393DBF16CC32E900AEA4C6 /* VITestControllerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F393DBA16CC0EA600AEA4C6 /* VITestControllerDelegate.m */; };
 		6F393DC016CC416500AEA4C6 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5F19CD15C197990089AA44 /* CoreData.framework */; };
-		6F5288DA16D2BBF4005CD9E7 /* VIFetchResultsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = EA24611A15C6CD3A0065C12D /* VIFetchResultsDataSource.m */; };
-		6F5288DB16D2BBF4005CD9E7 /* VIManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = EA5F19E815C1CB4A0089AA44 /* VIManagedObject.m */; };
-		6F5288DC16D2BBF4005CD9E7 /* VICoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EA5F19D015C197F40089AA44 /* VICoreDataManager.m */; };
-		6F5288DD16D2BBF4005CD9E7 /* VIPersonDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = EA26603215C251BF00D61F01 /* VIPersonDataSource.m */; };
-		6F5288DE16D2BBF4005CD9E7 /* VIPerson.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F8B5D0616CACF6B004DD1B2 /* VIPerson.m */; };
-		6F5288DF16D2BBF4005CD9E7 /* VIPerson+Behavior.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4FE17B15C2EF1000424469 /* VIPerson+Behavior.m */; };
-		6F8B5D0716CACF6B004DD1B2 /* VIPerson.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F8B5D0616CACF6B004DD1B2 /* VIPerson.m */; };
 		6F8B5D1716CBF764004DD1B2 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F8B5D1616CBF764004DD1B2 /* SenTestingKit.framework */; };
 		6F8B5D1816CBF764004DD1B2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5F19A415C196500089AA44 /* UIKit.framework */; };
 		6F8B5D1916CBF764004DD1B2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5F19A615C196500089AA44 /* Foundation.framework */; };
@@ -28,7 +22,6 @@
 		EA24611B15C6CD3A0065C12D /* VIFetchResultsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = EA24611A15C6CD3A0065C12D /* VIFetchResultsDataSource.m */; };
 		EA26603315C251BF00D61F01 /* VIPersonDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = EA26603215C251BF00D61F01 /* VIPersonDataSource.m */; };
 		EA4FE17915C2EEC700424469 /* VICoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EA4FE17715C2EEC700424469 /* VICoreDataModel.xcdatamodeld */; };
-		EA4FE17C15C2EF1000424469 /* VIPerson+Behavior.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4FE17B15C2EF1000424469 /* VIPerson+Behavior.m */; };
 		EA5F19A515C196500089AA44 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5F19A415C196500089AA44 /* UIKit.framework */; };
 		EA5F19A715C196500089AA44 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5F19A615C196500089AA44 /* Foundation.framework */; };
 		EA5F19A915C196500089AA44 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5F19A815C196500089AA44 /* CoreGraphics.framework */; };
@@ -43,7 +36,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3DF1671E16DFEC160004C767 /* VICoreDataManager+Testing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "VICoreDataManager+Testing.h"; path = "VICoreDataManager/VICoreDataManager+Testing.h"; sourceTree = "<group>"; };
+		3DB2781A16E0061E00835139 /* VIPerson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIPerson.h; sourceTree = "<group>"; };
+		3DB2781B16E0061E00835139 /* VIPerson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIPerson.m; sourceTree = "<group>"; };
 		6F393DB916CC0EA600AEA4C6 /* VITestControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VITestControllerDelegate.h; sourceTree = "<group>"; };
 		6F393DBA16CC0EA600AEA4C6 /* VITestControllerDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VITestControllerDelegate.m; sourceTree = "<group>"; };
 		6F393DBB16CC0EA600AEA4C6 /* VITestControllerDelegate.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VITestControllerDelegate.xib; sourceTree = "<group>"; };
@@ -52,8 +46,6 @@
 		6F46A2D616CAACF700BE4F20 /* CoreDataTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CoreDataTests.h; sourceTree = "<group>"; };
 		6F46A2D716CAACF700BE4F20 /* CoreDataTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CoreDataTests.m; sourceTree = "<group>"; };
 		6F46A2D916CAACF700BE4F20 /* CoreDataTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CoreDataTests-Prefix.pch"; sourceTree = "<group>"; };
-		6F8B5D0516CACF6B004DD1B2 /* VIPerson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIPerson.h; sourceTree = "<group>"; };
-		6F8B5D0616CACF6B004DD1B2 /* VIPerson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIPerson.m; sourceTree = "<group>"; };
 		6F8B5D1516CBF764004DD1B2 /* CoreDataTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CoreDataTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6F8B5D1616CBF764004DD1B2 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		6FE6F6EC16C556A600E79EDE /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -62,8 +54,6 @@
 		EA26603115C251BF00D61F01 /* VIPersonDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIPersonDataSource.h; sourceTree = "<group>"; };
 		EA26603215C251BF00D61F01 /* VIPersonDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIPersonDataSource.m; sourceTree = "<group>"; };
 		EA4FE17815C2EEC700424469 /* VICoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = VICoreDataModel.xcdatamodel; sourceTree = "<group>"; };
-		EA4FE17A15C2EF1000424469 /* VIPerson+Behavior.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "VIPerson+Behavior.h"; sourceTree = "<group>"; };
-		EA4FE17B15C2EF1000424469 /* VIPerson+Behavior.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "VIPerson+Behavior.m"; sourceTree = "<group>"; };
 		EA5F19A015C196500089AA44 /* CoreData.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoreData.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA5F19A415C196500089AA44 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		EA5F19A615C196500089AA44 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -204,13 +194,12 @@
 		EA5F19C515C1976C0089AA44 /* CoreDataManager */ = {
 			isa = PBXGroup;
 			children = (
+				EA5F19CF15C197F40089AA44 /* VICoreDataManager.h */,
+				EA5F19D015C197F40089AA44 /* VICoreDataManager.m */,
 				EA24611915C6CD3A0065C12D /* VIFetchResultsDataSource.h */,
 				EA24611A15C6CD3A0065C12D /* VIFetchResultsDataSource.m */,
 				EA5F19E715C1CB4A0089AA44 /* VIManagedObject.h */,
 				EA5F19E815C1CB4A0089AA44 /* VIManagedObject.m */,
-				EA5F19CF15C197F40089AA44 /* VICoreDataManager.h */,
-				EA5F19D015C197F40089AA44 /* VICoreDataManager.m */,
-				3DF1671E16DFEC160004C767 /* VICoreDataManager+Testing.h */,
 			);
 			name = CoreDataManager;
 			sourceTree = "<group>";
@@ -219,10 +208,8 @@
 			isa = PBXGroup;
 			children = (
 				EA4FE17715C2EEC700424469 /* VICoreDataModel.xcdatamodeld */,
-				6F8B5D0516CACF6B004DD1B2 /* VIPerson.h */,
-				6F8B5D0616CACF6B004DD1B2 /* VIPerson.m */,
-				EA4FE17A15C2EF1000424469 /* VIPerson+Behavior.h */,
-				EA4FE17B15C2EF1000424469 /* VIPerson+Behavior.m */,
+				3DB2781A16E0061E00835139 /* VIPerson.h */,
+				3DB2781B16E0061E00835139 /* VIPerson.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -336,12 +323,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6F5288DA16D2BBF4005CD9E7 /* VIFetchResultsDataSource.m in Sources */,
-				6F5288DB16D2BBF4005CD9E7 /* VIManagedObject.m in Sources */,
-				6F5288DC16D2BBF4005CD9E7 /* VICoreDataManager.m in Sources */,
-				6F5288DD16D2BBF4005CD9E7 /* VIPersonDataSource.m in Sources */,
-				6F5288DE16D2BBF4005CD9E7 /* VIPerson.m in Sources */,
-				6F5288DF16D2BBF4005CD9E7 /* VIPerson+Behavior.m in Sources */,
 				6FC8B69016CC0C40000B7733 /* CoreDataTests.m in Sources */,
 				6F393DBC16CC0EA600AEA4C6 /* VITestControllerDelegate.m in Sources */,
 			);
@@ -358,10 +339,9 @@
 				EA5F19E915C1CB4A0089AA44 /* VIManagedObject.m in Sources */,
 				EA26603315C251BF00D61F01 /* VIPersonDataSource.m in Sources */,
 				EA4FE17915C2EEC700424469 /* VICoreDataModel.xcdatamodeld in Sources */,
-				EA4FE17C15C2EF1000424469 /* VIPerson+Behavior.m in Sources */,
 				EA24611B15C6CD3A0065C12D /* VIFetchResultsDataSource.m in Sources */,
-				6F8B5D0716CACF6B004DD1B2 /* VIPerson.m in Sources */,
 				6F393DBF16CC32E900AEA4C6 /* VITestControllerDelegate.m in Sources */,
+				3DB2781C16E0061F00835139 /* VIPerson.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

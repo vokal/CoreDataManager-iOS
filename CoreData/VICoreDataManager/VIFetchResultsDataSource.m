@@ -2,9 +2,6 @@
 //  VIFetchResultsDataSource.m
 //  CoreData
 //
-//  Created by Anthony Alesia on 7/26/12.
-//
-//
 
 #import "VIFetchResultsDataSource.h"
 #import "VICoreDataManager.h"

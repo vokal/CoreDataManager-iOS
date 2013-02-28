@@ -2,12 +2,9 @@
 //  VIPersonDataSource.m
 //  CoreData
 //
-//  Created by Anthony Alesia on 7/26/12.
-//
-//
 
 #import "VIPersonDataSource.h"
-#import "VIPerson+Behavior.h"
+#import "VIPerson.h"
 
 @implementation VIPersonDataSource
 

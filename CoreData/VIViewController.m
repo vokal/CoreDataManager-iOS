@@ -2,12 +2,9 @@
 //  VIViewController.m
 //  CoreData
 //
-//  Created by Anthony Alesia on 7/26/12.
-//  Copyright (c) 2012 self._MyCompanyName__. All rights reserved.
-//
 
 #import "VIViewController.h"
-#import "VIPerson+Behavior.h"
+#import "VIPerson.h"
 
 @interface VIViewController ()
 

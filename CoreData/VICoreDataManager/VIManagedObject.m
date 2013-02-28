@@ -2,16 +2,13 @@
 //  VIManagedObject.m
 //  CoreData
 //
-//  Created by Anthony Alesia on 7/26/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
-//
 
 #import "VIManagedObject.h"
+#import "VICoreDataManager.h"
 
-@implementation VIManagedObject
+@implementation NSManagedObject (VIManagedObjectAdditions)
 
 #pragma mark - No Relationship
-
 + (id)addWithArray:(NSArray *)array forManagedObjectContext:(NSManagedObjectContext *)context
 {
     NSMutableArray*createdObjects = [@[] mutableCopy];
@@ -45,8 +42,8 @@
 
 + (id)syncWithParams:(NSDictionary *)params forManagedObjectContext:(NSManagedObjectContext *)context
 {
-    NSManagedObject *object = [[VICoreDataManager getInstance]
-                               addObjectForEntityName:NSStringFromClass([self class]) forContext:context];
+    NSManagedObject *object = [[VICoreDataManager getInstance] addObjectForEntityName:NSStringFromClass([self class])
+                                                                           forContext:context];
 
     return [self setInformationFromDictionary:params forObject:object];
 }
@@ -76,7 +73,6 @@
 }
 
 #pragma mark - Relationship
-
 + (id)addWithArray:(NSArray *)array forManagedObject:(NSManagedObject *)managedObject
 {
     NSMutableArray*createdObjects = [@[] mutableCopy];
@@ -142,33 +138,33 @@
     return nil;
 }
 
-#pragma mark - Set Content
-
 + (id)setInformationFromDictionary:(NSDictionary *)params forObject:(NSManagedObject *)object
 {
     return object;
 }
 
-+ (id)attribute:(id)attribute forParam:(id)param
+#pragma mark - Convenience Methods
++ (id)newAttribute:(id)newAttribute forOldAttribute:(id)oldAttribute
 {
-    return [VIManagedObject attribute:attribute forParam:param preserveExistingAttributes:NO];
+    return [self newAttribute:newAttribute forOldAttribute:oldAttribute preserveExistingAttributes:NO];
 }
 
-+ (id)attribute:(id)attribute forParam:(id)param preserveExistingAttributes:(BOOL)preserveAttributes
++ (id)newAttribute:(id)newAttribute forOldAttribute:(id)oldAttribute preserveExistingAttributes:(BOOL)preserveOld;
 {
-    if (preserveAttributes) {
-
-        if ([[NSNull null] isEqual:param] || param == nil) {
-            return attribute;
+    if (preserveOld) {
+        //This will return the old attribute if the new parameter is nil or [NSNull null]
+        if ([[NSNull null] isEqual:newAttribute] || newAttribute == nil) {
+            return oldAttribute;
         }else{
-            return param;
+            return newAttribute;
         }
 
     } else {
-        if ([[NSNull null] isEqual:param]) {
-            param = nil;
+        //Otherwise a NULL or nil new attribute will be returned to overwrite the old attribute
+        if ([[NSNull null] isEqual:newAttribute]) {
+            newAttribute = nil;
         }
-        return param;
+        return newAttribute;
     }
 }
 

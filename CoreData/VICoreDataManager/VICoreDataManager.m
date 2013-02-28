@@ -1,5 +1,9 @@
+//
+//  VICoreDataManager.m
+//  CoreData
+//
+
 #import "VICoreDataManager.h"
-#import "VICoreDataManager+Testing.h"
 
 NSString *const NOTIFICATION_ICLOUD_UPDATED = @"CDICloudUpdated";
 
@@ -12,10 +16,10 @@ NSString *const iCloudLogsDirectoryName = @"Logs";
     NSPersistentStoreCoordinator *_persistentStoreCoordinator;
 }
 
-@property (nonatomic, strong) NSString *resource;
-@property (nonatomic, strong) NSString *databaseFilename;
-@property (nonatomic, strong) NSString *iCloudAppId;
-@property (nonatomic, strong) NSString *bundleIdentifier;
+@property NSString *resource;
+@property NSString *databaseFilename;
+@property NSString *iCloudAppId;
+@property NSString *bundleIdentifier;
 
 - (NSBundle *)bundle;
 
@@ -80,6 +84,7 @@ static VICoreDataManager *_sharedObject = nil;
 
 - (void)setResource:(NSString *)resource database:(NSString *)database iCloudAppId:(NSString *)iCloudAppId forBundleIdentifier:(NSString *)bundleIdentifier
 {
+    //this method is publicized in unit tests
     self.resource = resource;
     self.databaseFilename = database;
     self.iCloudAppId = iCloudAppId;
@@ -428,7 +433,10 @@ static VICoreDataManager *_sharedObject = nil;
     NSLog(@"%@", [[_persistentStoreCoordinator managedObjectModel] entitiesByName]);
 }
 
-#pragma mark - Deprecated
+@end
+
+@implementation VICoreDataManager (Deprecated)
+
 - (void)dropTableForEntityWithName:(NSString *)name
 {
     [self deleteAllObjectsOfEntity:name context:nil];

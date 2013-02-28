@@ -1,5 +1,17 @@
+//
+//  VICoreDataManager.h
+//  CoreData
+//
+
+#ifndef __IPHONE_5_0
+#warning "VICoreDataManager uses features only available in iOS SDK 5.0 and later."
+#endif
+
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
+
+#import "VIManagedObject.h"
+#import "VIFetchResultsDataSource.h"
 
 FOUNDATION_EXTERN NSString *const NOTIFICATION_ICLOUD_UPDATED;
 
