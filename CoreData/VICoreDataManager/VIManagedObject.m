@@ -151,11 +151,25 @@
 
 + (id)attribute:(id)attribute forParam:(id)param
 {
-    if ([[NSNull null] isEqual:param]) {
-        return attribute;
+    return [VIManagedObject attribute:attribute forParam:param preserveExistingAttributes:NO];
+}
+
++ (id)attribute:(id)attribute forParam:(id)param preserveExistingAttributes:(BOOL)preserveAttributes
+{
+    if (preserveAttributes) {
+        
+        if ([[NSNull null] isEqual:param] || param == nil) {
+            return attribute;
+        }else{
+            return param;
+        }
+        
+    } else {
+        if ([[NSNull null] isEqual:param]) {
+            param = nil;
+        }
+        return param;
     }
-    
-    return param;
 }
 
 @end
