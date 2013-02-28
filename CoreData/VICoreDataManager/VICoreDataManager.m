@@ -228,6 +228,11 @@ static VICoreDataManager *_sharedObject = nil;
     return results;
 }
 
+- (void)deleteObject:(NSManagedObject *)object
+{
+    [[object managedObjectContext] deleteObject:object];
+}
+
 - (void)deleteAllObjectsOfEntity:(NSString *)entityName context:(NSManagedObjectContext *)contextOrNil
 {
     contextOrNil = [self threadSafeContext:contextOrNil];
@@ -243,11 +248,6 @@ static VICoreDataManager *_sharedObject = nil;
     }];
 }
 
-- (void)deleteObject:(NSManagedObject *)object
-{
-    [[object managedObjectContext] deleteObject:object];
-}
-
 #pragma mark - Thread Safety with Main MOC
 - (NSManagedObjectContext *)threadSafeContext:(NSManagedObjectContext *)context
 {
@@ -258,9 +258,9 @@ static VICoreDataManager *_sharedObject = nil;
 #ifndef DEBUG
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    //This is for debugging only!
+    //For debugging only!
     if (context == [self managedObjectContext]) {
-        NSAssert(dispatch_get_current_queue() == dispatch_get_main_queue(), @"NOT ON MAIN QUEUE!");
+        NSAssert(dispatch_get_current_queue() == dispatch_get_main_queue(), @"XXX ALERT ALERT XXXX\nNOT ON MAIN QUEUE!");
     }
 #pragma clang diagnostic pop
 #endif
