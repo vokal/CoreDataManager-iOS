@@ -15,7 +15,7 @@
 + (id)addWithArray:(NSArray *)array forManagedObjectContext:(NSManagedObjectContext *)context
 {
     NSMutableArray*createdObjects = [@[] mutableCopy];
-    
+
     if ([self cleanForArray:array forManagedObjectContext:context]) {
         for (NSDictionary *params in array) {
             id obj = [self addWithParams:params forManagedObjectContext:context];
@@ -24,7 +24,7 @@
             }
         }
     }
-    
+
     return createdObjects;
 }
 
@@ -46,7 +46,7 @@
 + (id)syncWithParams:(NSDictionary *)params forManagedObjectContext:(NSManagedObjectContext *)context
 {
     NSManagedObject *object = [[VICoreDataManager getInstance]
-                               addObjectForEntityNamed:NSStringFromClass([self class]) forContext:context];
+                               addObjectForEntityName:NSStringFromClass([self class]) forContext:context];
 
     return [self setInformationFromDictionary:params forObject:object];
 }
@@ -58,20 +58,20 @@
 
 + (NSArray *)fetchAllForPredicate:(NSPredicate *)predicate forManagedObjectContext:(NSManagedObjectContext *)context
 {
-    NSArray *results = [[VICoreDataManager getInstance] arrayForEntityNamed:NSStringFromClass([self class])
-                                                        withPredicate:predicate
-                                                           forContext:context];
+    NSArray *results = [[VICoreDataManager getInstance] arrayForEntityName:NSStringFromClass([self class])
+                                                             withPredicate:predicate
+                                                                forContext:context];
     return results;
 }
 
 + (id)fetchForPredicate:(NSPredicate *)predicate forManagedObjectContext:(NSManagedObjectContext *)context
 {
     NSArray *results = [self fetchAllForPredicate:predicate forManagedObjectContext:context];
-    
+
     if ([results count] > 0) {
         return [results lastObject];
     }
-    
+
     return nil;
 }
 
@@ -82,12 +82,12 @@
     NSMutableArray*createdObjects = [@[] mutableCopy];
     if ([self cleanForArray:array forManagedObject:managedObject]) {
         for (NSDictionary *params in array) {
-            
+
             id obj = [self addWithParams:params forManagedObject:managedObject];
             if (obj != nil) {
                 [createdObjects addObject:obj];
             }
-            
+
         }
     }
     return createdObjects;
@@ -111,9 +111,9 @@
 + (id)syncWithParams:(NSDictionary *)params forManagedObject:(NSManagedObject *)managedObject
 {
     NSManagedObject *object = [[VICoreDataManager getInstance]
-                               addObjectForEntityNamed:NSStringFromClass([self class])
+                               addObjectForEntityName:NSStringFromClass([self class])
                                forContext:[managedObject managedObjectContext]];
-    
+
     return [self setInformationFromDictionary:params forObject:object];
 }
 
@@ -124,21 +124,21 @@
 
 + (NSArray *)fetchAllForPredicate:(NSPredicate *)predicate forManagedObject:(NSManagedObject *)managedObject
 {
-    NSArray *results = [[VICoreDataManager getInstance] arrayForEntityNamed:NSStringFromClass([self class])
-                                                        withPredicate:predicate
-                                                           forContext:[managedObject managedObjectContext]];
-    
+    NSArray *results = [[VICoreDataManager getInstance] arrayForEntityName:NSStringFromClass([self class])
+                                                             withPredicate:predicate
+                                                                forContext:[managedObject managedObjectContext]];
+
     return results;
 }
 
 + (id)fetchForPredicate:(NSPredicate *)predicate forManagedObject:(NSManagedObject *)managedObject
 {
     NSArray *results = [self fetchAllForPredicate:predicate forManagedObject:managedObject];
-    
+
     if ([results count] > 0) {
         return [results lastObject];
     }
-    
+
     return nil;
 }
 
@@ -157,13 +157,13 @@
 + (id)attribute:(id)attribute forParam:(id)param preserveExistingAttributes:(BOOL)preserveAttributes
 {
     if (preserveAttributes) {
-        
+
         if ([[NSNull null] isEqual:param] || param == nil) {
             return attribute;
         }else{
             return param;
         }
-        
+
     } else {
         if ([[NSNull null] isEqual:param]) {
             param = nil;

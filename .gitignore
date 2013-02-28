@@ -2,10 +2,12 @@
 build/*
 *.pbxuser
 !default.pbxuser
+*.mode1
 *.mode1v3
 !default.mode1v3
 *.mode2v3
 !default.mode2v3
+*.perspective
 *.perspectivev3
 !default.perspectivev3
 *.xcworkspace
@@ -13,3 +15,18 @@ build/*
 xcuserdata
 profile
 *.moved-aside
+
+# OS X noise
+.DS_Store
+._*
+
+# svn & cvs
+.svn
+CVS
+
+# appcode noise
+.idea
+
+# calabash noise
+.irb*
+irb_*.*

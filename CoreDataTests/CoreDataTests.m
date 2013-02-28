@@ -14,14 +14,14 @@
 #import "VIPersonDataSource.h"
 #import "VIPerson+Behavior.h"
 
+#import "VICoreDataManager+Testing.h"
+
 @implementation CoreDataTests
 
 - (void)setUp
 {
     [super setUp];
-    
-    [[VICoreDataManager getInstance] setResource:@"VICoreDataModel" database:@"VICoreDataModel.sqlite" forBundleIdentifier:@"vokal.CoreDataTests"];
-    [self resetCoreData];
+    [[VICoreDataManager getInstance] setResource:@"VICoreDataModel" database:@"VICoreDataModel.sqlite" iCloudAppId:nil forBundleIdentifier:@"vokal.CoreDataTests"];
     self.predicate = [NSPredicate predicateWithFormat:@"lastName == %@", @"Passley"];
     self.sortDescriptors = [NSArray arrayWithObjects:
                         [NSSortDescriptor sortDescriptorWithKey:@"lastName" ascending:YES],
@@ -34,6 +34,7 @@
     self.predicate = nil;
     self.sortDescriptors = nil;
     self.viewController = nil;
+    [[VICoreDataManager getInstance] resetCoreData];
     [super tearDown];
 }
 
@@ -115,25 +116,6 @@
     
     [VIPerson addWithArray:array forManagedObjectContext:context];
     //[[VICoreDataManager getInstance] endTransactionForContext:context];
-}
-
-- (void)resetCoreData
-{
-    //NSManagedObjectContext *context = [[VICoreDataManager getInstance] managedObjectContext];
-    //FOR REVIEW these tests don't pass unless I use transaction as follows:
-    NSManagedObjectContext *context = [[VICoreDataManager getInstance] startTransaction];
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:NSStringFromClass([VIPerson class]) inManagedObjectContext:context];
-    [fetchRequest setEntity:entity];
-    
-    NSError *error = nil;
-    NSArray *fetchedObjects = [context executeFetchRequest:fetchRequest error:&error];
-
-    for (NSManagedObject *nsManagedObject in fetchedObjects) {
-        [[VICoreDataManager getInstance] deleteObject:nsManagedObject];
-    }
-    [[VICoreDataManager getInstance] endTransactionForContext:context];
- 
 }
 
 @end

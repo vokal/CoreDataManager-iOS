@@ -1,211 +1,286 @@
-//
-//  VICoreDataManager.m
-//  CoreData
-//
-//  Created by Anthony Alesia on 7/26/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
-//
-
 #import "VICoreDataManager.h"
+#import "VICoreDataManager+Testing.h"
 
-@interface VICoreDataManager ()
+NSString *const NOTIFICATION_ICLOUD_UPDATED = @"CDICloudUpdated";
 
-- (NSURL *)applicationDocumentsDirectory;
+NSString *const iCloudDataDirectoryName = @"Data.nosync";
+NSString *const iCloudLogsDirectoryName = @"Logs";
 
+@interface VICoreDataManager () {
+    NSManagedObjectContext *_managedObjectContext;
+    NSManagedObjectModel *_managedObjectModel;
+    NSPersistentStoreCoordinator *_persistentStoreCoordinator;
+}
+
+@property (nonatomic, strong) NSString *resource;
+@property (nonatomic, strong) NSString *databaseFilename;
+@property (nonatomic, strong) NSString *iCloudAppId;
+@property (nonatomic, strong) NSString *bundleIdentifier;
+
+- (NSBundle *)bundle;
+
+//Getters
 - (NSManagedObjectContext *)tempManagedObjectContext;
+- (NSManagedObjectContext *)managedObjectContext;
+- (NSManagedObjectModel *)managedObjectModel;
+- (NSPersistentStoreCoordinator *)persistentStoreCoordinator;
 
+//Initializers
+- (void)initManagedObjectModel;
+- (void)initPersistentStoreCoordinator;
+- (void)initManagedObjectContext;
+
+//Thread Safety with Main MOC
+- (NSManagedObjectContext *)threadSafeContext:(NSManagedObjectContext *)context;
+
+//Context Saving and Merging
+- (void)saveContext:(NSManagedObjectContext *)managedObjectContext;
 - (void)saveTempContext:(NSManagedObjectContext *)tempContext;
-
 - (void)tempContextSaved:(NSNotification *)notification;
 
-- (NSManagedObject *)clone:(NSManagedObject *)source inContext:(NSManagedObjectContext *)context;
+//iCloud Integration - DO NOT USE
+- (void)setupiCloudForPersistantStoreCoordinator:(NSPersistentStoreCoordinator *)psc;
+- (void)mergeChangesFromiCloud:(NSNotification *)notification;
+
+//Convenience Methods
+- (NSURL *)applicationDocumentsDirectory;
+- (void)debugPersistentStore;
 
 @end
 
+static VICoreDataManager *_sharedObject = nil;
+
 @implementation VICoreDataManager
+
++ (void)initialize
 {
-    NSManagedObjectContext *managedObjectContext;
+    //make sure the shared instance is ready
+    [self getInstance];
 }
 
 + (VICoreDataManager *)getInstance
 {
-    static dispatch_once_t pred = 0;
-    __strong static VICoreDataManager *_sharedObject = nil;
-
-    dispatch_once(&pred,
-         ^{
-              _sharedObject = [[self alloc] init];
-          }
-    );
+    static dispatch_once_t pred;
+    dispatch_once(&pred,^{
+        _sharedObject = [[self alloc] init];
+    });
 
     return _sharedObject;
 }
 
 - (void)setResource:(NSString *)resource database:(NSString *)database
 {
-    
-    _resource = resource;
-    _database = database;
-    
-    [self setResource:resource database:database forBundleIdentifier:nil];
+    [self setResource:resource database:database iCloudAppId:nil];
 }
 
-- (void)setResource:(NSString *)resource database:(NSString *)database forBundleIdentifier:(NSString *)bundleIdentifier
+- (void)setResource:(NSString *)resource database:(NSString *)database iCloudAppId:(NSString *)iCloudAppId
 {
-    
-    _resource = resource;
-    _database = database;
-    _bundleIdentifier = bundleIdentifier;
-    [self initManagedObjectContext];
+    [self setResource:resource database:database iCloudAppId:iCloudAppId forBundleIdentifier:nil];
 }
 
-- (void)initManagedObjectModel
+- (void)setResource:(NSString *)resource database:(NSString *)database iCloudAppId:(NSString *)iCloudAppId forBundleIdentifier:(NSString *)bundleIdentifier
 {
-    NSURL *modelURL = [[self getBundle] URLForResource:_resource withExtension:@"momd"];
-    _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
+    self.resource = resource;
+    self.databaseFilename = database;
+    self.iCloudAppId = iCloudAppId;
+    self.bundleIdentifier = bundleIdentifier;
 }
 
--(NSBundle*) getBundle
+- (NSBundle *)bundle
 {
-    NSBundle *bundle = nil;
-    
-    // try your manually set bundles
-    NSArray *identifiers = [NSArray arrayWithObjects: _bundleIdentifier,
-                            nil];
-    for(NSString *bundleId in identifiers) {
-        bundle = [NSBundle bundleWithIdentifier:bundleId];
-        if (bundle != nil) break;
+    // try your manually set bundle
+    NSBundle *bundle = [NSBundle bundleWithIdentifier:self.bundleIdentifier];
+
+    //default to main bundle
+    if (!bundle) {
+        bundle = [NSBundle mainBundle];
     }
-    
-    // try the main bundle
-    if (bundle == nil) bundle = [NSBundle mainBundle];
-    
-    // abort
-    assert(bundle != nil && "Missing bundle. Check the Bundle identifier on the plist of this target vs the identifiers array in this class.");
+
+    NSAssert(bundle, @"Missing bundle. Check the Bundle identifier on the plist of this target vs the identifiers array in this class.");
            
     return bundle;
 }
 
-- (void)initManagedObjectContext
+#pragma mark - Getters
+- (NSManagedObjectContext *)tempManagedObjectContext
 {
+    NSManagedObjectContext *tempManagedObjectContext;
+
     NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
 
-    if (coordinator != nil) {
-        _managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-
-        [_managedObjectContext performBlockAndWait:^{
-            [_managedObjectContext setPersistentStoreCoordinator:coordinator];
-            [_managedObjectContext setMergePolicy:NSMergeByPropertyStoreTrumpMergePolicy];
-
-            if ([_iCloudAppId length] > 0) {
-                [[NSNotificationCenter defaultCenter] addObserver:self
-                                                         selector:@selector(mergeChangesFrom_iCloud:)
-                                                             name:NSPersistentStoreDidImportUbiquitousContentChangesNotification
-                                                           object:coordinator];
-            }
-        }];
+    if (coordinator) {
+        tempManagedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSConfinementConcurrencyType];
+        [tempManagedObjectContext setPersistentStoreCoordinator:coordinator];
+    } else {
+        NSLog(@"Coordinator is nil & context is %@", [tempManagedObjectContext description]);
     }
+
+    return tempManagedObjectContext;
+}
+
+- (NSManagedObjectContext *)managedObjectContext
+{
+    if (!_managedObjectContext) {
+        [self initManagedObjectContext];
+    }
+
+    return _managedObjectContext;
+}
+
+- (NSManagedObjectModel *)managedObjectModel
+{
+    if (!_managedObjectModel) {
+        [self initManagedObjectModel];
+    }
+
+    return _managedObjectModel;
+}
+
+- (NSPersistentStoreCoordinator *)persistentStoreCoordinator
+{
+    if (!_persistentStoreCoordinator) {
+        [self initPersistentStoreCoordinator];
+    }
+
+    return _persistentStoreCoordinator;
+}
+
+
+#pragma mark - Initializers
+- (void)initManagedObjectModel
+{
+    NSURL *modelURL = [[self bundle] URLForResource:_resource withExtension:@"momd"];
+    _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
 }
 
 - (void)initPersistentStoreCoordinator
 {
-    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:_database];
+    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:self.databaseFilename];
 
     NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
-            [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
-            [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption, nil];
+                             [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
+                             [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption, nil];
 
-    NSError *error = nil;
-    _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc]
-            initWithManagedObjectModel:[self managedObjectModel]];
+    NSError *error;
+    _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
 
-    if ([_iCloudAppId length] > 0) {
-        [self setupICloudForPersistantStoreCoordinator:_persistentStoreCoordinator];
+    if ([self.iCloudAppId length]) {
+        [self setupiCloudForPersistantStoreCoordinator:_persistentStoreCoordinator];
     } else if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType
-                                                          configuration:nil URL:storeURL
+                                                          configuration:nil
+                                                                    URL:storeURL
                                                                 options:options
                                                                   error:&error]) {
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
     }
 }
 
+- (void)initManagedObjectContext
+{
+    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
+
+    if (coordinator) {
+        _managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSConfinementConcurrencyType];
+
+        [_managedObjectContext setPersistentStoreCoordinator:coordinator];
+        id mergePolicy = [[NSMergePolicy alloc] initWithMergeType:NSMergeByPropertyObjectTrumpMergePolicyType];
+        [_managedObjectContext setMergePolicy:mergePolicy];
+
+
+        if ([_iCloudAppId length]) {
+            [[NSNotificationCenter defaultCenter] addObserver:self
+                                                     selector:@selector(mergeChangesFrom_iCloud:)
+                                                         name:NSPersistentStoreDidImportUbiquitousContentChangesNotification
+                                                       object:coordinator];
+        }
+    }
+}
+
 #pragma mark - CDMethods
-/* DEPRECATED */
-- (NSArray *)arrayForModel:(NSString *)model
+- (NSManagedObject *)addObjectForEntityName:(NSString *)entityName forContext:(NSManagedObjectContext *)contextOrNil
 {
-    return [self arrayForEntityNamed:model];
+    return [NSEntityDescription insertNewObjectForEntityForName:entityName inManagedObjectContext:contextOrNil];
 }
 
-/* DEPRECATED */
-- (id)addObjectForModel:(NSString *)model context:(NSManagedObjectContext *)context
+- (NSArray *)arrayForEntityName:(NSString *)entityName
 {
-    return [self addObjectForEntityNamed:model forContext:context];
+    return [self arrayForEntityName:entityName forContext:nil];
 }
 
-/* DEPRECATED */
-- (NSArray *)arrayForModel:(NSString *)model forContext:(NSManagedObjectContext *)context
+- (NSArray *)arrayForEntityName:(NSString *)entityName forContext:(NSManagedObjectContext *)contextOrNil
 {
-    return [self arrayForEntityNamed:model forContext:context];
+    return [self arrayForEntityName:entityName withPredicate:nil forContext:contextOrNil];
 }
 
-/* DEPRECATED */
-- (NSArray *)arrayForModel:(NSString *)model withPredicate:(NSPredicate *)predicate forContext:(NSManagedObjectContext *)context
+- (NSArray *)arrayForEntityName:(NSString *)entityName withPredicate:(NSPredicate *)predicate forContext:(NSManagedObjectContext *)contextOrNil
 {
-    return [self arrayForEntityNamed:model withPredicate:predicate forContext:context];
-}
+    contextOrNil = [self threadSafeContext:contextOrNil];
 
-- (id)addObjectForEntityNamed:(NSString *)entityName forContext:(NSManagedObjectContext *)context
-{
-    return [NSEntityDescription insertNewObjectForEntityForName:entityName
-                                         inManagedObjectContext:context];
-}
-
-- (NSArray *)arrayForEntityNamed:(NSString *)entityName
-{
-    return [self arrayForEntityNamed:entityName forContext:self.managedObjectContext];
-}
-
-- (NSArray *)arrayForEntityNamed:(NSString *)entityName forContext:(NSManagedObjectContext *)context
-{
-    NSEntityDescription *entity = [NSEntityDescription entityForName:entityName
-                                              inManagedObjectContext:context];
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    [fetchRequest setEntity:entity];
-
-    return [context executeFetchRequest:fetchRequest error:nil];
-}
-
-- (NSArray *)arrayForEntityNamed:(NSString *)entityName withPredicate:(NSPredicate *)predicate forContext:(NSManagedObjectContext *)context
-{
-    NSEntityDescription *entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:context];
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    [fetchRequest setEntity:entity];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:entityName];
     [fetchRequest setPredicate:predicate];
 
-    return [context executeFetchRequest:fetchRequest error:nil];
+    NSError *error;
+    NSArray *results = [contextOrNil executeFetchRequest:fetchRequest error:&error];
+    if (error) {
+        NSLog(@"Fetch Request Error\n%@",[error localizedDescription]);
+    }
+
+    return results;
 }
 
-- (void)deleteObject:(id)object
+- (void)deleteAllObjectsOfEntity:(NSString *)entityName context:(NSManagedObjectContext *)contextOrNil
 {
-    [[(NSManagedObject *)object managedObjectContext] deleteObject:(NSManagedObject *)object];
+    contextOrNil = [self threadSafeContext:contextOrNil];
+
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:entityName];
+    [fetchRequest setIncludesPropertyValues:NO];
+
+    NSError *error;
+    NSArray *results = [[self managedObjectContext] executeFetchRequest:fetchRequest error:&error];
+
+    [results enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [contextOrNil deleteObject:obj];
+    }];
 }
 
-#pragma mark - CD Save Delete
+- (void)deleteObject:(NSManagedObject *)object
+{
+    [[object managedObjectContext] deleteObject:object];
+}
 
+#pragma mark - Thread Safety with Main MOC
+- (NSManagedObjectContext *)threadSafeContext:(NSManagedObjectContext *)context
+{
+    if (context == nil) {
+        context = [self managedObjectContext];
+    }
+
+#ifndef DEBUG
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    //This is for debugging only!
+    if (context == [self managedObjectContext]) {
+        NSAssert(dispatch_get_current_queue() == dispatch_get_main_queue(), @"NOT ON MAIN QUEUE!");
+    }
+#pragma clang diagnostic pop
+#endif
+    
+    return context;
+}
+
+#pragma mark - Context Saving and Merging
 - (void)saveMainContext
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self saveContext:self.managedObjectContext];
+        [self saveContext:[self managedObjectContext]];
     });
 }
 
-- (void)saveContext:(NSManagedObjectContext *)managedObjectContex
+- (void)saveContext:(NSManagedObjectContext *)context
 {
-    NSError *error = nil;
-    if (managedObjectContex != nil) {
-        if ([managedObjectContex hasChanges] && ![managedObjectContex save:&error]) {
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        }
+    NSError *error;
+    if (![context save:&error]) {
+        NSLog(@"Unresolved error %@, %@", error, [error localizedDescription]);
     }
 }
 
@@ -221,43 +296,13 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:NSManagedObjectContextDidSaveNotification
                                                   object:tempContext];
-
 }
 
 - (void)tempContextSaved:(NSNotification *)notification
 {
-    id mergePolicy = [[NSMergePolicy alloc] initWithMergeType:NSOverwriteMergePolicyType];
-
-    [self.managedObjectContext setMergePolicy:mergePolicy];
-
-    if ([[UIApplication sharedApplication] applicationState] == UIApplicationStateBackground) {
-        [self.managedObjectContext mergeChangesFromContextDidSaveNotification:notification];
-    } else {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.managedObjectContext mergeChangesFromContextDidSaveNotification:notification];
-        });
-    }
-
-}
-
-- (void)dropTableForEntityWithName:(NSString *)name
-{
-    NSEntityDescription *entity = [NSEntityDescription entityForName:name
-                                              inManagedObjectContext:self.managedObjectContext];
-
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    [fetchRequest setEntity:entity];
-    [fetchRequest setIncludesPropertyValues:NO];
-
-    NSError *error = nil;
-    NSArray *results = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
-
-    for (NSManagedObject *obj in results) {
-        [self deleteObject:obj];
-    }
-
-    [self saveMainContext];
-
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[self managedObjectContext] mergeChangesFromContextDidSaveNotification:notification];
+    });
 }
 
 - (NSManagedObjectContext *)startTransaction
@@ -267,70 +312,18 @@
 
 - (void)endTransactionForContext:(NSManagedObjectContext *)context
 {
-    if ([context hasChanges]) {
-        [self saveTempContext:context];
-    }
+    [self saveTempContext:context];
 }
 
-#pragma mark - Core Data Stack
-
-- (NSManagedObjectContext *)managedObjectContext
+#pragma mark - iCloud Integration
+//THIS IS NOT CORRECT
+//TODO - MAKE THIS WORK
+- (void)setupiCloudForPersistantStoreCoordinator:(NSPersistentStoreCoordinator *)psc
 {
-    if (_managedObjectContext != nil) {
-        return _managedObjectContext;
-    }
-
-    [self initManagedObjectContext];
-
-    return _managedObjectContext;
-}
-
-- (NSManagedObjectContext *)tempManagedObjectContext
-{
-    NSManagedObjectContext *tempManagedObjectContext = nil;
-
-    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
-
-    if (coordinator != nil) {
-        tempManagedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSConfinementConcurrencyType];
-        [tempManagedObjectContext setPersistentStoreCoordinator:coordinator];
-    } else {
-        NSLog(@"Coordinator is nil & context is %@", [tempManagedObjectContext description]);
-    }
-
-    return tempManagedObjectContext;
-}
-
-- (NSManagedObjectModel *)managedObjectModel
-{
-    if (_managedObjectModel != nil) {
-        return _managedObjectModel;
-    }
-
-    [self initManagedObjectModel];
-
-    return _managedObjectModel;
-}
-
-- (NSPersistentStoreCoordinator *)persistentStoreCoordinator
-{
-    if (_persistentStoreCoordinator != nil) {
-        return _persistentStoreCoordinator;
-    }
-
-    [self initPersistentStoreCoordinator];
-
-    return _persistentStoreCoordinator;
-}
-
-- (void)setupICloudForPersistantStoreCoordinator:(NSPersistentStoreCoordinator *)psc
-{
-    NSString *iCloudEnabledAppID = _iCloudAppId;
-    NSString *dataFileName = _database;
-    NSString *iCloudDataDirectoryName = @"Data.nosync";
-    NSString *iCloudLogsDirectoryName = @"Logs";
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSURL *localStore = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:dataFileName];
+    NSURL *localStore = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:self.databaseFilename];
+
+//http://developer.apple.com/library/ios/#documentation/Cocoa/Reference/Foundation/Classes/NSFileManager_Class/Reference/Reference.html#//apple_ref/occ/instm/NSFileManager/URLForUbiquityContainerIdentifier:
     NSURL *iCloud = [fileManager URLForUbiquityContainerIdentifier:nil];
 
     if (iCloud) {
@@ -339,8 +332,8 @@
 
         NSURL *iCloudLogsPath = [NSURL fileURLWithPath:[[iCloud path] stringByAppendingPathComponent:iCloudLogsDirectoryName]];
 
-        NSLog(@"iCloudEnabledAppID = %@", iCloudEnabledAppID);
-        NSLog(@"dataFileName = %@", dataFileName);
+        NSLog(@"iCloudEnabledAppID = %@", self.iCloudAppId);
+        NSLog(@"dataFileName = %@", self.databaseFilename);
         NSLog(@"iCloudDataDirectoryName = %@", iCloudDataDirectoryName);
         NSLog(@"iCloudLogsDirectoryName = %@", iCloudLogsDirectoryName);
         NSLog(@"iCloud = %@", iCloud);
@@ -357,14 +350,14 @@
 
         NSString *iCloudData = [[[iCloud path]
                 stringByAppendingPathComponent:iCloudDataDirectoryName]
-                stringByAppendingPathComponent:dataFileName];
+                stringByAppendingPathComponent:self.databaseFilename];
 
         NSLog(@"iCloudData = %@", iCloudData);
 
         NSMutableDictionary *options = [NSMutableDictionary dictionary];
         [options setObject:[NSNumber numberWithBool:YES] forKey:NSMigratePersistentStoresAutomaticallyOption];
         [options setObject:[NSNumber numberWithBool:YES] forKey:NSInferMappingModelAutomaticallyOption];
-        [options setObject:iCloudEnabledAppID forKey:NSPersistentStoreUbiquitousContentNameKey];
+        [options setObject:self.iCloudAppId forKey:NSPersistentStoreUbiquitousContentNameKey];
         [options setObject:iCloudLogsPath forKey:NSPersistentStoreUbiquitousContentURLKey];
 
         [psc lock];
@@ -393,7 +386,7 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_ICLOUD_UPDATED object:nil userInfo:nil];
 }
 
-- (void)mergeChangesFrom_iCloud:(NSNotification *)notification
+- (void)mergeChangesFromiCloud:(NSNotification *)notification
 {
 
     NSLog(@"Merging in changes from iCloud...");
@@ -410,57 +403,18 @@
     }];
 }
 
-#pragma mark - Application's Documents directory
-
+#pragma mark - Convenience Methods
 - (NSURL *)applicationDocumentsDirectory
 {
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
 
-#pragma mark - deep copy
-
-- (NSManagedObject *)clone:(NSManagedObject *)source inContext:(NSManagedObjectContext *)context
-{
-    NSString *entityName = [[source entity] name];
-
-    NSManagedObject *cloned = [NSEntityDescription
-            insertNewObjectForEntityForName:entityName
-                     inManagedObjectContext:context];
-
-    NSDictionary *attributes = [[NSEntityDescription
-            entityForName:entityName
-   inManagedObjectContext:context] attributesByName];
-
-    for (NSString *attr in attributes) {
-        [cloned setValue:[source valueForKey:attr] forKey:attr];
-    }
-
-    NSDictionary *relationships = [[NSEntityDescription
-            entityForName:entityName
-   inManagedObjectContext:context] relationshipsByName];
-    for (NSRelationshipDescription *rel in relationships) {
-        NSString *keyName = [NSString stringWithFormat:@"%@", rel];
-        NSMutableSet *sourceSet = [source mutableSetValueForKey:keyName];
-        NSMutableSet *clonedSet = [cloned mutableSetValueForKey:keyName];
-        NSEnumerator *e = [sourceSet objectEnumerator];
-        NSManagedObject *relatedObject;
-        while (relatedObject = [e nextObject]) {
-            NSManagedObject *clonedRelatedObject = [self clone:relatedObject
-                                                     inContext:context];
-            [clonedSet addObject:clonedRelatedObject];
-        }
-
-    }
-
-    return cloned;
-}
-
 - (void)resetCoreData
 {
-    NSArray *stores = [self.persistentStoreCoordinator persistentStores];
+    NSArray *stores = [[self persistentStoreCoordinator] persistentStores];
     
     for(NSPersistentStore *store in stores) {
-        [self.persistentStoreCoordinator removePersistentStore:store error:nil];
+        [[self persistentStoreCoordinator] removePersistentStore:store error:nil];
         [[NSFileManager defaultManager] removeItemAtPath:store.URL.path error:nil];
     }
     
@@ -472,6 +426,32 @@
 - (void)debugPersistentStore
 {
     NSLog(@"%@", [[_persistentStoreCoordinator managedObjectModel] entitiesByName]);
+}
+
+#pragma mark - Deprecated
+- (void)dropTableForEntityWithName:(NSString *)name
+{
+    [self deleteAllObjectsOfEntity:name context:nil];
+}
+
+- (NSArray *)arrayForModel:(NSString *)model
+{
+    return [self arrayForEntityName:model];
+}
+
+- (id)addObjectForModel:(NSString *)model context:(NSManagedObjectContext *)context
+{
+    return [self addObjectForEntityName:model forContext:context];
+}
+
+- (NSArray *)arrayForModel:(NSString *)model forContext:(NSManagedObjectContext *)context
+{
+    return [self arrayForEntityName:model forContext:context];
+}
+
+- (NSArray *)arrayForModel:(NSString *)model withPredicate:(NSPredicate *)predicate forContext:(NSManagedObjectContext *)context
+{
+    return [self arrayForEntityName:model withPredicate:predicate forContext:context];
 }
 
 @end

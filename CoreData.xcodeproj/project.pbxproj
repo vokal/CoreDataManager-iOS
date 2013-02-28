@@ -42,17 +42,8 @@
 		EA5F19E915C1CB4A0089AA44 /* VIManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = EA5F19E815C1CB4A0089AA44 /* VIManagedObject.m */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		6F5288E116D2BEDB005CD9E7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EA5F199715C196500089AA44 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = EA5F199F15C196500089AA44;
-			remoteInfo = CoreData;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
+		3DF1671E16DFEC160004C767 /* VICoreDataManager+Testing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "VICoreDataManager+Testing.h"; path = "VICoreDataManager/VICoreDataManager+Testing.h"; sourceTree = "<group>"; };
 		6F393DB916CC0EA600AEA4C6 /* VITestControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VITestControllerDelegate.h; sourceTree = "<group>"; };
 		6F393DBA16CC0EA600AEA4C6 /* VITestControllerDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VITestControllerDelegate.m; sourceTree = "<group>"; };
 		6F393DBB16CC0EA600AEA4C6 /* VITestControllerDelegate.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VITestControllerDelegate.xib; sourceTree = "<group>"; };
@@ -219,6 +210,7 @@
 				EA5F19E815C1CB4A0089AA44 /* VIManagedObject.m */,
 				EA5F19CF15C197F40089AA44 /* VICoreDataManager.h */,
 				EA5F19D015C197F40089AA44 /* VICoreDataManager.m */,
+				3DF1671E16DFEC160004C767 /* VICoreDataManager+Testing.h */,
 			);
 			name = CoreDataManager;
 			sourceTree = "<group>";
@@ -250,7 +242,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				6F5288E216D2BEDB005CD9E7 /* PBXTargetDependency */,
 			);
 			name = CoreDataTests;
 			productName = CoreDataTests;
@@ -375,14 +366,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		6F5288E216D2BEDB005CD9E7 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = EA5F199F15C196500089AA44 /* CoreData */;
-			targetProxy = 6F5288E116D2BEDB005CD9E7 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		6F46A2D316CAACF700BE4F20 /* InfoPlist.strings */ = {
