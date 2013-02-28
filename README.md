@@ -26,7 +26,7 @@ CoreDataManager-iOS
 
             - (void)resetCoreData
 
-* addObjectForModel:context:
+* addObjectForEntityName:forContext:
     * This method creates a new NSManagedObject in the given context and returns it. If contextOrNil is nil the main context is used.
 
 			- (NSManagedObject *)addObjectForEntityName:(NSString *)entityName forContext:(NSManagedObjectContext *)contextOrNil
@@ -36,22 +36,22 @@ CoreDataManager-iOS
 
             - (void)deleteObject:(NSManagedObject *)object
             
-* dropTableForEntityWithName:
+* deleteAllObjectsOfEntity:context:
 	* This method deletes every instance of an entity from the database
 
             - (void)deleteAllObjectsOfEntity:(NSString *)entityName context:(NSManagedObjectContext *)contextOrNil
 
-* arrayForModel:
+* arrayForEntityName:
     * This method just grabs all of a model from the database and returns it in no specific order from the main context
 
             - (NSArray *)arrayForEntityName:(NSString *)entityName
 
-* arrayForModel:forContext:
+* arrayForEntityName:forContext:
 	* This method does the same as above for a given context
 
             - (NSArray *)arrayForEntityName:(NSString *)entityName forContext:(NSManagedObjectContext *)contextOrNil
 
-* arrayForModel:withPredicate:forContext:
+* arrayForEntityName:withPredicate:forContext:
     * This method gets the array using the predicate for the given context
 
             - (NSArray *)arrayForEntityName:(NSString *)entityName withPredicate:(NSPredicate *)predicate forContext:(NSManagedObjectContext *)contextOrNil
