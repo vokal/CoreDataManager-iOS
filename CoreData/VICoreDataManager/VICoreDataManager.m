@@ -167,6 +167,10 @@
 
 - (NSArray *)arrayForEntityNamed:(NSString *)entityName forContext:(NSManagedObjectContext *)context
 {
+    if (entityName == nil) {
+        return nil;
+    }
+    
     NSEntityDescription *entity = [NSEntityDescription entityForName:entityName
                                               inManagedObjectContext:context];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -177,6 +181,10 @@
 
 - (NSArray *)arrayForEntityNamed:(NSString *)entityName withPredicate:(NSPredicate *)predicate forContext:(NSManagedObjectContext *)context
 {
+    if (entityName == nil) {
+        return nil;
+    }
+    
     NSEntityDescription *entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:context];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     [fetchRequest setEntity:entity];
@@ -242,6 +250,10 @@
 
 - (void)dropTableForEntityWithName:(NSString *)name
 {
+    if (name == nil) {
+        return;
+    }
+    
     NSEntityDescription *entity = [NSEntityDescription entityForName:name
                                               inManagedObjectContext:self.managedObjectContext];
 
