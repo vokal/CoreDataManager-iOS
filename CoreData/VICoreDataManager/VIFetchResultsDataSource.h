@@ -11,7 +11,6 @@
 @optional
 - (void)fetchResultsDataSourceSelectedObject:(NSManagedObject *)object;
 - (void)fetchResultsDataSourceHasResults:(BOOL)hasResults;
-
 @end
 
 @interface VIFetchResultsDataSource : NSObject <NSFetchedResultsControllerDelegate, UITableViewDelegate, UITableViewDataSource>

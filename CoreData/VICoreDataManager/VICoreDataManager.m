@@ -5,7 +5,7 @@
 
 #import "VICoreDataManager.h"
 
-NSString *const NOTIFICATION_ICLOUD_UPDATED = @"CDICloudUpdated";
+NSString *const VICOREDATA_NOTIFICATION_ICLOUD_UPDATED = @"CDICloudUpdated";
 
 NSString *const iCloudDataDirectoryName = @"Data.nosync";
 NSString *const iCloudLogsDirectoryName = @"Logs";
@@ -194,7 +194,7 @@ static VICoreDataManager *_sharedObject = nil;
 
         if ([_iCloudAppId length]) {
             [[NSNotificationCenter defaultCenter] addObserver:self
-                                                     selector:@selector(mergeChangesFrom_iCloud:)
+                                                     selector:@selector(mergeChangesFromiCloud:)
                                                          name:NSPersistentStoreDidImportUbiquitousContentChangesNotification
                                                        object:coordinator];
         }
@@ -219,6 +219,10 @@ static VICoreDataManager *_sharedObject = nil;
 
 - (NSArray *)arrayForEntityName:(NSString *)entityName withPredicate:(NSPredicate *)predicate forContext:(NSManagedObjectContext *)contextOrNil
 {
+    if (!entityName) {
+        return nil;
+    }
+
     contextOrNil = [self threadSafeContext:contextOrNil];
 
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:entityName];
@@ -238,8 +242,12 @@ static VICoreDataManager *_sharedObject = nil;
     [[object managedObjectContext] deleteObject:object];
 }
 
-- (void)deleteAllObjectsOfEntity:(NSString *)entityName context:(NSManagedObjectContext *)contextOrNil
+- (BOOL)deleteAllObjectsOfEntity:(NSString *)entityName context:(NSManagedObjectContext *)contextOrNil
 {
+    if (!entityName) {
+        return NO;
+    }
+    
     contextOrNil = [self threadSafeContext:contextOrNil];
 
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:entityName];
@@ -251,6 +259,8 @@ static VICoreDataManager *_sharedObject = nil;
     [results enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         [contextOrNil deleteObject:obj];
     }];
+
+    return YES;
 }
 
 #pragma mark - Thread Safety with Main MOC
@@ -382,30 +392,28 @@ static VICoreDataManager *_sharedObject = nil;
         [psc lock];
 
         [psc addPersistentStoreWithType:NSSQLiteStoreType
-                          configuration:nil URL:localStore
+                          configuration:nil
+                                    URL:localStore
                                 options:options
                                   error:nil];
         [psc unlock];
     }
 
-    [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_ICLOUD_UPDATED object:nil userInfo:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:VICOREDATA_NOTIFICATION_ICLOUD_UPDATED object:nil userInfo:nil];
 }
 
 - (void)mergeChangesFromiCloud:(NSNotification *)notification
 {
-
     NSLog(@"Merging in changes from iCloud...");
 
-    NSManagedObjectContext *moc = [self managedObjectContext];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[self managedObjectContext] mergeChangesFromContextDidSaveNotification:notification];
 
-    [moc performBlock:^{
-
-        [moc mergeChangesFromContextDidSaveNotification:notification];
-
-        NSNotification *refreshNotification = [NSNotification notificationWithName:NOTIFICATION_ICLOUD_UPDATED object:nil userInfo:[notification userInfo]];
-
+        NSNotification *refreshNotification = [NSNotification notificationWithName:VICOREDATA_NOTIFICATION_ICLOUD_UPDATED
+                                                                            object:self
+                                                                          userInfo:[notification userInfo]];
         [[NSNotificationCenter defaultCenter] postNotification:refreshNotification];
-    }];
+    });
 }
 
 #pragma mark - Convenience Methods

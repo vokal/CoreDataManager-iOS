@@ -13,7 +13,7 @@
 #import "VIManagedObject.h"
 #import "VIFetchResultsDataSource.h"
 
-FOUNDATION_EXTERN NSString *const NOTIFICATION_ICLOUD_UPDATED;
+FOUNDATION_EXTERN NSString *const VICOREDATA_NOTIFICATION_ICLOUD_UPDATED;
 
 @interface VICoreDataManager : NSObject
 
@@ -36,7 +36,7 @@ FOUNDATION_EXTERN NSString *const NOTIFICATION_ICLOUD_UPDATED;
 - (NSArray *)arrayForEntityName:(NSString *)entityName withPredicate:(NSPredicate *)predicate forContext:(NSManagedObjectContext *)contextOrNil;
 
 - (void)deleteObject:(NSManagedObject *)object;
-- (void)deleteAllObjectsOfEntity:(NSString *)entityName context:(NSManagedObjectContext *)contextOrNil;
+- (BOOL)deleteAllObjectsOfEntity:(NSString *)entityName context:(NSManagedObjectContext *)contextOrNil;
 
 //This saves the main context asynchronously on the main thread
 - (void)saveMainContext;

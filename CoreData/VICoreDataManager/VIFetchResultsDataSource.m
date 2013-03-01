@@ -38,7 +38,7 @@
 
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(reloadFetchedResults:)
-                                                     name:NOTIFICATION_ICLOUD_UPDATED object:nil];
+                                                     name:VICOREDATA_NOTIFICATION_ICLOUD_UPDATED object:nil];
         [self initFetchedResultsController];
     }
 
@@ -125,7 +125,7 @@
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:NOTIFICATION_ICLOUD_UPDATED object:nil];
+                                                    name:VICOREDATA_NOTIFICATION_ICLOUD_UPDATED object:nil];
 }
 
 #pragma mark - Instance Methods
