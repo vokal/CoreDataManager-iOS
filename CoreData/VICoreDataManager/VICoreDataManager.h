@@ -2,60 +2,80 @@
 //  VICoreDataManager.h
 //  CoreData
 //
-//  Created by Anthony Alesia on 7/26/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
-//
+
+#ifndef __IPHONE_5_0
+#warning "VICoreDataManager uses features only available in iOS SDK 5.0 and later."
+#endif
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-#define NOTIFICATION_ICLOUD_UPDATED     @"CDICloudUpdated"
+#import "VIManagedObjectMapper.h"
+#import "VIManagedObject.h"
+#import "VIFetchResultsDataSource.h"
 
 @interface VICoreDataManager : NSObject
-{
-@private
-    NSManagedObjectContext *_managedObjectContext;
-    NSManagedObjectModel *_managedObjectModel;
-    NSPersistentStoreCoordinator *_persistentStoreCoordinator;
-    NSString *_bundleIdentifier;
-    NSString *_database;
-    NSString *_resource;
-    NSString *_iCloudAppId;
-}
-@property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
-@property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
-@property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
-@property (nonatomic, strong) NSString *resource DEPRECATED_ATTRIBUTE;
-@property (nonatomic, strong) NSString *database DEPRECATED_ATTRIBUTE;
-@property (nonatomic, strong) NSString *iCloudAppId DEPRECATED_ATTRIBUTE;
+//this constructor is explicitly a VICoreDataManager because it's not expected to be subclassed
++ (VICoreDataManager *)sharedInstance;
 
-+ (VICoreDataManager *)getInstance;
+- (NSManagedObjectContext *)managedObjectContext;
 
-- (void)setResource:(NSString *)resource database:(NSString *)database;
-- (void)setResource:(NSString *)resource database:(NSString *)database forBundleIdentifier:(NSString *)bundleIdentifier;
+//use one of these setup methods before interacting with Core Data
+- (void)setResource:(NSString *)resource
+           database:(NSString *)database;
 
-//DEPRECATE: these should all be named <something>ForEntityNamed, not <something>ForModel
-- (id)addObjectForModel:(NSString *)model context:(NSManagedObjectContext *)context DEPRECATED_ATTRIBUTE;
-- (NSArray *)arrayForModel:(NSString *)model DEPRECATED_ATTRIBUTE;
-- (NSArray *)arrayForModel:(NSString *)model forContext:(NSManagedObjectContext *)context DEPRECATED_ATTRIBUTE;
-- (NSArray *)arrayForModel:(NSString *)model withPredicate:(NSPredicate *)predicate forContext:(NSManagedObjectContext *)context DEPRECATED_ATTRIBUTE;
+//Create and configure new NSManagedObject subclasses
+//If contextOrNil is nil the main context will be used.
+- (NSManagedObject *)objectForClass:(Class)managedObjectClass
+                            inContext:(NSManagedObjectContext *)contextOrNil;
 
-- (id)addObjectForEntityNamed:(NSString *)entityName forContext:(NSManagedObjectContext *)context;
-- (NSArray *)arrayForEntityNamed:(NSString *)entityName;
-- (NSArray *)arrayForEntityNamed:(NSString *)entityName forContext:(NSManagedObjectContext *)context;
-- (NSArray *)arrayForEntityNamed:(NSString *)entityName withPredicate:(NSPredicate *)predicate forContext:(NSManagedObjectContext *)context;
+- (BOOL)setObjectMapper:(VIManagedObjectMapper *)objMap
+               forClass:(Class)objectClass;
 
-- (void)deleteObject:(id)object;
+- (NSArray *)importArray:(NSArray *)inputArray
+                forClass:(Class)objectClass
+             withContext:(NSManagedObjectContext*)contextOrNil;
 
+- (NSManagedObject *)importDictionary:(NSDictionary *)inputDict
+                             forClass:(Class)objectClass
+                          withContext:(NSManagedObjectContext *)contextOrNil;
+
+- (void)setInformationFromDictionary:(NSDictionary *)inputDict
+                    forManagedObject:(NSManagedObject *)object;
+
+//Return the dictionary representation of a managed object
+- (NSDictionary *)dictionaryRepresentationOfManagedObject:(NSManagedObject *)object;
+
+//Count, Fetch, and Delete NSManagedObject subclasses
+//NOT threadsafe! Always use a temp context if you are NOT on the main thread.
+- (NSUInteger)countForClass:(Class)managedObjectClass;
+- (NSUInteger)countForClass:(Class)managedObjectClass
+                 forContext:(NSManagedObjectContext *)contextOrNil;
+- (NSUInteger)countForClass:(Class)managedObjectClass
+              withPredicate:(NSPredicate *)predicate
+                 forContext:(NSManagedObjectContext *)contextOrNil;
+
+- (NSArray *)arrayForClass:(Class)managedObjectClass;
+- (NSArray *)arrayForClass:(Class)managedObjectClass
+                forContext:(NSManagedObjectContext *)contextOrNil;
+- (NSArray *)arrayForClass:(Class)managedObjectClass
+             withPredicate:(NSPredicate *)predicate
+                forContext:(NSManagedObjectContext *)contextOrNil;
+
+- (void)deleteObject:(NSManagedObject *)object;
+- (BOOL)deleteAllObjectsOfClass:(Class)managedObjectClass
+                        context:(NSManagedObjectContext *)contextOrNil;
+
+//This saves the main context asynchronously on the main thread
 - (void)saveMainContext;
 
-- (void)saveContext:(NSManagedObjectContext *)managedObjectContext;
+//wrap your background transactions in these methods
+//you are responsible for retaining temp contexts yourself
+- (NSManagedObjectContext *)temporaryContext;
+- (void)saveAndMergeWithMainContext:(NSManagedObjectContext *)context;
 
-- (void)dropTableForEntityWithName:(NSString *)name;
-
-- (NSManagedObjectContext *)startTransaction;
-- (void)endTransactionForContext:(NSManagedObjectContext *)context;
+//this deletes the persistent stores and resets the main context and model to nil
 - (void)resetCoreData;
 
 @end

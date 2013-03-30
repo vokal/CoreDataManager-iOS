@@ -2,12 +2,9 @@
 //  VIPersonDataSource.m
 //  CoreData
 //
-//  Created by Anthony Alesia on 7/26/12.
-//
-//
 
 #import "VIPersonDataSource.h"
-#import "VIPerson+Behavior.h"
+#import "VIPerson.h"
 
 @implementation VIPersonDataSource
 
@@ -17,7 +14,7 @@
     
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-    if (cell == nil) {
+    if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
