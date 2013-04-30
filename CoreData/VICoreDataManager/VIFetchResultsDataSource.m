@@ -2,15 +2,13 @@
 //  VIFetchResultsDataSource.m
 //  CoreData
 //
-//  Created by Anthony Alesia on 7/26/12.
-//
-//
 
 #import "VIFetchResultsDataSource.h"
 #import "VICoreDataManager.h"
 
 @interface VIFetchResultsDataSource ()
-
+@property NSString *sectionNameKeyPath;
+@property NSString *cacheName;
 @end
 
 @implementation VIFetchResultsDataSource
@@ -27,7 +25,7 @@
     self = [super init];
 
     if (self) {
-        _managedObjectContext = [[VICoreDataManager getInstance] managedObjectContext];
+        _managedObjectContext = [[VICoreDataManager sharedInstance] managedObjectContext];
         _predicate = predicate;
         _sortDescriptors = sortDescriptors;
         _managedObjectClass = managedObjectClass;
@@ -39,9 +37,6 @@
         _batchSize = batchSize;
         _delegate = delegate;
 
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(reloadFetchedResults:)
-                                                     name:NOTIFICATION_ICLOUD_UPDATED object:nil];
         [self initFetchedResultsController];
     }
 
@@ -125,12 +120,6 @@
                          batchSize:20];
 }
 
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:NOTIFICATION_ICLOUD_UPDATED object:nil];
-}
-
 #pragma mark - Instance Methods
 
 - (void)reloadFetchedResults:(NSNotification *)note
@@ -207,7 +196,7 @@
 
 - (NSFetchedResultsController *)fetchedResultsController
 {
-    if (_fetchedResultsController == nil) {
+    if (!_fetchedResultsController) {
         [self initFetchedResultsController];
     }
 
@@ -237,12 +226,10 @@
 
     _fetchedResultsController = aFetchedResultsController;
     [_tableView reloadData];
-
 }
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
 {
-    //FOR REVIEW this is not being called in tests at all
     [_tableView beginUpdates];
 }
 
@@ -296,7 +283,7 @@
 
     UITableViewCell *cell = [_tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 
-    if (cell == nil) {
+    if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
 

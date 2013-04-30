@@ -1,12 +1,9 @@
 CoreDataManager-iOS
 ===================
 
-With core data being a standard for our applications, I have created some new classes that will allow us to avoid redundant code in our classes.
-
 ##VICoreDataManager
-* This class is similar to our previous core data manager in that it simplifies all of core data initialization in one place.
+* This unifies core data initialization in one place and simplifies access
 * getInstance
-    * It is now an instance method, instead of having to access it from the app delegate
 
             + (VICoreDataManager *)getInstance
 
@@ -24,45 +21,40 @@ With core data being a standard for our applications, I have created some new cl
 
             - (void)saveMainContext
 
-* saveContext:
-    * This method save the context that is passed in
-
-            - (void)saveContext:(NSManagedObjectContext *)managedObjectContex
-
 * resetCoreData
-    * This method clears all the persistant stores, wiping the database clean
+    * This method clears all the persistant stores and releases the main context and model
 
             - (void)resetCoreData
 
-* addObjectForModel:context:
-    * This method creates a new NSManagedObject in the given context and returns it
+* addObjectForEntityName:forContext:
+    * This method creates a new NSManagedObject in the given context and returns it. If contextOrNil is nil the main context is used.
 
-            - (id)addObjectForModel:(NSString *)model context:(NSManagedObjectContext *)context
+			- (NSManagedObject *)addObjectForEntityName:(NSString *)entityName forContext:(NSManagedObjectContext *)contextOrNil
 
 * deleteObject
 	* This method deletes the desired object from the database
 
-            - (void)deleteObject:(id)object
+            - (void)deleteObject:(NSManagedObject *)object
             
-* dropTableForEntityWithName:
+* deleteAllObjectsOfEntity:context:
 	* This method deletes every instance of an entity from the database
 
-            - (void)dropTableForEntityWithName:(NSString*)name;
+            - (void)deleteAllObjectsOfEntity:(NSString *)entityName context:(NSManagedObjectContext *)contextOrNil
 
-* arrayForModel:
+* arrayForEntityName:
     * This method just grabs all of a model from the database and returns it in no specific order from the main context
 
-            - (NSArray *)arrayForModel:(NSString *)model
+            - (NSArray *)arrayForEntityName:(NSString *)entityName
 
-* arrayForModel:forContext:
+* arrayForEntityName:forContext:
 	* This method does the same as above for a given context
 
-            - (NSArray *)arrayForModel:(NSString *)model forContext:(NSManagedObjectContext *)context
+            - (NSArray *)arrayForEntityName:(NSString *)entityName forContext:(NSManagedObjectContext *)contextOrNil
 
-* arrayForModel:withPredicate:forContext:
-    * This method gets the array that follows the rules set in the predicate for the gixen context
+* arrayForEntityName:withPredicate:forContext:
+    * This method gets the array using the predicate for the given context
 
-            - (NSArray *)arrayForModel:(NSString *)model withPredicate:(NSPredicate *)predicate forContext:(NSManagedObjectContext *)context
+            - (NSArray *)arrayForEntityName:(NSString *)entityName withPredicate:(NSPredicate *)predicate forContext:(NSManagedObjectContext *)contextOrNil
 
 * startTransaction
    * This method creates a temporary instance of NSManagedObjectContext that does not effect the main context. This is to be used when adding, deleting, or editing any model while on a background thread (managed object contexts are not thread safe)
@@ -70,7 +62,7 @@ With core data being a standard for our applications, I have created some new cl
             - (NSManagedObjectContext *)startTransaction
 
 * endTransactionForContext:
-    * This method takes the temporary context and merges it with the main
+    * This method save the temporary context. The main context will merge changes. If you want to discard your temp context simple release it or let it go out of scope. VICoreDataManager does not retain temporary contexts.
 
             - (void)endTransactionForContext:(NSManagedObjectContext *)context
 

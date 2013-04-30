@@ -2,40 +2,30 @@
 //  VIFetchResultsDataSource.h
 //  CoreData
 //
-//  Created by Anthony Alesia on 7/26/12.
-//
-//
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
 @protocol VIFetchResultsDataSourceDelegate <NSObject>
-
-@optional - (void)fetchResultsDataSourceSelectedObject:(NSManagedObject *)object;
-@optional - (void)fetchResultsDataSourceHasResults:(BOOL)hasResults;
-
+@optional
+- (void)fetchResultsDataSourceSelectedObject:(NSManagedObject *)object;
+- (void)fetchResultsDataSourceHasResults:(BOOL)hasResults;
 @end
 
-@interface VIFetchResultsDataSource : NSObject <NSFetchedResultsControllerDelegate, UITableViewDelegate, UITableViewDataSource>
-{
-@protected
+@interface VIFetchResultsDataSource : NSObject <NSFetchedResultsControllerDelegate, UITableViewDelegate, UITableViewDataSource> {
     NSFetchedResultsController *_fetchedResultsController;
-    NSManagedObjectContext *_managedObjectContext;
-    NSString *_cacheName;
-    NSString *_sectionNameKeyPath;
-    Class _managedObjectClass;
 }
 
-@property (assign, readonly) Class managedObjectClass;
+@property (readonly) Class managedObjectClass;
 @property (weak, readonly) UITableView *tableView;
-@property (strong, readonly) NSManagedObjectContext *managedObjectContext;
+@property (weak, readonly) NSManagedObjectContext *managedObjectContext;
 
-@property (weak, nonatomic) id <VIFetchResultsDataSourceDelegate> delegate;
+@property (weak) id <VIFetchResultsDataSourceDelegate> delegate;
 
 //these are exposed to handle reconfiguration of the protected _fetchedResultsController, when they change
-@property (assign, nonatomic) NSInteger batchSize;
-@property (strong, nonatomic) NSPredicate *predicate;
-@property (strong, nonatomic) NSArray *sortDescriptors;
+@property (nonatomic, assign) NSInteger batchSize;
+@property (nonatomic, weak) NSPredicate *predicate;
+@property (nonatomic, weak) NSArray *sortDescriptors;
 
 //you can ignore deprecation warnings in subclasses
 @property (strong, readonly) NSFetchedResultsController *fetchedResultsController DEPRECATED_ATTRIBUTE;

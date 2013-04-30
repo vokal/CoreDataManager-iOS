@@ -7,28 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6F393DBC16CC0EA600AEA4C6 /* VITestControllerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F393DBA16CC0EA600AEA4C6 /* VITestControllerDelegate.m */; };
-		6F393DBD16CC0EA600AEA4C6 /* VITestControllerDelegate.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6F393DBB16CC0EA600AEA4C6 /* VITestControllerDelegate.xib */; };
-		6F393DBE16CC32E300AEA4C6 /* VITestControllerDelegate.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6F393DBB16CC0EA600AEA4C6 /* VITestControllerDelegate.xib */; };
-		6F393DBF16CC32E900AEA4C6 /* VITestControllerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F393DBA16CC0EA600AEA4C6 /* VITestControllerDelegate.m */; };
+		3D095BD216E274340074CBA2 /* VIManagedObjectMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D095BD116E274340074CBA2 /* VIManagedObjectMapper.m */; };
+		3D330BCB1707341700B6D42B /* VIPerson.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D330BCA1707341700B6D42B /* VIPerson.m */; };
+		3D634A8817076EFD00B601B5 /* VIManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D634A8717076EFD00B601B5 /* VIManagedObject.m */; };
+		3DDBEC0C16E2B85D00E9AB57 /* VIManagedObjectMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DDBEC0B16E2B85D00E9AB57 /* VIManagedObjectMap.m */; };
 		6F393DC016CC416500AEA4C6 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5F19CD15C197990089AA44 /* CoreData.framework */; };
-		6F5288DA16D2BBF4005CD9E7 /* VIFetchResultsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = EA24611A15C6CD3A0065C12D /* VIFetchResultsDataSource.m */; };
-		6F5288DB16D2BBF4005CD9E7 /* VIManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = EA5F19E815C1CB4A0089AA44 /* VIManagedObject.m */; };
-		6F5288DC16D2BBF4005CD9E7 /* VICoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EA5F19D015C197F40089AA44 /* VICoreDataManager.m */; };
-		6F5288DD16D2BBF4005CD9E7 /* VIPersonDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = EA26603215C251BF00D61F01 /* VIPersonDataSource.m */; };
-		6F5288DE16D2BBF4005CD9E7 /* VIPerson.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F8B5D0616CACF6B004DD1B2 /* VIPerson.m */; };
-		6F5288DF16D2BBF4005CD9E7 /* VIPerson+Behavior.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4FE17B15C2EF1000424469 /* VIPerson+Behavior.m */; };
-		6F8B5D0716CACF6B004DD1B2 /* VIPerson.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F8B5D0616CACF6B004DD1B2 /* VIPerson.m */; };
 		6F8B5D1716CBF764004DD1B2 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F8B5D1616CBF764004DD1B2 /* SenTestingKit.framework */; };
 		6F8B5D1816CBF764004DD1B2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5F19A415C196500089AA44 /* UIKit.framework */; };
 		6F8B5D1916CBF764004DD1B2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5F19A615C196500089AA44 /* Foundation.framework */; };
 		6FA4D0E116D2C8E400692187 /* VICoreDataModel.xcdatamodeld in Resources */ = {isa = PBXBuildFile; fileRef = EA4FE17715C2EEC700424469 /* VICoreDataModel.xcdatamodeld */; };
-		6FC8B69016CC0C40000B7733 /* CoreDataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F46A2D716CAACF700BE4F20 /* CoreDataTests.m */; };
+		6FC8B69016CC0C40000B7733 /* ManagedObjectAdditionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F46A2D716CAACF700BE4F20 /* ManagedObjectAdditionTests.m */; };
 		6FE6F6ED16C556A600E79EDE /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6FE6F6EC16C556A600E79EDE /* Default-568h@2x.png */; };
 		EA24611B15C6CD3A0065C12D /* VIFetchResultsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = EA24611A15C6CD3A0065C12D /* VIFetchResultsDataSource.m */; };
 		EA26603315C251BF00D61F01 /* VIPersonDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = EA26603215C251BF00D61F01 /* VIPersonDataSource.m */; };
 		EA4FE17915C2EEC700424469 /* VICoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EA4FE17715C2EEC700424469 /* VICoreDataModel.xcdatamodeld */; };
-		EA4FE17C15C2EF1000424469 /* VIPerson+Behavior.m in Sources */ = {isa = PBXBuildFile; fileRef = EA4FE17B15C2EF1000424469 /* VIPerson+Behavior.m */; };
 		EA5F19A515C196500089AA44 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5F19A415C196500089AA44 /* UIKit.framework */; };
 		EA5F19A715C196500089AA44 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5F19A615C196500089AA44 /* Foundation.framework */; };
 		EA5F19A915C196500089AA44 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5F19A815C196500089AA44 /* CoreGraphics.framework */; };
@@ -39,30 +31,22 @@
 		EA5F19BB15C196500089AA44 /* VIViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EA5F19B915C196500089AA44 /* VIViewController.xib */; };
 		EA5F19CE15C197990089AA44 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5F19CD15C197990089AA44 /* CoreData.framework */; };
 		EA5F19D115C197F40089AA44 /* VICoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EA5F19D015C197F40089AA44 /* VICoreDataManager.m */; };
-		EA5F19E915C1CB4A0089AA44 /* VIManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = EA5F19E815C1CB4A0089AA44 /* VIManagedObject.m */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		6F5288E116D2BEDB005CD9E7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EA5F199715C196500089AA44 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = EA5F199F15C196500089AA44;
-			remoteInfo = CoreData;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
-		6F393DB916CC0EA600AEA4C6 /* VITestControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VITestControllerDelegate.h; sourceTree = "<group>"; };
-		6F393DBA16CC0EA600AEA4C6 /* VITestControllerDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VITestControllerDelegate.m; sourceTree = "<group>"; };
-		6F393DBB16CC0EA600AEA4C6 /* VITestControllerDelegate.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VITestControllerDelegate.xib; sourceTree = "<group>"; };
+		3D095BD016E274340074CBA2 /* VIManagedObjectMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VIManagedObjectMapper.h; path = VICoreDataManager/VIManagedObjectMapper.h; sourceTree = "<group>"; };
+		3D095BD116E274340074CBA2 /* VIManagedObjectMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VIManagedObjectMapper.m; path = VICoreDataManager/VIManagedObjectMapper.m; sourceTree = "<group>"; };
+		3D330BC91707341700B6D42B /* VIPerson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIPerson.h; sourceTree = "<group>"; };
+		3D330BCA1707341700B6D42B /* VIPerson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIPerson.m; sourceTree = "<group>"; };
+		3D634A8617076EFD00B601B5 /* VIManagedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VIManagedObject.h; path = VICoreDataManager/VIManagedObject.h; sourceTree = "<group>"; };
+		3D634A8717076EFD00B601B5 /* VIManagedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VIManagedObject.m; path = VICoreDataManager/VIManagedObject.m; sourceTree = "<group>"; };
+		3DDBEC0A16E2B85D00E9AB57 /* VIManagedObjectMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VIManagedObjectMap.h; path = VICoreDataManager/VIManagedObjectMap.h; sourceTree = "<group>"; };
+		3DDBEC0B16E2B85D00E9AB57 /* VIManagedObjectMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VIManagedObjectMap.m; path = VICoreDataManager/VIManagedObjectMap.m; sourceTree = "<group>"; };
 		6F46A2D216CAACF700BE4F20 /* CoreDataTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CoreDataTests-Info.plist"; sourceTree = "<group>"; };
 		6F46A2D416CAACF700BE4F20 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		6F46A2D616CAACF700BE4F20 /* CoreDataTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CoreDataTests.h; sourceTree = "<group>"; };
-		6F46A2D716CAACF700BE4F20 /* CoreDataTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CoreDataTests.m; sourceTree = "<group>"; };
+		6F46A2D616CAACF700BE4F20 /* ManagedObjectAdditionTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ManagedObjectAdditionTests.h; sourceTree = "<group>"; };
+		6F46A2D716CAACF700BE4F20 /* ManagedObjectAdditionTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ManagedObjectAdditionTests.m; sourceTree = "<group>"; };
 		6F46A2D916CAACF700BE4F20 /* CoreDataTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CoreDataTests-Prefix.pch"; sourceTree = "<group>"; };
-		6F8B5D0516CACF6B004DD1B2 /* VIPerson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIPerson.h; sourceTree = "<group>"; };
-		6F8B5D0616CACF6B004DD1B2 /* VIPerson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIPerson.m; sourceTree = "<group>"; };
 		6F8B5D1516CBF764004DD1B2 /* CoreDataTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CoreDataTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6F8B5D1616CBF764004DD1B2 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		6FE6F6EC16C556A600E79EDE /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -71,8 +55,6 @@
 		EA26603115C251BF00D61F01 /* VIPersonDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIPersonDataSource.h; sourceTree = "<group>"; };
 		EA26603215C251BF00D61F01 /* VIPersonDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIPersonDataSource.m; sourceTree = "<group>"; };
 		EA4FE17815C2EEC700424469 /* VICoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = VICoreDataModel.xcdatamodel; sourceTree = "<group>"; };
-		EA4FE17A15C2EF1000424469 /* VIPerson+Behavior.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "VIPerson+Behavior.h"; sourceTree = "<group>"; };
-		EA4FE17B15C2EF1000424469 /* VIPerson+Behavior.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "VIPerson+Behavior.m"; sourceTree = "<group>"; };
 		EA5F19A015C196500089AA44 /* CoreData.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoreData.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA5F19A415C196500089AA44 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		EA5F19A615C196500089AA44 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -89,8 +71,6 @@
 		EA5F19CD15C197990089AA44 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		EA5F19CF15C197F40089AA44 /* VICoreDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VICoreDataManager.h; path = VICoreDataManager/VICoreDataManager.h; sourceTree = "<group>"; };
 		EA5F19D015C197F40089AA44 /* VICoreDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VICoreDataManager.m; path = VICoreDataManager/VICoreDataManager.m; sourceTree = "<group>"; };
-		EA5F19E715C1CB4A0089AA44 /* VIManagedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VIManagedObject.h; path = VICoreDataManager/VIManagedObject.h; sourceTree = "<group>"; };
-		EA5F19E815C1CB4A0089AA44 /* VIManagedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VIManagedObject.m; path = VICoreDataManager/VIManagedObject.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,14 +99,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3D0793FD16E3CFDF00E29F5F /* ManagedObject Management */ = {
+			isa = PBXGroup;
+			children = (
+				3D634A8617076EFD00B601B5 /* VIManagedObject.h */,
+				3D634A8717076EFD00B601B5 /* VIManagedObject.m */,
+				3DDBEC0A16E2B85D00E9AB57 /* VIManagedObjectMap.h */,
+				3DDBEC0B16E2B85D00E9AB57 /* VIManagedObjectMap.m */,
+				3D095BD016E274340074CBA2 /* VIManagedObjectMapper.h */,
+				3D095BD116E274340074CBA2 /* VIManagedObjectMapper.m */,
+			);
+			name = "ManagedObject Management";
+			sourceTree = "<group>";
+		};
 		6F46A2D016CAACF700BE4F20 /* CoreDataTests */ = {
 			isa = PBXGroup;
 			children = (
-				6F46A2D616CAACF700BE4F20 /* CoreDataTests.h */,
-				6F46A2D716CAACF700BE4F20 /* CoreDataTests.m */,
-				6F393DB916CC0EA600AEA4C6 /* VITestControllerDelegate.h */,
-				6F393DBA16CC0EA600AEA4C6 /* VITestControllerDelegate.m */,
-				6F393DBB16CC0EA600AEA4C6 /* VITestControllerDelegate.xib */,
+				6F46A2D616CAACF700BE4F20 /* ManagedObjectAdditionTests.h */,
+				6F46A2D716CAACF700BE4F20 /* ManagedObjectAdditionTests.m */,
 				6F46A2D116CAACF700BE4F20 /* Supporting Files */,
 			);
 			path = CoreDataTests;
@@ -213,12 +203,11 @@
 		EA5F19C515C1976C0089AA44 /* CoreDataManager */ = {
 			isa = PBXGroup;
 			children = (
-				EA24611915C6CD3A0065C12D /* VIFetchResultsDataSource.h */,
-				EA24611A15C6CD3A0065C12D /* VIFetchResultsDataSource.m */,
-				EA5F19E715C1CB4A0089AA44 /* VIManagedObject.h */,
-				EA5F19E815C1CB4A0089AA44 /* VIManagedObject.m */,
+				3D0793FD16E3CFDF00E29F5F /* ManagedObject Management */,
 				EA5F19CF15C197F40089AA44 /* VICoreDataManager.h */,
 				EA5F19D015C197F40089AA44 /* VICoreDataManager.m */,
+				EA24611915C6CD3A0065C12D /* VIFetchResultsDataSource.h */,
+				EA24611A15C6CD3A0065C12D /* VIFetchResultsDataSource.m */,
 			);
 			name = CoreDataManager;
 			sourceTree = "<group>";
@@ -226,11 +215,9 @@
 		EA5F19D215C1A6010089AA44 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				3D330BC91707341700B6D42B /* VIPerson.h */,
+				3D330BCA1707341700B6D42B /* VIPerson.m */,
 				EA4FE17715C2EEC700424469 /* VICoreDataModel.xcdatamodeld */,
-				6F8B5D0516CACF6B004DD1B2 /* VIPerson.h */,
-				6F8B5D0616CACF6B004DD1B2 /* VIPerson.m */,
-				EA4FE17A15C2EF1000424469 /* VIPerson+Behavior.h */,
-				EA4FE17B15C2EF1000424469 /* VIPerson+Behavior.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -245,12 +232,10 @@
 				6F8B5D1016CBF764004DD1B2 /* Sources */,
 				6F8B5D1116CBF764004DD1B2 /* Frameworks */,
 				6F8B5D1216CBF764004DD1B2 /* Resources */,
-				6F8B5D1316CBF764004DD1B2 /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				6F5288E216D2BEDB005CD9E7 /* PBXTargetDependency */,
 			);
 			name = CoreDataTests;
 			productName = CoreDataTests;
@@ -307,7 +292,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				6FA4D0E116D2C8E400692187 /* VICoreDataModel.xcdatamodeld in Resources */,
-				6F393DBD16CC0EA600AEA4C6 /* VITestControllerDelegate.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -318,41 +302,17 @@
 				EA5F19AF15C196500089AA44 /* InfoPlist.strings in Resources */,
 				EA5F19BB15C196500089AA44 /* VIViewController.xib in Resources */,
 				6FE6F6ED16C556A600E79EDE /* Default-568h@2x.png in Resources */,
-				6F393DBE16CC32E300AEA4C6 /* VITestControllerDelegate.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		6F8B5D1316CBF764004DD1B2 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		6F8B5D1016CBF764004DD1B2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6F5288DA16D2BBF4005CD9E7 /* VIFetchResultsDataSource.m in Sources */,
-				6F5288DB16D2BBF4005CD9E7 /* VIManagedObject.m in Sources */,
-				6F5288DC16D2BBF4005CD9E7 /* VICoreDataManager.m in Sources */,
-				6F5288DD16D2BBF4005CD9E7 /* VIPersonDataSource.m in Sources */,
-				6F5288DE16D2BBF4005CD9E7 /* VIPerson.m in Sources */,
-				6F5288DF16D2BBF4005CD9E7 /* VIPerson+Behavior.m in Sources */,
-				6FC8B69016CC0C40000B7733 /* CoreDataTests.m in Sources */,
-				6F393DBC16CC0EA600AEA4C6 /* VITestControllerDelegate.m in Sources */,
+				6FC8B69016CC0C40000B7733 /* ManagedObjectAdditionTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -364,25 +324,17 @@
 				EA5F19B515C196500089AA44 /* VIAppDelegate.m in Sources */,
 				EA5F19B815C196500089AA44 /* VIViewController.m in Sources */,
 				EA5F19D115C197F40089AA44 /* VICoreDataManager.m in Sources */,
-				EA5F19E915C1CB4A0089AA44 /* VIManagedObject.m in Sources */,
 				EA26603315C251BF00D61F01 /* VIPersonDataSource.m in Sources */,
 				EA4FE17915C2EEC700424469 /* VICoreDataModel.xcdatamodeld in Sources */,
-				EA4FE17C15C2EF1000424469 /* VIPerson+Behavior.m in Sources */,
 				EA24611B15C6CD3A0065C12D /* VIFetchResultsDataSource.m in Sources */,
-				6F8B5D0716CACF6B004DD1B2 /* VIPerson.m in Sources */,
-				6F393DBF16CC32E900AEA4C6 /* VITestControllerDelegate.m in Sources */,
+				3D095BD216E274340074CBA2 /* VIManagedObjectMapper.m in Sources */,
+				3DDBEC0C16E2B85D00E9AB57 /* VIManagedObjectMap.m in Sources */,
+				3D330BCB1707341700B6D42B /* VIPerson.m in Sources */,
+				3D634A8817076EFD00B601B5 /* VIManagedObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		6F5288E216D2BEDB005CD9E7 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = EA5F199F15C196500089AA44 /* CoreData */;
-			targetProxy = 6F5288E116D2BEDB005CD9E7 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		6F46A2D316CAACF700BE4F20 /* InfoPlist.strings */ = {
@@ -416,8 +368,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/CoreData.app/CoreData";
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_WARN_EMPTY_BODY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
@@ -426,11 +378,11 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CoreDataTests/CoreDataTests-Prefix.pch";
 				INFOPLIST_FILE = "CoreDataTests/CoreDataTests-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_AFTER_BUILD = YES;
-				TEST_HOST = "";
+				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
@@ -439,8 +391,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/CoreData.app/CoreData";
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_WARN_EMPTY_BODY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
@@ -449,10 +401,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CoreDataTests/CoreDataTests-Prefix.pch";
 				INFOPLIST_FILE = "CoreDataTests/CoreDataTests-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_AFTER_BUILD = YES;
-				TEST_HOST = "";
+				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;
@@ -469,7 +421,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -481,7 +433,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -498,12 +450,12 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;

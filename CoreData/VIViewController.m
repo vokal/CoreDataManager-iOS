@@ -2,12 +2,10 @@
 //  VIViewController.m
 //  CoreData
 //
-//  Created by Anthony Alesia on 7/26/12.
-//  Copyright (c) 2012 self._MyCompanyName__. All rights reserved.
-//
 
 #import "VIViewController.h"
-#import "VIPerson+Behavior.h"
+#import "VICoreDataManager.h"
+#import "VIPerson.h"
 
 @interface VIViewController ()
 
@@ -18,10 +16,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    [self setupDataSource];
-    
-    [self initializeCoreData];
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
                                                                                            target:self
@@ -45,58 +39,80 @@
             [NSSortDescriptor sortDescriptorWithKey:@"lastName" ascending:YES],
             [NSSortDescriptor sortDescriptorWithKey:@"firstName" ascending:YES], nil];
 
-    self.dataSource = [[VIPersonDataSource alloc] initWithPredicate:nil cacheName:nil tableView:self.tableView
+    self.dataSource = [[VIPersonDataSource alloc]initWithPredicate:nil cacheName:nil tableView:self.tableView
                                                  sectionNameKeyPath:nil sortDescriptors:sortDescriptors
                                                  managedObjectClass:[VIPerson class]];
 }
 
 - (void)reloadData {
+    [self initializeCoreData];
+    [self setupDataSource];
     [self.dataSource reloadData];
 }
 
 - (void)initializeCoreData
 {
-    [self resetCoreData];
-    
-    NSManagedObjectContext *context = [[VICoreDataManager getInstance] managedObjectContext];
-    NSArray *array = [NSArray arrayWithObjects:
-            [NSDictionary dictionaryWithObjectsAndKeys:@"Anthony", PARAM_FIRST_NAME, @"Alesia", PARAM_LAST_NAME, nil],
-            [NSDictionary dictionaryWithObjectsAndKeys:@"Reid", PARAM_FIRST_NAME, @"Lappin", PARAM_LAST_NAME, nil],
-            [NSDictionary dictionaryWithObjectsAndKeys:@"Brandon", PARAM_FIRST_NAME, @"Passley", PARAM_LAST_NAME, nil],
-            [NSDictionary dictionaryWithObjectsAndKeys:@"Andy", PARAM_FIRST_NAME, @"Mack", PARAM_LAST_NAME, nil],
-            [NSDictionary dictionaryWithObjectsAndKeys:@"Nick", PARAM_FIRST_NAME, @"Ross", PARAM_LAST_NAME, nil],
-            [NSDictionary dictionaryWithObjectsAndKeys:@"Scott", PARAM_FIRST_NAME, @"Ferguson", PARAM_LAST_NAME, nil],
-            [NSDictionary dictionaryWithObjectsAndKeys:@"Joe", PARAM_FIRST_NAME, @"Call", PARAM_LAST_NAME, nil],
-            [NSDictionary dictionaryWithObjectsAndKeys:@"John", PARAM_FIRST_NAME, @"Forester", PARAM_LAST_NAME, nil],
-            [NSDictionary dictionaryWithObjectsAndKeys:@"Sean", PARAM_FIRST_NAME, @"Wolter", PARAM_LAST_NAME, nil],
-            [NSDictionary dictionaryWithObjectsAndKeys:@"Bracken", PARAM_FIRST_NAME, @"Spencer", PARAM_LAST_NAME, nil],
-            [NSDictionary dictionaryWithObjectsAndKeys:@"Bill", PARAM_FIRST_NAME, @"Best", PARAM_LAST_NAME, nil],
-            [NSDictionary dictionaryWithObjectsAndKeys:@"David", PARAM_FIRST_NAME, @"Ryan", PARAM_LAST_NAME, nil],
-            [NSDictionary dictionaryWithObjectsAndKeys:@"Alex", PARAM_FIRST_NAME, @"Sikora", PARAM_LAST_NAME, nil],
-            [NSDictionary dictionaryWithObjectsAndKeys:@"Sagar", PARAM_FIRST_NAME, @"Joshi", PARAM_LAST_NAME, nil],
-            [NSDictionary dictionaryWithObjectsAndKeys:@"Brian", PARAM_FIRST_NAME, @"Flavin", PARAM_LAST_NAME, nil],
-            [NSDictionary dictionaryWithObjectsAndKeys:@"Max", PARAM_FIRST_NAME, @"Bare", PARAM_LAST_NAME, nil],
-            [NSDictionary dictionaryWithObjectsAndKeys:@"Austin", PARAM_FIRST_NAME, @"Sheaffer", PARAM_LAST_NAME, nil],
-            [NSDictionary dictionaryWithObjectsAndKeys:@"Jamie", PARAM_FIRST_NAME, @"Calder", PARAM_LAST_NAME, nil], nil];
+    [[VICoreDataManager sharedInstance] resetCoreData];
 
-    [VIPerson addWithArray:array forManagedObjectContext:context];
+    //MAKE 20 PEOPLE WITH THE DEFAULT MAPPER
+    int i = 0;
+    while (i < 21 ) {
+        NSLog(@"%@",[VIPerson addWithDictionary:[self makePersonDictForDefaultMapper] forManagedObjectContext:nil]);
+        i++;
+    }
+
+
+    //MAKE 20 PEOPLE WITH A CUSTOM MAPPER
+    NSDateFormatter *df = [[NSDateFormatter alloc] init];
+    [df setDateFormat:@"dd' 'LLL' 'yy' 'HH:mm"];
+    [df setTimeZone:[NSTimeZone localTimeZone]];
+
+    NSArray *maps = @[[VIManagedObjectMap mapWithForeignKey:@"first" coreDataKey:@"firstName"],
+                      [VIManagedObjectMap mapWithForeignKey:@"last" coreDataKey:@"lastName"],
+                      [VIManagedObjectMap mapWithForeignKey:@"date_of_birth" coreDataKey:@"birthDay" dateFormatter:df],
+                      [VIManagedObjectMap mapWithForeignKey:@"cat_num" coreDataKey:@"numberOfCats"],
+                      [VIManagedObjectMap mapWithForeignKey:@"CR_PREF" coreDataKey:@"lovesCoolRanch"]];
+    VIManagedObjectMapper *mapper = [VIManagedObjectMapper mapperWithUniqueKey:@"lastName" andMaps:maps];
+    [[VICoreDataManager sharedInstance] setObjectMapper:mapper forClass:[VIPerson class]];
+
+    int j = 0;
+    while (j < 21 ) {
+        NSLog(@"%@",[VIPerson addWithDictionary:[self makePersonDictForCustomMapper] forManagedObjectContext:nil]);
+        j++;
+    }
+
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"lovesCoolRanch == %@", @YES];
+    NSArray *allPeople = [VIPerson fetchAllForPredicate:pred forManagedObject:nil];
+
+    [allPeople enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        NSDictionary *dict = [obj dictionaryRepresentation];
+        NSLog(@"%@",dict);
+    }];
 }
 
-- (void)resetCoreData
+- (NSString *)randomNumber
 {
-    NSManagedObjectContext *context = [[VICoreDataManager getInstance] startTransaction];
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:NSStringFromClass([VIPerson class]) inManagedObjectContext:context];
-    [fetchRequest setEntity:entity];
-    
-    NSError *error = nil;
-    NSArray *fetchedObjects = [context executeFetchRequest:fetchRequest error:&error];
-    
-    for (NSManagedObject *nsManagedObject in fetchedObjects) {
-        [[VICoreDataManager getInstance] deleteObject:nsManagedObject];
-    }
-    [[VICoreDataManager getInstance] endTransactionForContext:context];
+    return [NSString stringWithFormat:@"%d",arc4random()%3000];
+}
 
+- (NSDictionary *)makePersonDictForDefaultMapper
+{
+    NSDictionary *dict = @{@"firstName" :  [self randomNumber],
+                           @"lastName" : [self randomNumber] ,
+                           @"birthDay" : @"1983-07-24T03:22:15Z",
+                           @"numberOfCats" : @17,
+                           @"lovesCoolRanch" : @NO};
+    return dict;
+}
+
+- (NSDictionary *)makePersonDictForCustomMapper
+{
+    NSDictionary *dict = @{@"first" :  [self randomNumber],
+                           @"last" : [self randomNumber] ,
+                           @"date_of_birth" : @"24 Jul 83 14:16",
+                           @"cat_num" : @17,
+                           @"CR_PREF" : @YES};
+    return dict;
 }
 
 @end
