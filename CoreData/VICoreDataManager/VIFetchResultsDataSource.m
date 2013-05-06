@@ -206,8 +206,7 @@
 - (void)initFetchedResultsController
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:NSStringFromClass(_managedObjectClass)
-                                              inManagedObjectContext:_managedObjectContext];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:NSStringFromClass(_managedObjectClass) inManagedObjectContext:_managedObjectContext];
     [fetchRequest setEntity:entity];
 
     [fetchRequest setFetchBatchSize:_batchSize];
@@ -218,11 +217,15 @@
 
     NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:_managedObjectContext sectionNameKeyPath:_sectionNameKeyPath cacheName:_cacheName];
     aFetchedResultsController.delegate = self;
-    
-    _fetchedResultsController = aFetchedResultsController;
-    
-    [self reloadData];
 
+    NSError *error = nil;
+    if (![aFetchedResultsController performFetch:&error]) {
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
+
+    _fetchedResultsController = aFetchedResultsController;
+    [_tableView reloadData];
 }
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
