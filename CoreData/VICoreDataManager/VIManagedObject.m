@@ -54,7 +54,7 @@
 {
     return [[VICoreDataManager sharedInstance] countForClass:[self class]
                                                withPredicate:predicate
-                                                  forContext:contextOrNil];
+                                                  forContext:contextOrNil];;
 }
 
 + (NSArray *)fetchAllForPredicate:(NSPredicate *)predicate forManagedObjectContext:(NSManagedObjectContext *)contextOrNil
