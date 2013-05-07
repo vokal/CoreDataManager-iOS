@@ -37,7 +37,7 @@
                 sectionNameKeyPath:sectionNameKeyPath
                    sortDescriptors:sortDescriptors
                 managedObjectClass:managedObjectClass
-                          delegate:nil];
+                          delegate:delegate];
 }
 
 - (id)initWithPredicate:(NSPredicate *)predicate
@@ -55,7 +55,7 @@
                    sortDescriptors:sortDescriptors
                 managedObjectClass:managedObjectClass
                          batchSize:20
-                          delegate:nil];
+                          delegate:delegate];
 }
 
 - (id)initWithPredicate:(NSPredicate *)predicate
