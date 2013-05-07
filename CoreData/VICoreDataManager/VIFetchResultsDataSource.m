@@ -216,7 +216,10 @@
 
     [fetchRequest setPredicate:_predicate];
 
-    NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:_managedObjectContext sectionNameKeyPath:_sectionNameKeyPath cacheName:_cacheName];
+    NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
+                                                                                                managedObjectContext:_managedObjectContext
+                                                                                                  sectionNameKeyPath:_sectionNameKeyPath
+                                                                                                           cacheName:_cacheName];
     aFetchedResultsController.delegate = self;
     
     _fetchedResultsController = aFetchedResultsController;

@@ -66,12 +66,12 @@
      managedObjectClass:(Class)managedObjectClass
 {
     return [self initWithPredicate:predicate
-                  cacheName:cacheName
-             collectionView:collectionView
-         sectionNameKeyPath:sectionNameKeyPath
-            sortDescriptors:sortDescriptors
-         managedObjectClass:managedObjectClass
-                  batchSize:20];
+                         cacheName:cacheName
+                    collectionView:collectionView
+                sectionNameKeyPath:sectionNameKeyPath
+                   sortDescriptors:sortDescriptors
+                managedObjectClass:managedObjectClass
+                         batchSize:20];
 }
 
 - (id)initWithPredicate:(NSPredicate *)predicate
@@ -83,12 +83,17 @@
               batchSize:(NSInteger)batchSize
 {
     return [self initWithPredicate:predicate
-                            cacheName:cacheName
-                       collectionView:collectionView
-                   sectionNameKeyPath:sectionNameKeyPath
-                      sortDescriptors:sortDescriptors
-                   managedObjectClass:managedObjectClass
-                             delegate:nil];
+                         cacheName:cacheName
+                    collectionView:collectionView
+                sectionNameKeyPath:sectionNameKeyPath
+                   sortDescriptors:sortDescriptors
+                managedObjectClass:managedObjectClass
+                          delegate:nil];
+}
+
+- (NSFetchedResultsController *)fetchedResultsController
+{
+    return [super fetchedResultsController];
 }
 
 

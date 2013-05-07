@@ -10,6 +10,8 @@
 
 @interface VICollectionDataSource : VIFetchResultsDataSource <UICollectionViewDataSource, UICollectionViewDelegate>
 
+@property (strong, readonly) NSFetchedResultsController *fetchedResultsController;
+
 @property (weak) UICollectionView *collectionView;
 
 - (id)initWithPredicate:(NSPredicate *)predicate
