@@ -55,7 +55,7 @@
     [self sharedInstance];
 }
 
-+ (VICoreDataManager *)sharedInstance
++ (instancetype)sharedInstance
 {
     static VICoreDataManager *_sharedObject;
     static dispatch_once_t pred;
@@ -65,7 +65,7 @@
     return _sharedObject;
 }
 
-- (id)init
+- (instancetype)init
 {
     self = [super init];
     if (self) {
