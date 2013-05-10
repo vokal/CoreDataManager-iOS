@@ -17,7 +17,7 @@
 @interface VICoreDataManager : NSObject
 
 //this constructor is explicitly a VICoreDataManager because it's not expected to be subclassed
-+ (instancetype)sharedInstance;
++ (VICoreDataManager *)sharedInstance;
 
 - (NSManagedObjectContext *)managedObjectContext;
 

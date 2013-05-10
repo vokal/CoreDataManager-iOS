@@ -55,7 +55,7 @@
     [self sharedInstance];
 }
 
-+ (instancetype)sharedInstance
++ (VICoreDataManager *)sharedInstance
 {
     static VICoreDataManager *_sharedObject;
     static dispatch_once_t pred;
