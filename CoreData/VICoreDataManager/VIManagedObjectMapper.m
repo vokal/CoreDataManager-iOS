@@ -82,7 +82,6 @@
     if (![inputObject isKindOfClass:[NSString class]]) {
         return inputObject;
     }
-    
     id date = [dateFormatter dateFromString:inputObject];
     return date ? date : inputObject;
 }
