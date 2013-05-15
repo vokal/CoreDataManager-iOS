@@ -105,7 +105,6 @@
     return numberString ? numberString : outputObject;
 }
 
-
 - (id)checkString:(id)outputObject withDateFormatter:(NSDateFormatter *)dateFormatter
 {
     if (![outputObject isKindOfClass:[NSDate class]]) {
@@ -184,7 +183,6 @@
     [attributes enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
         id outputObject = [object valueForKey:key];
         outputObject = [self checkString:outputObject withDateFormatter:[VIManagedObjectMap defaultDateFormatter]];
-        outputObject = [self checkString:outputObject withNumberFormatter:[VIManagedObjectMap defaultNumberFormatter]];
         [outputDict setObject:outputObject forKey:key];
     }];
 
