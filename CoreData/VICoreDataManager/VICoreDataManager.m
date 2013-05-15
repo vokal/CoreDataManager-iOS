@@ -65,7 +65,7 @@
     return _sharedObject;
 }
 
-- (id)init
+- (instancetype)init
 {
     self = [super init];
     if (self) {
@@ -300,7 +300,7 @@
     [fetchRequest setIncludesPropertyValues:NO];
 
     NSError *error;
-    NSArray *results = [[self managedObjectContext] executeFetchRequest:fetchRequest error:&error];
+    NSArray *results = [contextOrNil executeFetchRequest:fetchRequest error:&error];
     if (error) {
         NSLog(@"%s Fetch Request Error\n%@",__PRETTY_FUNCTION__ ,[error localizedDescription]);
     }
