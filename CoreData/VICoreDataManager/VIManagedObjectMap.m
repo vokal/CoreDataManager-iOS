@@ -24,6 +24,17 @@
     return map;
 }
 
++ (instancetype)mapWithForeignKey:(NSString *)foreignKey
+                      coreDataKey:(NSString *)coreDataKey
+                  numberFormatter:(NSNumberFormatter *)numberFormatter
+{
+    VIManagedObjectMap *map = [[self alloc] init];
+    [map setInputKey:foreignKey];
+    [map setCoreDataKey:coreDataKey];
+    [map setNumberFormatter:numberFormatter];
+    return map;
+}
+
 + (NSArray *)mapsFromDictionary:(NSDictionary *)mapDict
 {
     NSMutableArray *mapArray = [NSMutableArray array];

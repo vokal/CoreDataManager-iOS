@@ -82,8 +82,19 @@
     if (![inputObject isKindOfClass:[NSString class]]) {
         return inputObject;
     }
+    
     id date = [dateFormatter dateFromString:inputObject];
     return date ? date : inputObject;
+}
+
+- (id)checkNumber:(id)inputObject withNumberFormatter:(NSNumberFormatter *)numberFormatter
+{
+    if (![inputObject isKindOfClass:[NSString class]]) {
+        return inputObject;
+    }
+    
+    id number = [numberFormatter numberFromString:inputObject];
+    return number ? number : inputObject;
 }
 
 - (id)checkString:(id)outputObject withDateFormatter:(NSDateFormatter *)dateFormatter
@@ -93,6 +104,15 @@
     }
     id dateString = [dateFormatter stringFromDate:outputObject];
     return dateString ? dateString : outputObject;
+}
+
+- (id)checkString:(id)outputObject withNumberFormatter:(NSNumberFormatter *)numberFormatter
+{
+    if (![outputObject isKindOfClass:[NSNumber class]]) {
+        return outputObject;
+    }
+    id numberString = [numberFormatter stringFromNumber:outputObject];
+    return numberString ? numberString : outputObject;
 }
 
 - (id)checkClass:(id)inputObject managedObject:(NSManagedObject *)object key:(NSString *)key
@@ -121,6 +141,7 @@
         VIManagedObjectMap *aMap = obj;
         id inputObject = [inputDict objectForKey:aMap.inputKey];
         inputObject = [self checkDate:inputObject withDateFormatter:aMap.dateFormatter];
+        inputObject = [self checkNumber:inputObject withNumberFormatter:aMap.numberFormatter];
         inputObject = [self checkClass:inputObject managedObject:object key:aMap.coreDataKey];
         inputObject = [self checkNull:inputObject];
         [object safeSetValue:inputObject forKey:aMap.coreDataKey];
@@ -134,6 +155,7 @@
         VIManagedObjectMap *aMap = obj;
         id outputObject = [object valueForKey:aMap.coreDataKey];
         outputObject = [self checkString:outputObject withDateFormatter:aMap.dateFormatter];
+        outputObject = [self checkString:outputObject withNumberFormatter:aMap.numberFormatter];
         [outputDict setObject:outputObject forKey:aMap.inputKey];
     }];
 
