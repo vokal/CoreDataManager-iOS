@@ -95,6 +95,9 @@ NSString *const COOL_RANCH_CUSTOM_KEY = @"CR_PREF";
     person = [VIPerson addWithDictionary:[self makePersonDictForCustomMapperWithAnEmptyInputValues] forManagedObjectContext:nil];
     NSAssert(person.lastName == nil, @"the NSNull in the import dictionary did not overwrite the managed object's property");
     NSAssert(person.numberOfCats == nil, @"the missing value in the import dictionary did not overwrite the managed object's property");
+
+    NSUInteger count = [[VICoreDataManager sharedInstance] countForClass:[VIPerson class]];
+    STAssertTrue(count == 1, @"the unique key did not work correctly");
 }
 
 - (void)testImportWithDefaultMapperAndAnEmptyInputValue
