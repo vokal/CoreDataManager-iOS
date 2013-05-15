@@ -24,6 +24,17 @@
     return map;
 }
 
++ (instancetype)mapWithForeignKey:(NSString *)foreignKey
+                      coreDataKey:(NSString *)coreDataKey
+                  numberFormatter:(NSNumberFormatter *)numberFormatter
+{
+    VIManagedObjectMap *map = [[self alloc] init];
+    [map setInputKey:foreignKey];
+    [map setCoreDataKey:coreDataKey];
+    [map setNumberFormatter:numberFormatter];
+    return map;
+}
+
 + (NSArray *)mapsFromDictionary:(NSDictionary *)mapDict
 {
     NSMutableArray *mapArray = [NSMutableArray array];
@@ -38,24 +49,25 @@
 
 + (NSDateFormatter *)defaultDateFormatter
 {
+    static dispatch_once_t pred = 0;
     static NSDateFormatter *df;
-
-    if (!df) {
-        df = [[NSDateFormatter alloc] init];
+    dispatch_once(&pred, ^{
+        df = [NSDateFormatter new];
         [df setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
         [df setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
-    }
+    });
+
     return df;
 }
 
 + (NSNumberFormatter *)defaultNumberFormatter
 {
+    static dispatch_once_t pred = 0;
     static NSNumberFormatter *nf;
-    
-    if (!nf) {
-        nf = [[NSNumberFormatter alloc] init];
+    dispatch_once(&pred, ^{
+        nf = [NSNumberFormatter new];
         [nf setNumberStyle:NSNumberFormatterDecimalStyle];
-    }
+    });
     return nf;
 }
 
