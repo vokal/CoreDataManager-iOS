@@ -59,4 +59,15 @@
     return df;
 }
 
++ (NSNumberFormatter *)defaultNumberFormatter
+{
+    static NSNumberFormatter *nf;
+    
+    if (!nf) {
+        nf = [[NSNumberFormatter alloc] init];
+        [nf setNumberStyle:NSNumberFormatterDecimalStyle];
+    }
+    return nf;
+}
+
 @end

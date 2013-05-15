@@ -15,6 +15,9 @@
 //easy access to rfc3339, like "1985-04-12T23:20:50.52Z"
 + (NSDateFormatter *)defaultDateFormatter;
 
+//Defaults to NSNumberFormatterDecimalStyle
++ (NSNumberFormatter *)defaultNumberFormatter;
+
 + (instancetype)mapWithForeignKey:(NSString *)foreignKey
                       coreDataKey:(NSString *)coreDataKey;
 

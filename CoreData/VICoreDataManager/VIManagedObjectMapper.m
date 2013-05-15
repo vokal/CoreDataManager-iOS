@@ -77,6 +77,16 @@
     return inputObject;
 }
 
+- (id)checkNumber:(id)inputObject withNumberFormatter:(NSNumberFormatter *)numberFormatter
+{
+    if (![inputObject isKindOfClass:[NSString class]]) {
+        return inputObject;
+    }
+    
+    id number = [numberFormatter numberFromString:inputObject];
+    return number ? number : inputObject;
+}
+
 - (id)checkDate:(id)inputObject withDateFormatter:(NSDateFormatter *)dateFormatter
 {
     if (![inputObject isKindOfClass:[NSString class]]) {
@@ -85,6 +95,16 @@
     id date = [dateFormatter dateFromString:inputObject];
     return date ? date : inputObject;
 }
+
+- (id)checkString:(id)outputObject withNumberFormatter:(NSNumberFormatter *)numberFormatter
+{
+    if (![outputObject isKindOfClass:[NSNumber class]]) {
+        return outputObject;
+    }
+    id numberString = [numberFormatter stringFromNumber:outputObject];
+    return numberString ? numberString : outputObject;
+}
+
 
 - (id)checkString:(id)outputObject withDateFormatter:(NSDateFormatter *)dateFormatter
 {
@@ -121,6 +141,7 @@
         VIManagedObjectMap *aMap = obj;
         id inputObject = [inputDict objectForKey:aMap.inputKey];
         inputObject = [self checkDate:inputObject withDateFormatter:aMap.dateFormatter];
+        inputObject = [self checkNumber:inputObject withNumberFormatter:aMap.numberFormatter];
         inputObject = [self checkClass:inputObject managedObject:object key:aMap.coreDataKey];
         inputObject = [self checkNull:inputObject];
         [object safeSetValue:inputObject forKey:aMap.coreDataKey];
@@ -134,6 +155,7 @@
         VIManagedObjectMap *aMap = obj;
         id outputObject = [object valueForKey:aMap.coreDataKey];
         outputObject = [self checkString:outputObject withDateFormatter:aMap.dateFormatter];
+        outputObject = [self checkString:outputObject withNumberFormatter:aMap.numberFormatter];
         [outputDict setObject:outputObject forKey:aMap.inputKey];
     }];
 
@@ -148,6 +170,7 @@
     [inputDict enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
         id inputObject = obj;
         inputObject = [self checkDate:inputObject withDateFormatter:[VIManagedObjectMap defaultDateFormatter]];
+        inputObject = [self checkNumber:inputObject withNumberFormatter:[VIManagedObjectMap defaultNumberFormatter]];
         inputObject = [self checkClass:inputObject managedObject:object key:key];
         inputObject = [self checkNull:inputObject];
         [object safeSetValue:inputObject forKey:key];
@@ -161,6 +184,7 @@
     [attributes enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
         id outputObject = [object valueForKey:key];
         outputObject = [self checkString:outputObject withDateFormatter:[VIManagedObjectMap defaultDateFormatter]];
+        outputObject = [self checkString:outputObject withNumberFormatter:[VIManagedObjectMap defaultNumberFormatter]];
         [outputDict setObject:outputObject forKey:key];
     }];
 
