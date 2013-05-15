@@ -300,7 +300,7 @@
     [fetchRequest setIncludesPropertyValues:NO];
 
     NSError *error;
-    NSArray *results = [[self managedObjectContext] executeFetchRequest:fetchRequest error:&error];
+    NSArray *results = [contextOrNil executeFetchRequest:fetchRequest error:&error];
     if (error) {
         NSLog(@"%s Fetch Request Error\n%@",__PRETTY_FUNCTION__ ,[error localizedDescription]);
     }

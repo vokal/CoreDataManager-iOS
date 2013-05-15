@@ -34,7 +34,7 @@ NSString *const COOL_RANCH_CUSTOM_KEY = @"CR_PREF";
 - (void)testImportExportDictionaryWithDefaultMapper
 {
     VIPerson *person = [VIPerson addWithDictionary:[self makePersonDictForDefaultMapper] forManagedObjectContext:nil];
-    [self checkDefaultMappingForPerson:person];
+    [self checkMappingForPerson:person andDictionary:[self makePersonDictForDefaultMapper]];
 
     NSDictionary *dict = [person dictionaryRepresentation];
     STAssertTrue([dict isEqualToDictionary:[self makePersonDictForDefaultMapper]], @"dictionary representation failed to match input dictionary");
@@ -45,7 +45,7 @@ NSString *const COOL_RANCH_CUSTOM_KEY = @"CR_PREF";
     VIManagedObjectMapper *mapper = [VIManagedObjectMapper mapperWithUniqueKey:nil andMaps:[self customMapsArray]];
     [[VICoreDataManager sharedInstance] setObjectMapper:mapper forClass:[VIPerson class]];
     VIPerson *person = [VIPerson addWithDictionary:[self makePersonDictForCustomMapper] forManagedObjectContext:nil];
-    [self checkCustomMappingForPerson:person];
+    [self checkMappingForPerson:person andDictionary:[self makePersonDictForCustomMapper]];
 
     NSDictionary *dict = [person dictionaryRepresentation];
     STAssertTrue([dict isEqualToDictionary:[self makePersonDictForCustomMapper]], @"dictionary representation failed to match input dictionary");
@@ -64,8 +64,8 @@ NSString *const COOL_RANCH_CUSTOM_KEY = @"CR_PREF";
 
     STAssertTrue([arrayOfPeople count] == 5, @"person array has incorrect number of people");
 
-    [arrayOfPeople enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        [self checkCustomMappingForPerson:obj];
+    [arrayOfPeople enumerateObjectsUsingBlock:^(VIPerson *obj, NSUInteger idx, BOOL *stop) {
+        [self checkMappingForPerson:obj andDictionary:[self makePersonDictForCustomMapper]];
     }];
 }
 
@@ -80,9 +80,28 @@ NSString *const COOL_RANCH_CUSTOM_KEY = @"CR_PREF";
 
     STAssertTrue([arrayOfPeople count] == 5, @"person array has incorrect number of people");
 
-    [arrayOfPeople enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        [self checkDefaultMappingForPerson:obj];
+    [arrayOfPeople enumerateObjectsUsingBlock:^(VIPerson *obj, NSUInteger idx, BOOL *stop) {
+        [self checkMappingForPerson:obj andDictionary:[self makePersonDictForDefaultMapper]];
     }];
+}
+
+- (void)testImportWithCustomMapperAndAnEmptyInputValue
+{
+    VIManagedObjectMapper *mapper = [VIManagedObjectMapper mapperWithUniqueKey:FIRST_NAME_DEFAULT_KEY andMaps:[self customMapsArray]];
+    [[VICoreDataManager sharedInstance] setObjectMapper:mapper forClass:[VIPerson class]];
+    VIPerson *person = [VIPerson addWithDictionary:[self makePersonDictForCustomMapper] forManagedObjectContext:nil];
+    [self checkMappingForPerson:person andDictionary:[self makePersonDictForCustomMapper]];
+
+    person = [VIPerson addWithDictionary:[self makePersonDictForCustomMapperWithAnEmptyInputValues] forManagedObjectContext:nil];
+    NSAssert(person.lastName == nil, @"the NSNull in the import dictionary did not overwrite the managed object's property");
+    NSAssert(person.numberOfCats == nil, @"the missing value in the import dictionary did not overwrite the managed object's property");
+}
+
+- (void)testImportWithDefaultMapperAndAnEmptyInputValue
+{
+    VIPerson *person = [VIPerson addWithDictionary:[self makePersonDictForDefaultMapperWithAnEmptyInputValues] forManagedObjectContext:nil];
+    NSAssert(person.lastName == nil, @"the NSNull in the import dictionary did not overwrite the managed object's property");
+    NSAssert([person.numberOfCats integerValue] == 0, @"the missing value in the import dictionary did not overwrite the managed object's property");
 }
 
 - (void)testCountMethods
@@ -182,31 +201,27 @@ NSString *const COOL_RANCH_CUSTOM_KEY = @"CR_PREF";
 }
 
 #pragma mark - Convenience stuff
-- (void)checkDefaultMappingForPerson:(VIPerson *)person
+- (void)checkMappingForPerson:(VIPerson *)person andDictionary:(NSDictionary *)dict
 {
-    NSDictionary *dict = [self makePersonDictForDefaultMapper];
     STAssertTrue(person != nil, @"person was not created");
     STAssertTrue([person isKindOfClass:[VIPerson class]], @"person is wrong class");
-    STAssertTrue([person.firstName isEqualToString:[dict objectForKey:FIRST_NAME_DEFAULT_KEY]], @"person first name is incorrect");
-    STAssertTrue([person.lastName isEqualToString:[dict objectForKey:LAST_NAME_DEFAULT_KEY]], @"person last name is incorrect");
-    STAssertTrue([person.numberOfCats isEqualToNumber:[dict objectForKey:CATS_DEFAULT_KEY]], @"person number of cats is incorrect");
-    STAssertTrue([person.lovesCoolRanch isEqualToNumber:[dict objectForKey:COOL_RANCH_DEFAULT_KEY]], @"person lovesCoolRanch is incorrect");
+
+    NSString *firstName = [dict objectForKey:FIRST_NAME_DEFAULT_KEY] ? [dict objectForKey:FIRST_NAME_DEFAULT_KEY] : [dict objectForKey:FIRST_NAME_CUSTOM_KEY];
+    STAssertTrue([person.firstName isEqualToString:firstName], @"person first name is incorrect");
+
+    NSString *lastName = [dict objectForKey:LAST_NAME_DEFAULT_KEY] ? [dict objectForKey:LAST_NAME_DEFAULT_KEY] : [dict objectForKey:LAST_NAME_CUSTOM_KEY];
+    STAssertTrue([person.lastName isEqualToString:lastName], @"person last name is incorrect");
+
+    NSNumber *cats = [dict objectForKey:CATS_DEFAULT_KEY] ? [dict objectForKey:CATS_DEFAULT_KEY] : [dict objectForKey:CATS_CUSTOM_KEY];
+    STAssertTrue([person.numberOfCats isEqualToNumber:cats], @"person number of cats is incorrect");
+
+    NSNumber *lovesCoolRanch = [dict objectForKey:COOL_RANCH_DEFAULT_KEY] ? [dict objectForKey:COOL_RANCH_DEFAULT_KEY] : [dict objectForKey:COOL_RANCH_CUSTOM_KEY];
+    STAssertTrue([person.lovesCoolRanch isEqualToNumber:lovesCoolRanch], @"person lovesCoolRanch is incorrect");
 
     NSDate *birthdate = [[VIManagedObjectMap defaultDateFormatter] dateFromString:[dict objectForKey:BIRTHDAY_DEFAULT_KEY]];
-    STAssertTrue([person.birthDay isEqualToDate:birthdate], @"person birthdate is incorrect");
-}
-
-- (void)checkCustomMappingForPerson:(VIPerson *)person
-{
-    NSDictionary *dict = [self makePersonDictForCustomMapper];
-    STAssertTrue(person != nil, @"person was not created");
-    STAssertTrue([person isKindOfClass:[VIPerson class]], @"person is wrong class");
-    STAssertTrue([person.firstName isEqualToString:[dict objectForKey:FIRST_NAME_CUSTOM_KEY]], @"person first name is incorrect");
-    STAssertTrue([person.lastName isEqualToString:[dict objectForKey:LAST_NAME_CUSTOM_KEY]], @"person last name is incorrect");
-    STAssertTrue([person.numberOfCats isEqualToNumber:[dict objectForKey:CATS_CUSTOM_KEY]], @"person number of cats is incorrect");
-    STAssertTrue([person.lovesCoolRanch isEqualToNumber:[dict objectForKey:COOL_RANCH_CUSTOM_KEY]], @"person lovesCoolRanch is incorrect");
-
-    NSDate *birthdate = [[self customDateFormatter] dateFromString:[dict objectForKey:BIRTHDAY_CUSTOM_KEY]];
+    if (!birthdate) {
+        birthdate = [[self customDateFormatter] dateFromString:[dict objectForKey:BIRTHDAY_CUSTOM_KEY]];
+    }
     STAssertTrue([person.birthDay isEqualToDate:birthdate], @"person birthdate is incorrect");
 }
 
@@ -231,6 +246,24 @@ NSString *const COOL_RANCH_CUSTOM_KEY = @"CR_PREF";
                            LAST_NAME_CUSTOM_KEY : @"MAPMAN",
                            BIRTHDAY_CUSTOM_KEY : @"24 Jul 83 14:16",
                            CATS_CUSTOM_KEY : @192,
+                           COOL_RANCH_CUSTOM_KEY : @YES};
+    return dict;
+}
+
+- (NSDictionary *)makePersonDictForDefaultMapperWithAnEmptyInputValues
+{
+    NSDictionary *dict = @{FIRST_NAME_DEFAULT_KEY :  @"BILLY",
+                           LAST_NAME_DEFAULT_KEY :  [NSNull null],
+                           BIRTHDAY_DEFAULT_KEY : @"1983-07-24T03:22:15Z",
+                           COOL_RANCH_DEFAULT_KEY : @NO};
+    return dict;
+}
+
+- (NSDictionary *)makePersonDictForCustomMapperWithAnEmptyInputValues
+{
+    NSDictionary *dict = @{FIRST_NAME_CUSTOM_KEY : @"CUSTOM",
+                           LAST_NAME_CUSTOM_KEY : [NSNull null],
+                           BIRTHDAY_CUSTOM_KEY : @"24 Jul 83 14:16",
                            COOL_RANCH_CUSTOM_KEY : @YES};
     return dict;
 }

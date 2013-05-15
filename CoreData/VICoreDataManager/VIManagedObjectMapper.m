@@ -12,7 +12,7 @@
 - (id)checkNull:(id)inputObject;
 - (id)checkDate:(id)inputObject withDateFormatter:(NSDateFormatter *)dateFormatter;
 - (id)checkString:(id)outputObject withDateFormatter:(NSDateFormatter *)dateFormatter;
-- (BOOL)checkClass:(id)inputObject managedObject:(NSManagedObject *)object key:(NSString *)key;
+- (id)checkClass:(id)inputObject managedObject:(NSManagedObject *)object key:(NSString *)key;
 - (Class)expectedClassForObject:(NSManagedObject *)object andKey:(id)key;
 @end
 
@@ -95,14 +95,14 @@
     return dateString ? dateString : outputObject;
 }
 
-- (BOOL)checkClass:(id)inputObject managedObject:(NSManagedObject *)object key:(NSString *)key
+- (id)checkClass:(id)inputObject managedObject:(NSManagedObject *)object key:(NSString *)key
 {
     Class expectedClass = [self expectedClassForObject:object andKey:key];
     if (![inputObject isKindOfClass:expectedClass]) {
         NSLog(@"Wrong kind of class for %@\nExpected: %@\nReceived: %@",object,NSStringFromClass(expectedClass),NSStringFromClass([inputObject class]));
-        return NO;
+        return nil;
     }
-    return YES;
+    return inputObject;
 }
 
 - (Class)expectedClassForObject:(NSManagedObject *)object andKey:(id)key
@@ -121,10 +121,9 @@
         VIManagedObjectMap *aMap = obj;
         id inputObject = [inputDict objectForKey:aMap.inputKey];
         inputObject = [self checkDate:inputObject withDateFormatter:aMap.dateFormatter];
-        if ([self checkClass:inputObject managedObject:object key:aMap.coreDataKey]) {
-            inputObject = [self checkNull:inputObject];
-            [object safeSetValue:inputObject forKey:aMap.coreDataKey];
-        }
+        inputObject = [self checkClass:inputObject managedObject:object key:aMap.coreDataKey];
+        inputObject = [self checkNull:inputObject];
+        [object safeSetValue:inputObject forKey:aMap.coreDataKey];
     }];
 }
 
@@ -149,10 +148,9 @@
     [inputDict enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
         id inputObject = obj;
         inputObject = [self checkDate:inputObject withDateFormatter:[VIManagedObjectMap defaultDateFormatter]];
-        if ([self checkClass:inputObject managedObject:object key:key]) {
-            inputObject = [self checkNull:inputObject];
-            [object safeSetValue:inputObject forKey:key];
-        }
+        inputObject = [self checkClass:inputObject managedObject:object key:key];
+        inputObject = [self checkNull:inputObject];
+        [object safeSetValue:inputObject forKey:key];
     }];
 }
 
