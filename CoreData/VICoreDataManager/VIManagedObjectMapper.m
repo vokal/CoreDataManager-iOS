@@ -118,7 +118,10 @@
 {
     Class expectedClass = [self expectedClassForObject:object andKey:key];
     if (![inputObject isKindOfClass:expectedClass]) {
-        NSLog(@"Wrong kind of class for %@\nExpected: %@\nReceived: %@",object,NSStringFromClass(expectedClass),NSStringFromClass([inputObject class]));
+        NSLog(@"Wrong kind of class for %@'s\n Property: %@ \nExpected: %@\nReceived: %@",  object,
+                                                                                            key,
+                                                                                            NSStringFromClass(expectedClass),
+                                                                                            NSStringFromClass([inputObject class]));
         return nil;
     }
     return inputObject;
