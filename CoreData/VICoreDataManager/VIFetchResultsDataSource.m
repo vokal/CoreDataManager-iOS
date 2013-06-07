@@ -20,6 +20,7 @@
         sortDescriptors:(NSArray *)sortDescriptors
      managedObjectClass:(Class)managedObjectClass
               batchSize:(NSInteger)batchSize
+             fetchLimit:(NSInteger)fetchLimit
                delegate:(id <VIFetchResultsDataSourceDelegate>)delegate
 {
     self = [super init];
@@ -35,12 +36,34 @@
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _batchSize = batchSize;
+        _fetchLimit = fetchLimit;
         _delegate = delegate;
 
         [self initFetchedResultsController];
     }
 
     return self;
+}
+
+- (id)initWithPredicate:(NSPredicate *)predicate
+              cacheName:(NSString *)cacheName
+              tableView:(UITableView *)tableView
+     sectionNameKeyPath:(NSString *)sectionNameKeyPath
+        sortDescriptors:(NSArray *)sortDescriptors
+     managedObjectClass:(Class)managedObjectClass
+              batchSize:(NSInteger)batchSize
+               delegate:(id <VIFetchResultsDataSourceDelegate>)delegate
+{
+    
+    return [self initWithPredicate:predicate
+                         cacheName:cacheName
+                         tableView:tableView
+                sectionNameKeyPath:sectionNameKeyPath
+                   sortDescriptors:sortDescriptors
+                managedObjectClass:managedObjectClass
+                         batchSize:batchSize
+                        fetchLimit:0
+                          delegate:nil];
 }
 
 
@@ -124,10 +147,10 @@
 
 - (void)reloadFetchedResults:(NSNotification *)note
 {
-    NSLog(@"NSNotification: Underlying data changed ... refreshing!");
+    DLog(@"NSNotification: Underlying data changed ... refreshing!");
     NSError *error = nil;
     if (![_fetchedResultsController performFetch:&error]) {
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        DLog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
     }
 }
@@ -136,7 +159,7 @@
 {
     NSError *error = nil;
     if (![_fetchedResultsController performFetch:&error]) {
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        DLog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
     }
     //FOR TESTING ONLY, NOT NECESSARY
@@ -147,7 +170,7 @@
 {
     NSError *error = nil;
     if (![_fetchedResultsController performFetch:&error]) {
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        DLog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
     }
    return _fetchedResultsController.fetchedObjects;
@@ -209,8 +232,10 @@
     NSEntityDescription *entity = [NSEntityDescription entityForName:NSStringFromClass(_managedObjectClass)
                                               inManagedObjectContext:_managedObjectContext];
     [fetchRequest setEntity:entity];
-
+    
     [fetchRequest setFetchBatchSize:_batchSize];
+    
+    [fetchRequest setFetchLimit:_fetchLimit];
 
     [fetchRequest setSortDescriptors:_sortDescriptors];
 
@@ -290,4 +315,15 @@
     return cell;
 }
 
+- (void)dealloc
+{
+    if (self.tableView.delegate == self) {
+        self.tableView.delegate = nil;
+    }
+    
+    if (self.tableView.dataSource == self) {
+         self.tableView.dataSource = nil;
+    }
+    
+}
 @end

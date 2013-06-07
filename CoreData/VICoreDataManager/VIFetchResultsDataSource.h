@@ -24,6 +24,8 @@
 
 //these are exposed to handle reconfiguration of the protected _fetchedResultsController, when they change
 @property (nonatomic, assign) NSInteger batchSize;
+@property (nonatomic, assign) NSInteger fetchLimit;
+
 @property (nonatomic, weak) NSPredicate *predicate;
 @property (nonatomic, weak) NSArray *sortDescriptors;
 
@@ -64,6 +66,16 @@
         sortDescriptors:(NSArray *)sortDescriptors
      managedObjectClass:(Class)managedObjectClass
               batchSize:(NSInteger)batchSize
+               delegate:(id <VIFetchResultsDataSourceDelegate>)delegate;
+
+- (id)initWithPredicate:(NSPredicate *)predicate
+              cacheName:(NSString *)cacheName
+              tableView:(UITableView *)tableView
+     sectionNameKeyPath:(NSString *)sectionNameKeyPath
+        sortDescriptors:(NSArray *)sortDescriptors
+     managedObjectClass:(Class)managedObjectClass
+              batchSize:(NSInteger)batchSize
+             fetchLimit:(NSInteger)fetchLimit
                delegate:(id <VIFetchResultsDataSourceDelegate>)delegate;
 
 - (UITableViewCell *)cellAtIndexPath:(NSIndexPath *)indexPath;
