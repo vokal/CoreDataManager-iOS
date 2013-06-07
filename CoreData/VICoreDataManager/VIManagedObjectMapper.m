@@ -53,7 +53,7 @@
 - (void)setMapsArray:(NSArray *)mapsArray
 {
     _mapsArray = mapsArray;
-    _foreignUniqueComparisonKey = nil;    
+    _foreignUniqueComparisonKey = nil;
     if (mapsArray) {
         [self updateForeignComparisonKey];
     }
@@ -118,10 +118,10 @@
 {
     Class expectedClass = [self expectedClassForObject:object andKey:key];
     if (![inputObject isKindOfClass:expectedClass]) {
-        NSLog(@"Wrong kind of class for %@\nProperty: %@ \nExpected: %@\nReceived: %@",  object,
-                                                                                            key,
-                                                                                            NSStringFromClass(expectedClass),
-                                                                                            NSStringFromClass([inputObject class]));
+        DLog(@"Wrong kind of class for %@\nProperty: %@ \nExpected: %@\nReceived: %@",  object,
+             key,
+             NSStringFromClass(expectedClass),
+             NSStringFromClass([inputObject class]));
         return nil;
     }
     return inputObject;
@@ -160,7 +160,7 @@
         outputObject = [self checkString:outputObject withNumberFormatter:aMap.numberFormatter];
         [outputDict setObject:outputObject forKey:aMap.inputKey];
     }];
-
+    
     return [outputDict copy];
 }
 @end
@@ -188,7 +188,7 @@
         outputObject = [self checkString:outputObject withDateFormatter:[VIManagedObjectMap defaultDateFormatter]];
         [outputDict setObject:outputObject forKey:key];
     }];
-
+    
     return [outputDict copy];
 }
 @end
