@@ -102,7 +102,7 @@
 {
     NSError *error = nil;
     if (![_fetchedResultsController performFetch:&error]) {
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        DLog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
     }
     //FOR REVIEW controllerWillChangeContent is not being called in tests - this updates the table explicitly
