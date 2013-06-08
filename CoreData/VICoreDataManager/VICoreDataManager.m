@@ -191,17 +191,8 @@
     if (mapper.uniqueComparisonKey) {
         NSArray *arrayOfUniqueKeys = [inputArray valueForKey:mapper.foreignUniqueComparisonKey];
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(%K IN %@)", mapper.uniqueComparisonKey, arrayOfUniqueKeys];
-//        NSExpression *lhs = [NSExpression expressionForKeyPath:mapper.uniqueComparisonKey];
-//        NSExpression *rhs = [NSExpression expressionForConstantValue:arrayOfUniqueKeys];
-//        NSPredicate *predicate = [NSComparisonPredicate predicateWithLeftExpression:lhs
-//                                                                    rightExpression:rhs
-//                                                                           modifier:NSDirectPredicateModifier
-//                                                                               type:NSInPredicateOperatorType
-//                                                                            options:0];
-
         existingObjectArray = [self arrayForClass:objectClass withPredicate:predicate forContext:contextOrNil];
         NSAssert([existingObjectArray count] < 2, @"UNIQUE IDENTIFIER IS NOT UNIQUE. MORE THAN ONE MATCHING OBJECT FOUND");
-        NSLog(@"\n\n%d",[existingObjectArray count]);
     }
     
     NSMutableArray *returnArray = [NSMutableArray array];
