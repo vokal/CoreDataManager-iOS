@@ -319,14 +319,10 @@
         context = [self managedObjectContext];
     }
 
-#ifndef DEBUG
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    //For debugging only!
+#ifdef DEBUG
     if (context == [self managedObjectContext]) {
-        NSAssert(dispatch_get_current_queue() == dispatch_get_main_queue(), @"XXX ALERT ALERT XXXX\nNOT ON MAIN QUEUE!");
+        NSAssert([NSOperationQueue currentQueue] == [NSOperationQueue mainQueue], @"XXX ALERT ALERT XXXX\nNOT ON MAIN QUEUE!");
     }
-#pragma clang diagnostic pop
 #endif
 
     return context;
