@@ -183,48 +183,51 @@
 - (NSArray *)importArray:(NSArray *)inputArray forClass:(Class)objectClass withContext:(NSManagedObjectContext*)contextOrNil;
 {
     VIManagedObjectMapper *mapper = [self mapperForClass:objectClass];
-    if (mapper.deleteAllBeforeImport) {
-        [self deleteAllObjectsOfClass:objectClass context:contextOrNil];
-    }
 
-    NSMutableArray *returnArray = [NSMutableArray array];
-    [inputArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        if ([obj isKindOfClass:[NSDictionary class]]) {
-            [returnArray addObject:[self importDictionary:obj forClass:objectClass withContext:contextOrNil]];
-        } else {
-            DLog(@"ERROR\n %s \nexpecting an NSArray full of NSDictionaries", __PRETTY_FUNCTION__);
-        }
-    }];
-
-    return [returnArray copy];
-}
-
-- (NSManagedObject *)importDictionary:(NSDictionary *)inputDict forClass:(Class)objectClass withContext:(NSManagedObjectContext *)contextOrNil
-{
     contextOrNil = [self safeContext:contextOrNil];
-    
-    VIManagedObjectMapper *mapper = [self mapperForClass:objectClass];
-    NSString *uniqueKey = mapper.uniqueComparisonKey;
 
     NSArray *existingObjectArray;
-    if (uniqueKey) {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", uniqueKey, [inputDict objectForKey:mapper.foreignUniqueComparisonKey]];
+
+    if (mapper.uniqueComparisonKey) {
+        NSArray *arrayOfUniqueKeys = [inputArray valueForKey:mapper.foreignUniqueComparisonKey];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(%K IN %@)", mapper.uniqueComparisonKey, arrayOfUniqueKeys];
+//        NSExpression *lhs = [NSExpression expressionForKeyPath:mapper.uniqueComparisonKey];
+//        NSExpression *rhs = [NSExpression expressionForConstantValue:arrayOfUniqueKeys];
+//        NSPredicate *predicate = [NSComparisonPredicate predicateWithLeftExpression:lhs
+//                                                                    rightExpression:rhs
+//                                                                           modifier:NSDirectPredicateModifier
+//                                                                               type:NSInPredicateOperatorType
+//                                                                            options:0];
+
         existingObjectArray = [self arrayForClass:objectClass withPredicate:predicate forContext:contextOrNil];
         NSAssert([existingObjectArray count] < 2, @"UNIQUE IDENTIFIER IS NOT UNIQUE. MORE THAN ONE MATCHING OBJECT FOUND");
+        NSLog(@"\n\n%d",[existingObjectArray count]);
     }
+    
+    NSMutableArray *returnArray = [NSMutableArray array];
+    [inputArray enumerateObjectsUsingBlock:^(NSDictionary *inputDict, NSUInteger idx, BOOL *stop) {
+        if (![inputDict isKindOfClass:[NSDictionary class]]) {
+            DLog(@"ERROR\n %s \nexpecting an NSArray full of NSDictionaries", __PRETTY_FUNCTION__);
+            return;
+        }
 
-    NSManagedObject *returnObject;
-    if ([existingObjectArray count]) {
-        returnObject = existingObjectArray[0];
-        if (mapper.overwriteObjectsWithServerChanges) {
+        NSManagedObject *returnObject;
+
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", mapper.uniqueComparisonKey, [inputDict valueForKey:mapper.foreignUniqueComparisonKey]];
+        NSArray *matchingObjects = [existingObjectArray filteredArrayUsingPredicate:predicate];
+        if ([matchingObjects count]) {
+            returnObject = matchingObjects[0];
+            if (mapper.overwriteObjectsWithServerChanges) {
+                [self setInformationFromDictionary:inputDict forManagedObject:returnObject];
+            }
+        } else {
+            returnObject = [self objectForClass:objectClass inContext:contextOrNil];
             [self setInformationFromDictionary:inputDict forManagedObject:returnObject];
         }
-    } else {
-        returnObject = [self objectForClass:objectClass inContext:contextOrNil];
-        [self setInformationFromDictionary:inputDict forManagedObject:returnObject];
-    }
-
-    return returnObject;
+        [returnArray addObject:returnObject];
+    }];
+    
+    return [returnArray copy];
 }
 
 - (void)setInformationFromDictionary:(NSDictionary *)inputDict forManagedObject:(NSManagedObject *)object

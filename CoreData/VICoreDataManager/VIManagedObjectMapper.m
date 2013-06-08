@@ -35,7 +35,6 @@
 {
     self = [super init];
     if (self) {
-        _deleteAllBeforeImport = YES;
         _overwriteObjectsWithServerChanges = YES;
     }
     return self;

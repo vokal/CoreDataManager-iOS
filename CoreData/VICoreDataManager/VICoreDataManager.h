@@ -45,10 +45,6 @@
                 forClass:(Class)objectClass
              withContext:(NSManagedObjectContext*)contextOrNil;
 
-- (NSManagedObject *)importDictionary:(NSDictionary *)inputDict
-                             forClass:(Class)objectClass
-                          withContext:(NSManagedObjectContext *)contextOrNil;
-
 - (void)setInformationFromDictionary:(NSDictionary *)inputDict
                     forManagedObject:(NSManagedObject *)object;
 

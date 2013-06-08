@@ -13,9 +13,9 @@
 @property (readonly) NSString *uniqueComparisonKey;
 @property (readonly) NSString *foreignUniqueComparisonKey;
 
-@property BOOL deleteAllBeforeImport; //default is YES
 @property BOOL overwriteObjectsWithServerChanges; //default is YES
 
+//Unique key is a unique local key for checking for core data duplicates
 + (instancetype)mapperWithUniqueKey:(NSString *)comparisonKey
                             andMaps:(NSArray *)mapsArray;
 
