@@ -192,9 +192,7 @@
         NSArray *arrayOfUniqueKeys = [inputArray valueForKey:mapper.foreignUniqueComparisonKey];
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(%K IN %@)", mapper.uniqueComparisonKey, arrayOfUniqueKeys];
         existingObjectArray = [self arrayForClass:objectClass withPredicate:predicate forContext:contextOrNil];
-#ifdef DEBUG
         NSAssert([existingObjectArray count] < 2, @"UNIQUE IDENTIFIER IS NOT UNIQUE. MORE THAN ONE MATCHING OBJECT FOUND");
-#endif
     }
     
     NSMutableArray *returnArray = [NSMutableArray array];
@@ -315,11 +313,9 @@
         context = [self managedObjectContext];
     }
 
-#ifdef DEBUG
     if (context == [self managedObjectContext]) {
         NSAssert([NSOperationQueue currentQueue] == [NSOperationQueue mainQueue], @"XXX ALERT ALERT XXXX\nNOT ON MAIN QUEUE!");
     }
-#endif
 
     return context;
 }
