@@ -30,7 +30,8 @@
 
 + (instancetype)addWithDictionary:(NSDictionary *)inputDict forManagedObjectContext:(NSManagedObjectContext*)contextOrNil
 {
-    return [[VICoreDataManager sharedInstance] importDictionary:inputDict forClass:[self class] withContext:contextOrNil];
+    NSArray *array = [[VICoreDataManager sharedInstance] importArray:@[inputDict] forClass:[self class] withContext:contextOrNil];
+    return array[0];
 }
 
 #pragma mark - Fetch with Object's Context

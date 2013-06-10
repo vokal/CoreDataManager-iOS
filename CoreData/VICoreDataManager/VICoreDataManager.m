@@ -183,48 +183,44 @@
 - (NSArray *)importArray:(NSArray *)inputArray forClass:(Class)objectClass withContext:(NSManagedObjectContext*)contextOrNil;
 {
     VIManagedObjectMapper *mapper = [self mapperForClass:objectClass];
-    if (mapper.deleteAllBeforeImport) {
-        [self deleteAllObjectsOfClass:objectClass context:contextOrNil];
-    }
 
-    NSMutableArray *returnArray = [NSMutableArray array];
-    [inputArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        if ([obj isKindOfClass:[NSDictionary class]]) {
-            [returnArray addObject:[self importDictionary:obj forClass:objectClass withContext:contextOrNil]];
-        } else {
-            DLog(@"ERROR\n %s \nexpecting an NSArray full of NSDictionaries", __PRETTY_FUNCTION__);
-        }
-    }];
-
-    return [returnArray copy];
-}
-
-- (NSManagedObject *)importDictionary:(NSDictionary *)inputDict forClass:(Class)objectClass withContext:(NSManagedObjectContext *)contextOrNil
-{
     contextOrNil = [self safeContext:contextOrNil];
-    
-    VIManagedObjectMapper *mapper = [self mapperForClass:objectClass];
-    NSString *uniqueKey = mapper.uniqueComparisonKey;
 
     NSArray *existingObjectArray;
-    if (uniqueKey) {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", uniqueKey, [inputDict objectForKey:mapper.foreignUniqueComparisonKey]];
-        existingObjectArray = [self arrayForClass:objectClass withPredicate:predicate forContext:contextOrNil];
-        NSAssert([existingObjectArray count] < 2, @"UNIQUE IDENTIFIER IS NOT UNIQUE. MORE THAN ONE MATCHING OBJECT FOUND");
-    }
 
-    NSManagedObject *returnObject;
-    if ([existingObjectArray count]) {
-        returnObject = existingObjectArray[0];
-        if (mapper.overwriteObjectsWithServerChanges) {
+    if (mapper.uniqueComparisonKey) {
+        NSArray *arrayOfUniqueKeys = [inputArray valueForKey:mapper.foreignUniqueComparisonKey];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(%K IN %@)", mapper.uniqueComparisonKey, arrayOfUniqueKeys];
+        existingObjectArray = [self arrayForClass:objectClass withPredicate:predicate forContext:contextOrNil];
+#ifdef DEBUG
+        NSAssert([existingObjectArray count] < 2, @"UNIQUE IDENTIFIER IS NOT UNIQUE. MORE THAN ONE MATCHING OBJECT FOUND");
+#endif
+    }
+    
+    NSMutableArray *returnArray = [NSMutableArray array];
+    [inputArray enumerateObjectsUsingBlock:^(NSDictionary *inputDict, NSUInteger idx, BOOL *stop) {
+        if (![inputDict isKindOfClass:[NSDictionary class]]) {
+            DLog(@"ERROR\n %s \nexpecting an NSArray full of NSDictionaries", __PRETTY_FUNCTION__);
+            return;
+        }
+
+        NSManagedObject *returnObject;
+
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", mapper.uniqueComparisonKey, [inputDict valueForKey:mapper.foreignUniqueComparisonKey]];
+        NSArray *matchingObjects = [existingObjectArray filteredArrayUsingPredicate:predicate];
+        if ([matchingObjects count]) {
+            returnObject = matchingObjects[0];
+            if (mapper.overwriteObjectsWithServerChanges) {
+                [self setInformationFromDictionary:inputDict forManagedObject:returnObject];
+            }
+        } else {
+            returnObject = [self objectForClass:objectClass inContext:contextOrNil];
             [self setInformationFromDictionary:inputDict forManagedObject:returnObject];
         }
-    } else {
-        returnObject = [self objectForClass:objectClass inContext:contextOrNil];
-        [self setInformationFromDictionary:inputDict forManagedObject:returnObject];
-    }
-
-    return returnObject;
+        [returnArray addObject:returnObject];
+    }];
+    
+    return [returnArray copy];
 }
 
 - (void)setInformationFromDictionary:(NSDictionary *)inputDict forManagedObject:(NSManagedObject *)object
@@ -319,14 +315,10 @@
         context = [self managedObjectContext];
     }
 
-#ifndef DEBUG
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    //For debugging only!
+#ifdef DEBUG
     if (context == [self managedObjectContext]) {
-        NSAssert(dispatch_get_current_queue() == dispatch_get_main_queue(), @"XXX ALERT ALERT XXXX\nNOT ON MAIN QUEUE!");
+        NSAssert([NSOperationQueue currentQueue] == [NSOperationQueue mainQueue], @"XXX ALERT ALERT XXXX\nNOT ON MAIN QUEUE!");
     }
-#pragma clang diagnostic pop
 #endif
 
     return context;
