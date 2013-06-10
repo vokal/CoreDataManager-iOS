@@ -192,7 +192,6 @@
         NSArray *arrayOfUniqueKeys = [inputArray valueForKey:mapper.foreignUniqueComparisonKey];
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(%K IN %@)", mapper.uniqueComparisonKey, arrayOfUniqueKeys];
         existingObjectArray = [self arrayForClass:objectClass withPredicate:predicate forContext:contextOrNil];
-        NSAssert([existingObjectArray count] < 2, @"UNIQUE IDENTIFIER IS NOT UNIQUE. MORE THAN ONE MATCHING OBJECT FOUND");
     }
     
     NSMutableArray *returnArray = [NSMutableArray array];
@@ -207,6 +206,7 @@
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", mapper.uniqueComparisonKey, [inputDict valueForKey:mapper.foreignUniqueComparisonKey]];
         NSArray *matchingObjects = [existingObjectArray filteredArrayUsingPredicate:predicate];
         if ([matchingObjects count]) {
+            NSAssert([matchingObjects count] < 2, @"UNIQUE IDENTIFIER IS NOT UNIQUE. MORE THAN ONE MATCHING OBJECT FOUND");
             returnObject = matchingObjects[0];
             if (mapper.overwriteObjectsWithServerChanges) {
                 [self setInformationFromDictionary:inputDict forManagedObject:returnObject];
