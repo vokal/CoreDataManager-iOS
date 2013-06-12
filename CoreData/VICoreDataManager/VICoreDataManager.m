@@ -161,6 +161,7 @@
 
 - (NSManagedObjectContext *)managedObjectContext
 {
+    NSAssert([NSOperationQueue mainQueue] == [NSOperationQueue currentQueue], @"OMMMMGGGGGG");
     if (_managedObjectContext != nil) {
         return _managedObjectContext;
     }
@@ -183,7 +184,7 @@
     NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
     
     if (coordinator != nil) {
-        tempManagedObjectContext = [[NSManagedObjectContext alloc] init];
+        tempManagedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSConfinementConcurrencyType];
         [tempManagedObjectContext setPersistentStoreCoordinator:coordinator];
     }
     
