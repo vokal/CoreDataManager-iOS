@@ -91,7 +91,7 @@
         tempManagedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSConfinementConcurrencyType];
         [tempManagedObjectContext setPersistentStoreCoordinator:coordinator];
     } else {
-        DLog(@"Coordinator is nil & context is %@", [tempManagedObjectContext description]);
+        CDLog(@"Coordinator is nil & context is %@", [tempManagedObjectContext description]);
     }
 
     return tempManagedObjectContext;
@@ -147,7 +147,7 @@
                                                                     URL:storeURL
                                                                 options:options
                                                                   error:&error]) {
-        DLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        CDLog(@"Unresolved error %@, %@", error, [error userInfo]);
     }
 }
 
@@ -197,7 +197,7 @@
     NSMutableArray *returnArray = [NSMutableArray array];
     [inputArray enumerateObjectsUsingBlock:^(NSDictionary *inputDict, NSUInteger idx, BOOL *stop) {
         if (![inputDict isKindOfClass:[NSDictionary class]]) {
-            DLog(@"ERROR\n %s \nexpecting an NSArray full of NSDictionaries", __PRETTY_FUNCTION__);
+            CDLog(@"ERROR\n %s \nexpecting an NSArray full of NSDictionaries", __PRETTY_FUNCTION__);
             return;
         }
 
@@ -252,7 +252,7 @@
     NSError *error;
     NSUInteger count = [contextOrNil countForFetchRequest:fetchRequest error:&error];
     if (error) {
-        DLog(@"%s Fetch Request Error\n%@",__PRETTY_FUNCTION__ ,[error localizedDescription]);
+        CDLog(@"%s Fetch Request Error\n%@",__PRETTY_FUNCTION__ ,[error localizedDescription]);
     }
 
     return count;
@@ -276,7 +276,7 @@
     NSError *error;
     NSArray *results = [contextOrNil executeFetchRequest:fetchRequest error:&error];
     if (error) {
-        DLog(@"%s Fetch Request Error\n%@",__PRETTY_FUNCTION__ ,[error localizedDescription]);
+        CDLog(@"%s Fetch Request Error\n%@",__PRETTY_FUNCTION__ ,[error localizedDescription]);
     }
 
     return results;
@@ -296,7 +296,7 @@
     NSError *error;
     NSArray *results = [contextOrNil executeFetchRequest:fetchRequest error:&error];
     if (error) {
-        DLog(@"%s Fetch Request Error\n%@",__PRETTY_FUNCTION__ ,[error localizedDescription]);
+        CDLog(@"%s Fetch Request Error\n%@",__PRETTY_FUNCTION__ ,[error localizedDescription]);
     }
 
     [results enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
@@ -332,7 +332,7 @@
 {
     NSError *error;
     if (![context save:&error]) {
-        DLog(@"Unresolved error %@, %@", error, [error localizedDescription]);
+        CDLog(@"Unresolved error %@, %@", error, [error localizedDescription]);
     }
 }
 
