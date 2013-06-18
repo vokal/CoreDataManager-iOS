@@ -7,8 +7,10 @@
 #import "VICoreDataManager.h"
 
 @interface VIFetchResultsDataSource ()
+
 @property NSString *sectionNameKeyPath;
 @property NSString *cacheName;
+
 @end
 
 @implementation VIFetchResultsDataSource
@@ -63,7 +65,7 @@
                 managedObjectClass:managedObjectClass
                          batchSize:batchSize
                         fetchLimit:0
-                          delegate:nil];
+                          delegate:delegate];
 }
 
 
@@ -147,10 +149,10 @@
 
 - (void)reloadFetchedResults:(NSNotification *)note
 {
-    DLog(@"NSNotification: Underlying data changed ... refreshing!");
+    CDLog(@"NSNotification: Underlying data changed ... refreshing!");
     NSError *error = nil;
     if (![_fetchedResultsController performFetch:&error]) {
-        DLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        CDLog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
     }
 }
@@ -159,7 +161,7 @@
 {
     NSError *error = nil;
     if (![_fetchedResultsController performFetch:&error]) {
-        DLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        CDLog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
     }
     //FOR TESTING ONLY, NOT NECESSARY
@@ -170,7 +172,7 @@
 {
     NSError *error = nil;
     if (![_fetchedResultsController performFetch:&error]) {
-        DLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        CDLog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
     }
    return _fetchedResultsController.fetchedObjects;
@@ -326,4 +328,5 @@
     }
     
 }
+
 @end
