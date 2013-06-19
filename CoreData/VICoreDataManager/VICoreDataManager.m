@@ -133,16 +133,18 @@
                                                         object:nil];
 }
 
-- (void)resetCoreData 
+- (void)resetCoreData
 {
-    NSArray *stores = [_persistentStoreCoordinator persistentStores];
+    NSArray *stores = [self.persistentStoreCoordinator persistentStores];
     
     for(NSPersistentStore *store in stores) {
-        [_persistentStoreCoordinator removePersistentStore:store error:nil];
+        [self.persistentStoreCoordinator removePersistentStore:store error:nil];
         [[NSFileManager defaultManager] removeItemAtPath:store.URL.path error:nil];
     }
     
     _persistentStoreCoordinator = nil;
+    _managedObjectContext = nil;
+    _managedObjectModel = nil;
 }
 
 - (NSManagedObjectContext *)startTransaction
