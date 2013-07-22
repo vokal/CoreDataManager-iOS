@@ -7,7 +7,7 @@
 #warning "VICoreDataManager uses features only available in iOS SDK 5.0 and later."
 #endif
 
-# ifndef DLog
+#ifndef DLog
 #ifdef DEBUG
 #    define DLog(...) NSLog(__VA_ARGS__)
 #else
