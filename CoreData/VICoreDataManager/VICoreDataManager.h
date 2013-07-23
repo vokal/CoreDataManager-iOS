@@ -35,8 +35,8 @@
 
 //Create and configure new NSManagedObject subclasses
 //If contextOrNil is nil the main context will be used.
-- (NSManagedObject *)objectForClass:(Class)managedObjectClass
-                            inContext:(NSManagedObjectContext *)contextOrNil;
+- (NSManagedObject *)managedObjectOfClass:(Class)managedObjectClass
+                                inContext:(NSManagedObjectContext *)contextOrNil;
 
 - (BOOL)setObjectMapper:(VIManagedObjectMapper *)objMap
                forClass:(Class)objectClass;
