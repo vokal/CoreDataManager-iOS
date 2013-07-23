@@ -68,6 +68,14 @@
     }];
 }
 
+#pragma mark - Description
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"<%@: %p>\nMaps:%@\nUniqueKey:%@",NSStringFromClass([self class]), self, self.mapsArray, self.uniqueComparisonKey];
+}
+
+#pragma mark - Import Safety Checks
+
 - (id)checkNull:(id)inputObject
 {
     if ([[NSNull null] isEqual:inputObject]) {
@@ -81,7 +89,9 @@
     if (![inputObject isKindOfClass:[NSString class]]) {
         return inputObject;
     }
-    
+
+    //Bug: using DEFAULT mapper, if the input string COULD be made a number it WILL be made a number.
+    //Be wary of the default mapper
     id number = [numberFormatter numberFromString:inputObject];
     return number ? number : inputObject;
 }
@@ -117,10 +127,11 @@
 {
     Class expectedClass = [self expectedClassForObject:object andKey:key];
     if (![inputObject isKindOfClass:expectedClass]) {
-        CDLog(@"Wrong kind of class for %@\nProperty: %@ \nExpected: %@\nReceived: %@",  object,
-             key,
-             NSStringFromClass(expectedClass),
-             NSStringFromClass([inputObject class]));
+        CDLog(@"Wrong kind of class for %@\nProperty: %@ \nExpected: %@\nReceived: %@",
+              object,
+              key,
+              NSStringFromClass(expectedClass),
+              NSStringFromClass([inputObject class]));
         return nil;
     }
     return inputObject;
@@ -138,12 +149,11 @@
 @implementation VIManagedObjectMapper (dictionaryInputOutput)
 - (void)setInformationFromDictionary:(NSDictionary *)inputDict forManagedObject:(NSManagedObject *)object
 {
-    [self.mapsArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        VIManagedObjectMap *aMap = obj;
+    [self.mapsArray enumerateObjectsUsingBlock:^(VIManagedObjectMap *aMap, NSUInteger idx, BOOL *stop) {
         id inputObject = [inputDict objectForKey:aMap.inputKey];
         inputObject = [self checkDate:inputObject withDateFormatter:aMap.dateFormatter];
         inputObject = [self checkNumber:inputObject withNumberFormatter:aMap.numberFormatter];
-        inputObject = [self checkClass:inputObject managedObject:object key:aMap.coreDataKey];
+        inputObject = [self checkClass:inputObject managedObject:object key:aMap.coreDataKey];        
         inputObject = [self checkNull:inputObject];
         [object safeSetValue:inputObject forKey:aMap.coreDataKey];
     }];
@@ -152,8 +162,7 @@
 - (NSDictionary *)dictionaryRepresentationOfManagedObject:(NSManagedObject *)object
 {
     NSMutableDictionary *outputDict = [NSMutableDictionary new];
-    [self.mapsArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        VIManagedObjectMap *aMap = obj;
+    [self.mapsArray enumerateObjectsUsingBlock:^(VIManagedObjectMap *aMap, NSUInteger idx, BOOL *stop) {
         id outputObject = [object valueForKey:aMap.coreDataKey];
         outputObject = [self checkString:outputObject withDateFormatter:aMap.dateFormatter];
         outputObject = [self checkString:outputObject withNumberFormatter:aMap.numberFormatter];
