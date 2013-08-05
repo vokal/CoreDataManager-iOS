@@ -30,6 +30,7 @@
 - (NSManagedObjectContext *)managedObjectContext;
 
 //use one of these setup methods before interacting with Core Data
+//passing in nil for the database parameter will create an in-memory store
 - (void)setResource:(NSString *)resource
            database:(NSString *)database;
 
