@@ -7,8 +7,8 @@
 #warning "VICoreDataManager uses features only available in iOS SDK 5.0 and later."
 #endif
 
-# ifndef CDLog
-#ifdef DEBUG_DATA
+#ifndef CDLog
+#ifdef DEBUG
 #    define CDLog(...) NSLog(__VA_ARGS__)
 #else
 #    define CDLog(...) /* */
@@ -36,8 +36,8 @@
 
 //Create and configure new NSManagedObject subclasses
 //If contextOrNil is nil the main context will be used.
-- (NSManagedObject *)objectForClass:(Class)managedObjectClass
-                            inContext:(NSManagedObjectContext *)contextOrNil;
+- (NSManagedObject *)managedObjectOfClass:(Class)managedObjectClass
+                                inContext:(NSManagedObjectContext *)contextOrNil;
 
 - (BOOL)setObjectMapper:(VIManagedObjectMapper *)objMap
                forClass:(Class)objectClass;

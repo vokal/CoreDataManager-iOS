@@ -171,7 +171,7 @@
 }
 
 #pragma mark - Create and configure
-- (NSManagedObject *)objectForClass:(Class)managedObjectClass inContext:(NSManagedObjectContext *)contextOrNil
+- (NSManagedObject *)managedObjectOfClass:(Class)managedObjectClass inContext:(NSManagedObjectContext *)contextOrNil
 {
     return [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass(managedObjectClass) inManagedObjectContext:contextOrNil];
 }
@@ -218,7 +218,7 @@
                 [self setInformationFromDictionary:inputDict forManagedObject:returnObject];
             }
         } else {
-            returnObject = [self objectForClass:objectClass inContext:contextOrNil];
+            returnObject = [self managedObjectOfClass:objectClass inContext:contextOrNil];
             [self setInformationFromDictionary:inputDict forManagedObject:returnObject];
         }
         [returnArray addObject:returnObject];
