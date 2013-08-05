@@ -23,15 +23,14 @@
 }
 
 #pragma mark - Create Objects
-+ (instancetype)newInstanceWithContext:(NSManagedObjectContext *)context
-{
-    return (id)[[VICoreDataManager sharedInstance] managedObjectOfClass:self inContext:context];
-}
-
-
 + (instancetype)newInstance
 {
-    return [self newInstanceWithContext:[[VICoreDataManager sharedInstance] managedObjectContext]];
+    return [self newInstanceWithContext:nil];
+}
+
++ (instancetype)newInstanceWithContext:(NSManagedObjectContext *)context
+{
+    return [[VICoreDataManager sharedInstance] managedObjectOfClass:self inContext:context];
 }
 
 #pragma mark - Add Objects
