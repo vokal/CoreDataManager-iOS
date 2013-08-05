@@ -167,6 +167,7 @@
 #pragma mark - Create and configure
 - (NSManagedObject *)managedObjectOfClass:(Class)managedObjectClass inContext:(NSManagedObjectContext *)contextOrNil
 {
+    contextOrNil = [self safeContext:contextOrNil];
     return [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass(managedObjectClass) inManagedObjectContext:contextOrNil];
 }
 
