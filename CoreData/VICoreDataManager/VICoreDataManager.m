@@ -127,26 +127,32 @@
 #pragma mark - Initializers
 - (void)initManagedObjectModel
 {
-    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:self.resource withExtension:@"momd"];
+    NSURL *modelURL = [[NSBundle bundleForClass:[self class]] URLForResource:self.resource withExtension:@"momd"];
     _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
 }
 
 - (void)initPersistentStoreCoordinator
 {
-    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:self.databaseFilename];
 
-    NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
-                             [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
-                             [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption, nil];
-
+    NSDictionary *options = @{NSMigratePersistentStoresAutomaticallyOption: @(YES),
+                              NSInferMappingModelAutomaticallyOption: @(YES)};
+    
     NSError *error;
     _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
 
-    if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType
-                                                          configuration:nil
-                                                                    URL:storeURL
-                                                                options:options
-                                                                  error:&error]) {
+    NSURL *storeURL;
+    NSString *storeType = NSInMemoryStoreType;
+    if (self.databaseFilename) {
+        storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:self.databaseFilename];
+        storeType = NSSQLiteStoreType;
+    }
+    
+
+    if (![_persistentStoreCoordinator addPersistentStoreWithType:storeType
+                                                   configuration:nil
+                                                             URL:storeURL
+                                                         options:options
+                                                           error:&error]) {
         CDLog(@"Unresolved error %@, %@", error, [error userInfo]);
     }
 }
@@ -398,7 +404,9 @@
 
     for(NSPersistentStore *store in stores) {
         [[self persistentStoreCoordinator] removePersistentStore:store error:nil];
-        [[NSFileManager defaultManager] removeItemAtPath:store.URL.path error:nil];
+        if (self.databaseFilename) {
+            [[NSFileManager defaultManager] removeItemAtPath:store.URL.path error:nil];            
+        }
     }
     
     _persistentStoreCoordinator = nil;
