@@ -25,7 +25,7 @@
 #pragma mark - Create Objects
 + (instancetype)newInstanceWithContext:(NSManagedObjectContext *)context
 {
-    return (id)[[VICoreDataManager sharedInstance] objectForClass:self inContext:context];
+    return (id)[[VICoreDataManager sharedInstance] managedObjectOfClass:self inContext:context];
 }
 
 

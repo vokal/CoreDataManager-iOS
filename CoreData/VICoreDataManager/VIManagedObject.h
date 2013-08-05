@@ -11,6 +11,8 @@
 
 - (NSDictionary *)dictionaryRepresentation;
 
+//Convenience factory methods to create a new instance of any VIManagedObject subclass.
+//If a context isn't specified, the main context will be used.
 + (instancetype)newInstance;
 + (instancetype)newInstanceWithContext:(NSManagedObjectContext *)context;
 
