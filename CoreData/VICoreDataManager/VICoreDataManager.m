@@ -124,9 +124,13 @@
     if ([[UIApplication sharedApplication] applicationState] == UIApplicationStateBackground) {
         [_managedObjectContext mergeChangesFromContextDidSaveNotification:notification];
     } else {
-        dispatch_async(dispatch_get_main_queue(), ^{
+        if ([NSOperationQueue currentQueue] == [NSOperationQueue mainQueue]) {
             [_managedObjectContext mergeChangesFromContextDidSaveNotification:notification];
-        });
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [_managedObjectContext mergeChangesFromContextDidSaveNotification:notification];
+            });
+        }
     }
     
     [[NSNotificationCenter defaultCenter] postNotificationName:NOTIFICATION_DATA_UPDATED
