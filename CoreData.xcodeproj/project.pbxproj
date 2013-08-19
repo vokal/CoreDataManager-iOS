@@ -12,7 +12,6 @@
 		3D634A8817076EFD00B601B5 /* VIManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D634A8717076EFD00B601B5 /* VIManagedObject.m */; };
 		3DDBEC0C16E2B85D00E9AB57 /* VIManagedObjectMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DDBEC0B16E2B85D00E9AB57 /* VIManagedObjectMap.m */; };
 		6F393DC016CC416500AEA4C6 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5F19CD15C197990089AA44 /* CoreData.framework */; };
-		6F8B5D1716CBF764004DD1B2 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F8B5D1616CBF764004DD1B2 /* SenTestingKit.framework */; };
 		6F8B5D1816CBF764004DD1B2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5F19A415C196500089AA44 /* UIKit.framework */; };
 		6F8B5D1916CBF764004DD1B2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5F19A615C196500089AA44 /* Foundation.framework */; };
 		6FA4D0E116D2C8E400692187 /* VICoreDataModel.xcdatamodeld in Resources */ = {isa = PBXBuildFile; fileRef = EA4FE17715C2EEC700424469 /* VICoreDataModel.xcdatamodeld */; };
@@ -47,8 +46,7 @@
 		6F46A2D616CAACF700BE4F20 /* ManagedObjectAdditionTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ManagedObjectAdditionTests.h; sourceTree = "<group>"; };
 		6F46A2D716CAACF700BE4F20 /* ManagedObjectAdditionTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ManagedObjectAdditionTests.m; sourceTree = "<group>"; };
 		6F46A2D916CAACF700BE4F20 /* CoreDataTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CoreDataTests-Prefix.pch"; sourceTree = "<group>"; };
-		6F8B5D1516CBF764004DD1B2 /* CoreDataTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CoreDataTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
-		6F8B5D1616CBF764004DD1B2 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		6F8B5D1516CBF764004DD1B2 /* CoreDataTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CoreDataTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6FE6F6EC16C556A600E79EDE /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
 		EA24611915C6CD3A0065C12D /* VIFetchResultsDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VIFetchResultsDataSource.h; path = VICoreDataManager/VIFetchResultsDataSource.h; sourceTree = "<group>"; };
 		EA24611A15C6CD3A0065C12D /* VIFetchResultsDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VIFetchResultsDataSource.m; path = VICoreDataManager/VIFetchResultsDataSource.m; sourceTree = "<group>"; };
@@ -79,7 +77,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				6F393DC016CC416500AEA4C6 /* CoreData.framework in Frameworks */,
-				6F8B5D1716CBF764004DD1B2 /* SenTestingKit.framework in Frameworks */,
 				6F8B5D1816CBF764004DD1B2 /* UIKit.framework in Frameworks */,
 				6F8B5D1916CBF764004DD1B2 /* Foundation.framework in Frameworks */,
 			);
@@ -155,7 +152,7 @@
 			isa = PBXGroup;
 			children = (
 				EA5F19A015C196500089AA44 /* CoreData.app */,
-				6F8B5D1516CBF764004DD1B2 /* CoreDataTests.octest */,
+				6F8B5D1516CBF764004DD1B2 /* CoreDataTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -167,7 +164,6 @@
 				EA5F19A815C196500089AA44 /* CoreGraphics.framework */,
 				EA5F19A615C196500089AA44 /* Foundation.framework */,
 				EA5F19A415C196500089AA44 /* UIKit.framework */,
-				6F8B5D1616CBF764004DD1B2 /* SenTestingKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -239,8 +235,8 @@
 			);
 			name = CoreDataTests;
 			productName = CoreDataTests;
-			productReference = 6F8B5D1516CBF764004DD1B2 /* CoreDataTests.octest */;
-			productType = "com.apple.product-type.bundle";
+			productReference = 6F8B5D1516CBF764004DD1B2 /* CoreDataTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		EA5F199F15C196500089AA44 /* CoreData */ = {
 			isa = PBXNativeTarget;
@@ -371,19 +367,14 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_WARN_EMPTY_BODY = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
-					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(SDKROOT)/Developer/Library/Frameworks";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CoreDataTests/CoreDataTests-Prefix.pch";
 				INFOPLIST_FILE = "CoreDataTests/CoreDataTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_AFTER_BUILD = YES;
 				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
 		};
@@ -394,18 +385,13 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_WARN_EMPTY_BODY = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
-					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(SDKROOT)/Developer/Library/Frameworks";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CoreDataTests/CoreDataTests-Prefix.pch";
 				INFOPLIST_FILE = "CoreDataTests/CoreDataTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_AFTER_BUILD = YES;
 				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;
 		};
