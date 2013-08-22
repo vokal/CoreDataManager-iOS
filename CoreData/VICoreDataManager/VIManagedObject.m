@@ -42,7 +42,12 @@
 + (instancetype)addWithDictionary:(NSDictionary *)inputDict forManagedObjectContext:(NSManagedObjectContext*)contextOrNil
 {
     NSArray *array = [[VICoreDataManager sharedInstance] importArray:@[inputDict] forClass:[self class] withContext:contextOrNil];
-    return array[0];
+    
+    if (array.count) {
+        return array[0];
+    } else {
+        return nil;
+    }
 }
 
 #pragma mark - Fetch with Object's Context
