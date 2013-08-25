@@ -37,7 +37,7 @@
 //Convenience Methods
 - (NSFetchRequest *)fetchRequestWithClass:(Class)managedObjectClass predicate:(NSPredicate *)predicate;
 - (VIManagedObjectMapper *)mapperForClass:(Class)objectClass;
-- (NSURL *)applicationDocumentsDirectory;
+- (NSURL *)applicationLibraryDirectory;
 
 @end
 
@@ -143,7 +143,7 @@
     NSURL *storeURL;
     NSString *storeType = NSInMemoryStoreType;
     if (self.databaseFilename) {
-        storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:self.databaseFilename];
+        storeURL = [[self applicationLibraryDirectory] URLByAppendingPathComponent:self.databaseFilename];
         storeType = NSSQLiteStoreType;
     }
     
@@ -393,9 +393,9 @@
     return mapper;
 }
 
-- (NSURL *)applicationDocumentsDirectory
+- (NSURL *)applicationLibraryDirectory
 {
-    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+    return [[[NSFileManager defaultManager] URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask] lastObject];
 }
 
 - (void)resetCoreData
