@@ -19,17 +19,18 @@
               batchSize:(NSInteger)batchSize
                delegate:(id <VIFetchResultsDataSourceDelegate>)delegate
 {
+    id rawInit = [self initWithPredicate:predicate
+                              cacheName:cacheName
+                              tableView:nil
+                     sectionNameKeyPath:sectionNameKeyPath
+                        sortDescriptors:sortDescriptors
+                     managedObjectClass:managedObjectClass
+                               delegate:delegate];
     self.carousel = carousel;
     self.carousel.delegate = self;
     self.carousel.dataSource = self;
     
-    return [self initWithPredicate:predicate
-                         cacheName:cacheName
-                         tableView:nil
-                sectionNameKeyPath:sectionNameKeyPath
-                   sortDescriptors:sortDescriptors
-                managedObjectClass:managedObjectClass
-                          delegate:delegate];
+    return rawInit;
 }
 
 - (id)initWithPredicate:(NSPredicate *)predicate
