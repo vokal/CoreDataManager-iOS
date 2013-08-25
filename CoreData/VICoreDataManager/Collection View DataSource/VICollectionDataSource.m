@@ -30,6 +30,8 @@
     self.collectionView = collectionView;
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
+    _objectChanges = [@[] mutableCopy];
+    _sectionChanges = [@[] mutableCopy];
     
     return [self initWithPredicate:predicate
                          cacheName:cacheName

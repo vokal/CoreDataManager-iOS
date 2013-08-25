@@ -37,7 +37,7 @@
 //Convenience Methods
 - (NSFetchRequest *)fetchRequestWithClass:(Class)managedObjectClass predicate:(NSPredicate *)predicate;
 - (VIManagedObjectMapper *)mapperForClass:(Class)objectClass;
-- (NSURL *)applicationDocumentsDirectory;
+- (NSURL *)applicationLibraryDirectory;
 
 @end
 
@@ -133,7 +133,7 @@
 
 - (void)initPersistentStoreCoordinator
 {
-    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:self.databaseFilename];
+    NSURL *storeURL = [[self applicationLibraryDirectory] URLByAppendingPathComponent:self.databaseFilename];
 
     NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
                              [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
@@ -386,9 +386,9 @@
     return mapper;
 }
 
-- (NSURL *)applicationDocumentsDirectory
+- (NSURL *)applicationLibraryDirectory
 {
-    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+    return [[[NSFileManager defaultManager] URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask] lastObject];
 }
 
 - (void)resetCoreData
