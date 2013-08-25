@@ -22,6 +22,17 @@
     return [[VICoreDataManager sharedInstance] dictionaryRepresentationOfManagedObject:self];
 }
 
+#pragma mark - Create Objects
++ (instancetype)newInstance
+{
+    return [self newInstanceWithContext:nil];
+}
+
++ (instancetype)newInstanceWithContext:(NSManagedObjectContext *)context
+{
+    return [[VICoreDataManager sharedInstance] managedObjectOfClass:self inContext:context];
+}
+
 #pragma mark - Add Objects
 + (NSArray *)addWithArray:(NSArray *)inputArray forManagedObjectContext:(NSManagedObjectContext*)contextOrNil
 {

@@ -71,4 +71,10 @@
     return nf;
 }
 
+#pragma mark - Description
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"<%@: %p>\nCore Data Key : %@\nForeign Key : %@",NSStringFromClass([self class]), self, self.coreDataKey, self.inputKey];
+}
+
 @end

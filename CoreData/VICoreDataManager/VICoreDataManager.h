@@ -8,7 +8,7 @@
 #endif
 
 #ifndef CDLog
-#ifdef DEBUG_DATA
+#ifdef DEBUG
 #    define CDLog(...) NSLog(__VA_ARGS__)
 #else
 #    define CDLog(...) /* */
@@ -30,13 +30,14 @@
 - (NSManagedObjectContext *)managedObjectContext;
 
 //use one of these setup methods before interacting with Core Data
+//passing in nil for the database parameter will create an in-memory store
 - (void)setResource:(NSString *)resource
            database:(NSString *)database;
 
 //Create and configure new NSManagedObject subclasses
 //If contextOrNil is nil the main context will be used.
-- (NSManagedObject *)objectForClass:(Class)managedObjectClass
-                            inContext:(NSManagedObjectContext *)contextOrNil;
+- (NSManagedObject *)managedObjectOfClass:(Class)managedObjectClass
+                                inContext:(NSManagedObjectContext *)contextOrNil;
 
 - (BOOL)setObjectMapper:(VIManagedObjectMapper *)objMap
                forClass:(Class)objectClass;
