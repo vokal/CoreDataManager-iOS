@@ -184,7 +184,7 @@
 - (BOOL)setObjectMapper:(VIManagedObjectMapper *)objMapper forClass:(Class)objectClass
 {
     if (objMapper && objectClass) {
-        [self.mapperCollection setObject:objMapper forKey:NSStringFromClass(objectClass)];
+        (self.mapperCollection)[NSStringFromClass(objectClass)] = objMapper;
         return YES;
     }
 

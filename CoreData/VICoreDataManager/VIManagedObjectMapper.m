@@ -150,7 +150,7 @@
 - (void)setInformationFromDictionary:(NSDictionary *)inputDict forManagedObject:(NSManagedObject *)object
 {
     [self.mapsArray enumerateObjectsUsingBlock:^(VIManagedObjectMap *aMap, NSUInteger idx, BOOL *stop) {
-        id inputObject = [inputDict objectForKey:aMap.inputKey];
+        id inputObject = inputDict[aMap.inputKey];
         inputObject = [self checkDate:inputObject withDateFormatter:aMap.dateFormatter];
         inputObject = [self checkNumber:inputObject withNumberFormatter:aMap.numberFormatter];
         inputObject = [self checkClass:inputObject managedObject:object key:aMap.coreDataKey];        
@@ -166,7 +166,7 @@
         id outputObject = [object valueForKey:aMap.coreDataKey];
         outputObject = [self checkString:outputObject withDateFormatter:aMap.dateFormatter];
         outputObject = [self checkString:outputObject withNumberFormatter:aMap.numberFormatter];
-        [outputDict setObject:outputObject forKey:aMap.inputKey];
+        outputDict[aMap.inputKey] = outputObject;
     }];
     
     return [outputDict copy];
@@ -194,7 +194,7 @@
     [attributes enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
         id outputObject = [object valueForKey:key];
         outputObject = [self checkString:outputObject withDateFormatter:[VIManagedObjectMap defaultDateFormatter]];
-        [outputDict setObject:outputObject forKey:key];
+        outputDict[key] = outputObject;
     }];
     
     return [outputDict copy];
