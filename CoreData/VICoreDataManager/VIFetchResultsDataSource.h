@@ -29,6 +29,11 @@
 @property (nonatomic, weak) NSPredicate *predicate;
 @property (nonatomic, weak) NSArray *sortDescriptors;
 
+//whether to deselect the selected cell of the table view
+//after sending the selected object to the delegate
+//defaults to YES
+@property BOOL clearsTableViewCellSelection;
+
 //you can ignore deprecation warnings in subclasses
 @property (strong, readonly) NSFetchedResultsController *fetchedResultsController DEPRECATED_ATTRIBUTE;
 
