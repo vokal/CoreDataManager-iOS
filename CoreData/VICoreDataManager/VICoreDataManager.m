@@ -180,7 +180,7 @@
 - (BOOL)setObjectMapper:(VIManagedObjectMapper *)objMapper forClass:(Class)objectClass
 {
     if (objMapper && objectClass) {
-        [self.mapperCollection setObject:objMapper forKey:NSStringFromClass(objectClass)];
+        (self.mapperCollection)[NSStringFromClass(objectClass)] = objMapper;
         return YES;
     }
 
@@ -385,7 +385,7 @@
 
 - (VIManagedObjectMapper *)mapperForClass:(Class)objectClass
 {
-    VIManagedObjectMapper *mapper = [self.mapperCollection objectForKey:NSStringFromClass(objectClass)];
+    VIManagedObjectMapper *mapper = (self.mapperCollection)[NSStringFromClass(objectClass)];
     if (!mapper) {
         mapper = [VIManagedObjectMapper defaultMapper];
     }
