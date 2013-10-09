@@ -35,9 +35,8 @@
 
 - (void)setupDataSource
 {
-    NSArray *sortDescriptors = [NSArray arrayWithObjects:
-            [NSSortDescriptor sortDescriptorWithKey:@"lastName" ascending:YES],
-            [NSSortDescriptor sortDescriptorWithKey:@"firstName" ascending:YES], nil];
+    NSArray *sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"lastName" ascending:YES],
+            [NSSortDescriptor sortDescriptorWithKey:@"firstName" ascending:YES]];
 
     self.dataSource = [[VIPersonDataSource alloc]initWithPredicate:nil cacheName:nil tableView:self.tableView
                                                  sectionNameKeyPath:nil sortDescriptors:sortDescriptors
