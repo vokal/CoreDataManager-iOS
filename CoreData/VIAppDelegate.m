@@ -22,7 +22,7 @@
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
-    VIViewController *viewController = [[VIViewController alloc] initWithNibName:@"VIViewController" bundle:nil];
+    VIViewController *viewController = [[VIViewController alloc] initWithStyle:UITableViewStylePlain];
     self.navController = [[UINavigationController alloc] initWithRootViewController:viewController];
     self.window.rootViewController = self.navController;
     [self.window makeKeyAndVisible];
