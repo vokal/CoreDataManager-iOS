@@ -3,7 +3,6 @@
 //  CoreDataTests
 //
 
-#import "ManagedObjectAdditionTests.h"
 #import "VICoreDataManager.h"
 #import "VIPerson.h"
 
@@ -18,6 +17,12 @@ NSString *const LAST_NAME_CUSTOM_KEY = @"last";
 NSString *const BIRTHDAY_CUSTOM_KEY = @"date_of_birth";
 NSString *const CATS_CUSTOM_KEY = @"cat_num";
 NSString *const COOL_RANCH_CUSTOM_KEY = @"CR_PREF";
+
+#import <XCTest/XCTest.h>
+
+@interface ManagedObjectAdditionTests : XCTestCase
+
+@end
 
 @implementation ManagedObjectAdditionTests
 
@@ -37,7 +42,7 @@ NSString *const COOL_RANCH_CUSTOM_KEY = @"CR_PREF";
     [self checkMappingForPerson:person andDictionary:[self makePersonDictForDefaultMapper]];
 
     NSDictionary *dict = [person dictionaryRepresentation];
-    STAssertTrue([dict isEqualToDictionary:[self makePersonDictForDefaultMapper]], @"dictionary representation failed to match input dictionary");
+    XCTAssertTrue([dict isEqualToDictionary:[self makePersonDictForDefaultMapper]], @"dictionary representation failed to match input dictionary");
 }
 
 - (void)testImportExportDictionaryWithCustomMapper
@@ -48,7 +53,7 @@ NSString *const COOL_RANCH_CUSTOM_KEY = @"CR_PREF";
     [self checkMappingForPerson:person andDictionary:[self makePersonDictForCustomMapper]];
 
     NSDictionary *dict = [person dictionaryRepresentation];
-    STAssertTrue([dict isEqualToDictionary:[self makePersonDictForCustomMapper]], @"dictionary representation failed to match input dictionary");
+    XCTAssertTrue([dict isEqualToDictionary:[self makePersonDictForCustomMapper]], @"dictionary representation failed to match input dictionary");
 }
 
 - (void)testImportArrayWithCustomMapper
@@ -62,7 +67,7 @@ NSString *const COOL_RANCH_CUSTOM_KEY = @"CR_PREF";
     [[VICoreDataManager sharedInstance] setObjectMapper:mapper forClass:[VIPerson class]];
     NSArray *arrayOfPeople = [VIPerson addWithArray:array forManagedObjectContext:nil];
 
-    STAssertTrue([arrayOfPeople count] == 5, @"person array has incorrect number of people");
+    XCTAssertTrue([arrayOfPeople count] == 5, @"person array has incorrect number of people");
 
     [arrayOfPeople enumerateObjectsUsingBlock:^(VIPerson *obj, NSUInteger idx, BOOL *stop) {
         [self checkMappingForPerson:obj andDictionary:[self makePersonDictForCustomMapper]];
@@ -78,7 +83,7 @@ NSString *const COOL_RANCH_CUSTOM_KEY = @"CR_PREF";
                        [self makePersonDictForDefaultMapper]];
     NSArray *arrayOfPeople = [VIPerson addWithArray:array forManagedObjectContext:nil];
 
-    STAssertTrue([arrayOfPeople count] == 5, @"person array has incorrect number of people");
+    XCTAssertTrue([arrayOfPeople count] == 5, @"person array has incorrect number of people");
 
     [arrayOfPeople enumerateObjectsUsingBlock:^(VIPerson *obj, NSUInteger idx, BOOL *stop) {
         [self checkMappingForPerson:obj andDictionary:[self makePersonDictForDefaultMapper]];
@@ -93,18 +98,18 @@ NSString *const COOL_RANCH_CUSTOM_KEY = @"CR_PREF";
     [self checkMappingForPerson:person andDictionary:[self makePersonDictForCustomMapper]];
 
     person = [VIPerson addWithDictionary:[self makePersonDictForCustomMapperWithAnEmptyInputValues] forManagedObjectContext:nil];
-    STAssertTrue(person.lastName == nil, @"the NSNull in the import dictionary did not overwrite the managed object's property");
-    STAssertTrue(person.numberOfCats == nil, @"the missing value in the import dictionary did not overwrite the managed object's property");
+    XCTAssertTrue(person.lastName == nil, @"the NSNull in the import dictionary did not overwrite the managed object's property");
+    XCTAssertTrue(person.numberOfCats == nil, @"the missing value in the import dictionary did not overwrite the managed object's property");
 
     NSUInteger count = [[VICoreDataManager sharedInstance] countForClass:[VIPerson class]];
-    STAssertTrue(count == 1, @"the unique key did not work correctly");
+    XCTAssertTrue(count == 1, @"the unique key did not work correctly");
 }
 
 - (void)testImportWithDefaultMapperAndAnEmptyInputValue
 {
     VIPerson *person = [VIPerson addWithDictionary:[self makePersonDictForDefaultMapperWithAnEmptyInputValues] forManagedObjectContext:nil];
-    STAssertTrue(person.lastName == nil, @"the NSNull in the import dictionary did not overwrite the managed object's property");
-    STAssertTrue([person.numberOfCats integerValue] == 0, @"the missing value in the import dictionary did not overwrite the managed object's property");
+    XCTAssertTrue(person.lastName == nil, @"the NSNull in the import dictionary did not overwrite the managed object's property");
+    XCTAssertTrue([person.numberOfCats integerValue] == 0, @"the missing value in the import dictionary did not overwrite the managed object's property");
 }
 
 - (void)testCountMethods
@@ -120,7 +125,7 @@ NSString *const COOL_RANCH_CUSTOM_KEY = @"CR_PREF";
     [VIPerson addWithDictionary:dict1 forManagedObjectContext:nil];
 
     NSUInteger count = [[VICoreDataManager sharedInstance] countForClass:[VIPerson class]];
-    STAssertTrue(count == 1, @"VICoreDataManager count method is incorrect");
+    XCTAssertTrue(count == 1, @"VICoreDataManager count method is incorrect");
 
     NSDictionary *dict2 = @{FIRST_NAME_CUSTOM_KEY : @"Francis",
                             LAST_NAME_CUSTOM_KEY : @"Bolgna",
@@ -130,15 +135,15 @@ NSString *const COOL_RANCH_CUSTOM_KEY = @"CR_PREF";
     [VIPerson addWithDictionary:dict2 forManagedObjectContext:nil];
 
     count = [[VICoreDataManager sharedInstance] countForClass:[VIPerson class]];
-    STAssertTrue(count == 2, @"VICoreDataManager count method is incorrect");
+    XCTAssertTrue(count == 2, @"VICoreDataManager count method is incorrect");
 
     NSPredicate *pred = [NSPredicate predicateWithFormat:@"firstName == %@",  @"Francis"];
     count = [[VICoreDataManager sharedInstance] countForClass:[VIPerson class] withPredicate:pred forContext:nil];
-    STAssertTrue(count == 1, @"VICoreDataManager count with predicate method is incorrect");
+    XCTAssertTrue(count == 1, @"VICoreDataManager count with predicate method is incorrect");
 
     pred = [NSPredicate predicateWithFormat:@"firstName == %@",  @"Bananaman"];
     BOOL exists = [VIPerson existsForPredicate:pred forManagedObjectContext:nil];
-    STAssertTrue(exists, @"existsForPredicate is incorrect");
+    XCTAssertTrue(exists, @"existsForPredicate is incorrect");
 }
 
 - (void)testCustomMapperUniqueKeyAndOverwriteSetting
@@ -162,7 +167,7 @@ NSString *const COOL_RANCH_CUSTOM_KEY = @"CR_PREF";
     
     NSPredicate *pred = [NSPredicate predicateWithFormat:@"firstName == %@",  @"SOMEGUY"];
     NSArray *array = [VIPerson fetchAllForPredicate:pred forManagedObjectContext:nil];
-    STAssertTrue([array count] == 2, @"unique person test array has incorrect number of people");
+    XCTAssertTrue([array count] == 2, @"unique person test array has incorrect number of people");
 
     NSDictionary *dict3 = @{FIRST_NAME_CUSTOM_KEY : @"ANOTHERGUY",
                             LAST_NAME_CUSTOM_KEY : @"GUY1",
@@ -173,8 +178,8 @@ NSString *const COOL_RANCH_CUSTOM_KEY = @"CR_PREF";
 
     pred = [NSPredicate predicateWithFormat:@"lastName == %@",  @"GUY1"];
     array = [VIPerson fetchAllForPredicate:pred forManagedObjectContext:nil];
-    STAssertTrue([array count] == 1, @"unique key was not effective");
-    STAssertTrue([[array[0] numberOfCats] isEqualToNumber:@14], @"unique key was effective but the person object was not updated");
+    XCTAssertTrue([array count] == 1, @"unique key was not effective");
+    XCTAssertTrue([[array[0] numberOfCats] isEqualToNumber:@14], @"unique key was effective but the person object was not updated");
 
     mapper.overwriteObjectsWithServerChanges = NO;
     NSDictionary *dict4 = @{FIRST_NAME_CUSTOM_KEY : @"ONE MORE GUY",
@@ -186,8 +191,8 @@ NSString *const COOL_RANCH_CUSTOM_KEY = @"CR_PREF";
 
     pred = [NSPredicate predicateWithFormat:@"lastName == %@",  @"GUY1"];
     array = [VIPerson fetchAllForPredicate:pred forManagedObjectContext:nil];
-    STAssertTrue([array count] == 1, @"unique key was not effective");
-    STAssertTrue([[array[0] numberOfCats] isEqualToNumber:@14], @"\"overwriteObjectsWithServerChanges = NO\" was ignored");
+    XCTAssertTrue([array count] == 1, @"unique key was not effective");
+    XCTAssertTrue([[array[0] numberOfCats] isEqualToNumber:@14], @"\"overwriteObjectsWithServerChanges = NO\" was ignored");
 
     mapper.overwriteObjectsWithServerChanges = YES;
     NSDictionary *dict5 = @{FIRST_NAME_CUSTOM_KEY : @"ONE MORE GUY",
@@ -199,33 +204,33 @@ NSString *const COOL_RANCH_CUSTOM_KEY = @"CR_PREF";
 
     pred = [NSPredicate predicateWithFormat:@"lastName == %@",  @"GUY1"];
     array = [VIPerson fetchAllForPredicate:pred forManagedObjectContext:nil];
-    STAssertTrue([array count] == 1, @"unique key was not effective");
-    STAssertTrue([[array[0] numberOfCats] isEqualToNumber:@777], @"\"overwriteObjectsWithServerChanges = NO\" was ignored");
+    XCTAssertTrue([array count] == 1, @"unique key was not effective");
+    XCTAssertTrue([[array[0] numberOfCats] isEqualToNumber:@777], @"\"overwriteObjectsWithServerChanges = NO\" was ignored");
 }
 
 #pragma mark - Convenience stuff
 - (void)checkMappingForPerson:(VIPerson *)person andDictionary:(NSDictionary *)dict
 {
-    STAssertTrue(person != nil, @"person was not created");
-    STAssertTrue([person isKindOfClass:[VIPerson class]], @"person is wrong class");
+    XCTAssertTrue(person != nil, @"person was not created");
+    XCTAssertTrue([person isKindOfClass:[VIPerson class]], @"person is wrong class");
 
     NSString *firstName = [dict objectForKey:FIRST_NAME_DEFAULT_KEY] ? [dict objectForKey:FIRST_NAME_DEFAULT_KEY] : [dict objectForKey:FIRST_NAME_CUSTOM_KEY];
-    STAssertTrue([person.firstName isEqualToString:firstName], @"person first name is incorrect");
+    XCTAssertTrue([person.firstName isEqualToString:firstName], @"person first name is incorrect");
 
     NSString *lastName = [dict objectForKey:LAST_NAME_DEFAULT_KEY] ? [dict objectForKey:LAST_NAME_DEFAULT_KEY] : [dict objectForKey:LAST_NAME_CUSTOM_KEY];
-    STAssertTrue([person.lastName isEqualToString:lastName], @"person last name is incorrect");
+    XCTAssertTrue([person.lastName isEqualToString:lastName], @"person last name is incorrect");
 
     NSNumber *cats = [dict objectForKey:CATS_DEFAULT_KEY] ? [dict objectForKey:CATS_DEFAULT_KEY] : [dict objectForKey:CATS_CUSTOM_KEY];
-    STAssertTrue([person.numberOfCats isEqualToNumber:cats], @"person number of cats is incorrect");
+    XCTAssertTrue([person.numberOfCats isEqualToNumber:cats], @"person number of cats is incorrect");
 
     NSNumber *lovesCoolRanch = [dict objectForKey:COOL_RANCH_DEFAULT_KEY] ? [dict objectForKey:COOL_RANCH_DEFAULT_KEY] : [dict objectForKey:COOL_RANCH_CUSTOM_KEY];
-    STAssertTrue([person.lovesCoolRanch isEqualToNumber:lovesCoolRanch], @"person lovesCoolRanch is incorrect");
+    XCTAssertTrue([person.lovesCoolRanch isEqualToNumber:lovesCoolRanch], @"person lovesCoolRanch is incorrect");
 
     NSDate *birthdate = [[VIManagedObjectMap defaultDateFormatter] dateFromString:[dict objectForKey:BIRTHDAY_DEFAULT_KEY]];
     if (!birthdate) {
         birthdate = [[self customDateFormatter] dateFromString:[dict objectForKey:BIRTHDAY_CUSTOM_KEY]];
     }
-    STAssertTrue([person.birthDay isEqualToDate:birthdate], @"person birthdate is incorrect");
+    XCTAssertTrue([person.birthDay isEqualToDate:birthdate], @"person birthdate is incorrect");
 }
 
 - (NSString *)randomNumberString
