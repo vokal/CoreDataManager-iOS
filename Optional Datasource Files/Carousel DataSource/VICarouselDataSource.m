@@ -20,19 +20,22 @@
                delegate:(id <VIFetchResultsDataSourceDelegate>)delegate
 {
 
-    self.carousel = carousel;
-    id  retSelf = [self initWithPredicate:predicate
+
+    self = [super initWithPredicate:predicate
                                 cacheName:cacheName
                                 tableView:nil
                        sectionNameKeyPath:sectionNameKeyPath
                           sortDescriptors:sortDescriptors
                        managedObjectClass:managedObjectClass
                                  delegate:delegate];
+    if (self) {
+        _carousel = carousel;
+        _carousel.delegate = self;
+        _carousel.dataSource = self;
+    }
     
-    self.carousel.delegate = self;
-    self.carousel.dataSource = self;
     
-    return retSelf;
+    return self;
 }
 
 - (id)initWithPredicate:(NSPredicate *)predicate
