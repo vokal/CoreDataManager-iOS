@@ -19,18 +19,23 @@
               batchSize:(NSInteger)batchSize
                delegate:(id <VIFetchResultsDataSourceDelegate>)delegate
 {
-    id rawInit = [self initWithPredicate:predicate
-                              cacheName:cacheName
-                              tableView:nil
-                     sectionNameKeyPath:sectionNameKeyPath
-                        sortDescriptors:sortDescriptors
-                     managedObjectClass:managedObjectClass
-                               delegate:delegate];
-    self.carousel = carousel;
-    self.carousel.delegate = self;
-    self.carousel.dataSource = self;
+
+
+    self = [super initWithPredicate:predicate
+                                cacheName:cacheName
+                                tableView:nil
+                       sectionNameKeyPath:sectionNameKeyPath
+                          sortDescriptors:sortDescriptors
+                       managedObjectClass:managedObjectClass
+                                 delegate:delegate];
+    if (self) {
+        _carousel = carousel;
+        _carousel.delegate = self;
+        _carousel.dataSource = self;
+    }
     
-    return rawInit;
+    
+    return self;
 }
 
 - (id)initWithPredicate:(NSPredicate *)predicate
@@ -94,12 +99,12 @@
 - (void)reloadData
 {
     NSError *error = nil;
-    if (![_fetchedResultsController performFetch:&error]) {
+    if (![self.fetchedResultsController performFetch:&error]) {
         CDLog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
     }
     //FOR REVIEW controllerWillChangeContent is not being called in tests - this updates the table explicitly
-    [_carousel reloadData];
+    [self.carousel reloadData];
 }
 
 #pragma mark - Fetched results controller
@@ -169,7 +174,7 @@
     //views outside of the `if (view == nil) {...}` check otherwise
     //you'll get weird issues with carousel item content appearing
     //in the wrong place in the carousel
-    label.text = [[self.fetchedObjects objectAtIndex:index] stringValue];
+    label.text = [(self.fetchedObjects)[index] stringValue];
     
     return view;
 }

@@ -128,6 +128,10 @@
 - (void)initManagedObjectModel
 {
     NSURL *modelURL = [[NSBundle bundleForClass:[self class]] URLForResource:self.resource withExtension:@"momd"];
+    if (!modelURL) {
+        modelURL = [[NSBundle bundleForClass:[self class]] URLForResource:self.resource withExtension:@"mom"];
+        NSAssert(modelURL != nil, @"Managed object model not found.");
+    }
     _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
 }
 
@@ -387,9 +391,15 @@
 
 - (VIManagedObjectMapper *)mapperForClass:(Class)objectClass
 {
-    VIManagedObjectMapper *mapper = (self.mapperCollection)[NSStringFromClass(objectClass)];
-    if (!mapper) {
-        mapper = [VIManagedObjectMapper defaultMapper];
+
+    VIManagedObjectMapper * mapper = self.mapperCollection[NSStringFromClass(objectClass)];
+    while (!mapper) {
+        objectClass = [objectClass superclass];
+        mapper = self.mapperCollection[NSStringFromClass(objectClass)];
+        
+        if (objectClass == [NSManagedObject class] && !mapper) {
+            mapper = [VIManagedObjectMapper defaultMapper];
+        }
     }
     
     return mapper;

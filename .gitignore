@@ -15,6 +15,7 @@ build/*
 xcuserdata
 profile
 *.moved-aside
+DerivedData/*
 
 # OS X noise
 .DS_Store
