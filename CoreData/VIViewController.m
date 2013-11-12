@@ -7,61 +7,43 @@
 #import "VICoreDataManager.h"
 #import "VIPerson.h"
 
-@interface VIViewController ()
-
-@end
-
 @implementation VIViewController
 
-- (void)viewDidLoad
+- (void)loadView
 {
-    [super viewDidLoad];
-    
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
+    [super loadView];
+
+    UIBarButtonItem *reloadButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
                                                                                            target:self
                                                                                            action:@selector(reloadData)];
-}
+    UIBarButtonItem *reloadInBackgroundButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemOrganize
+                                                                                          target:self
+                                                                                          action:@selector(reloadDataInBackground)];
+    UIBarButtonItem *deleteSomeStuffButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash
+                                                                                           target:self
+                                                                                           action:@selector(deleteDataInBackground)];
 
-- (void)viewDidUnload
-{
-    [self setTableView:nil];
-    [super viewDidUnload];
-}
+    self.navigationItem.rightBarButtonItems = @[reloadButton, reloadInBackgroundButton, deleteSomeStuffButton];
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+    [[VICoreDataManager sharedInstance] resetCoreData];
+    [self setupDataSource];
+    [self setupCustomMapper];
 }
 
 - (void)setupDataSource
 {
-    NSArray *sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"lastName" ascending:YES],
-            [NSSortDescriptor sortDescriptorWithKey:@"firstName" ascending:YES]];
+    NSArray *sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"numberOfCats" ascending:NO],
+                                 [NSSortDescriptor sortDescriptorWithKey:@"lastName" ascending:YES]];
 
-    self.dataSource = [[VIPersonDataSource alloc]initWithPredicate:nil cacheName:nil tableView:self.tableView
+    self.dataSource = [[VIPersonDataSource alloc] initWithPredicate:nil
+                                                          cacheName:nil
+                                                          tableView:self.tableView
                                                  sectionNameKeyPath:nil sortDescriptors:sortDescriptors
-                                                 managedObjectClass:[VIPerson class]];
+                                                managedObjectClass:[VIPerson class]];
 }
 
-- (void)reloadData {
-    [self initializeCoreData];
-    [self setupDataSource];
-    [self.dataSource reloadData];
-}
-
-- (void)initializeCoreData
+- (void)setupCustomMapper
 {
-    [[VICoreDataManager sharedInstance] resetCoreData];
-
-    //MAKE 20 PEOPLE WITH THE DEFAULT MAPPER
-    int i = 0;
-    while (i < 21 ) {
-        NSLog(@"%@",[VIPerson addWithDictionary:[self makePersonDictForDefaultMapper] forManagedObjectContext:nil]);
-        i++;
-    }
-
-
-    //MAKE 20 PEOPLE WITH A CUSTOM MAPPER
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
     [df setDateFormat:@"dd' 'LLL' 'yy' 'HH:mm"];
     [df setTimeZone:[NSTimeZone localTimeZone]];
@@ -73,45 +55,74 @@
                       [VIManagedObjectMap mapWithForeignKey:@"CR_PREF" coreDataKey:@"lovesCoolRanch"]];
     VIManagedObjectMapper *mapper = [VIManagedObjectMapper mapperWithUniqueKey:@"lastName" andMaps:maps];
     [[VICoreDataManager sharedInstance] setObjectMapper:mapper forClass:[VIPerson class]];
+}
 
+- (void)reloadData
+{
+    //nil context is treated as main context
+    [self loadDataWithContext:nil];
+}
+
+- (void)reloadDataInBackground
+{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        NSManagedObjectContext *backgroundContext = [[VICoreDataManager sharedInstance] temporaryContext];
+        [self loadDataWithContext:backgroundContext];
+        [[VICoreDataManager sharedInstance] saveAndMergeWithMainContext:backgroundContext];
+    });
+}
+
+- (void)deleteDataInBackground
+{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        NSManagedObjectContext *backgroundContext = [[VICoreDataManager sharedInstance] temporaryContext];
+
+        NSPredicate *pred = [NSPredicate predicateWithFormat:@"lovesCoolRanch == YES"];
+        NSArray *personArray = [VIPerson fetchAllForPredicate:pred forManagedObjectContext:backgroundContext];
+        [personArray enumerateObjectsUsingBlock:^(VIPerson *obj, NSUInteger idx, BOOL *stop) {
+            [backgroundContext deleteObject:obj];
+        }];
+        [[VICoreDataManager sharedInstance] saveAndMergeWithMainContext:backgroundContext];
+    });
+}
+
+- (void)loadDataWithContext:(NSManagedObjectContext *)context
+{
+    //MAKE 20 PEOPLE WITH A CUSTOM MAPPER
     int j = 0;
     while (j < 21 ) {
-        NSLog(@"%@",[VIPerson addWithDictionary:[self makePersonDictForCustomMapper] forManagedObjectContext:nil]);
+        NSLog(@"%@",[VIPerson addWithDictionary:[self dictForCustomMapper] forManagedObjectContext:context]);
         j++;
     }
-
-    NSPredicate *pred = [NSPredicate predicateWithFormat:@"lovesCoolRanch == %@", @YES];
-    NSArray *allPeople = [VIPerson fetchAllForPredicate:pred forManagedObject:nil];
-
-    [allPeople enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        NSDictionary *dict = [obj dictionaryRepresentation];
-        NSLog(@"%@",dict);
-    }];
 }
 
-- (NSString *)randomNumber
+#pragma mark - Fake Data Makers
+- (NSDictionary *)dictForCustomMapper
 {
-    return [NSString stringWithFormat:@"%d",arc4random()%3000];
+    return @{@"first" :  [self randomString],
+             @"last" : [self randomString],
+             @"date_of_birth" : @"24 Jul 83 14:16",
+             @"cat_num" : [self randomNumber],
+             @"CR_PREF" : [self randomCoolRanchPreference]};
 }
 
-- (NSDictionary *)makePersonDictForDefaultMapper
+- (NSNumber *)randomCoolRanchPreference
 {
-    NSDictionary *dict = @{@"firstName" :  [self randomNumber],
-                           @"lastName" : [self randomNumber] ,
-                           @"birthDay" : @"1983-07-24T03:22:15Z",
-                           @"numberOfCats" : @17,
-                           @"lovesCoolRanch" : @NO};
-    return dict;
+    NSUInteger number = arc4random()%2;
+    return @(number);
 }
 
-- (NSDictionary *)makePersonDictForCustomMapper
+- (NSNumber *)randomNumber
 {
-    NSDictionary *dict = @{@"first" :  [self randomNumber],
-                           @"last" : [self randomNumber] ,
-                           @"date_of_birth" : @"24 Jul 83 14:16",
-                           @"cat_num" : @17,
-                           @"CR_PREF" : @YES};
-    return dict;
+    return @(arc4random()%30);
+}
+
+- (NSString *)randomString
+{
+    NSInteger numberOfChars = 7;
+    char data[numberOfChars];
+    for (int x=0; x < numberOfChars; data[x++] = (char)('A' + (arc4random_uniform(26))));
+    return [[NSString alloc] initWithBytes:data length:numberOfChars encoding:NSUTF8StringEncoding];
 }
 
 @end
