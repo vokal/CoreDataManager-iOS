@@ -308,6 +308,7 @@
     NSArray *results = [contextOrNil executeFetchRequest:fetchRequest error:&error];
     if (error) {
         CDLog(@"%s Fetch Request Error\n%@",__PRETTY_FUNCTION__ ,[error localizedDescription]);
+        return NO;
     }
 
     [results enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
