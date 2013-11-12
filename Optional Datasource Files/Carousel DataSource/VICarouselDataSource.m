@@ -19,6 +19,7 @@
               batchSize:(NSInteger)batchSize
                delegate:(id <VIFetchResultsDataSourceDelegate>)delegate
 {
+
     self.carousel = carousel;
     id  retSelf = [self initWithPredicate:predicate
                                 cacheName:cacheName

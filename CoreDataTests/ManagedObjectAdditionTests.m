@@ -3,7 +3,6 @@
 //  CoreDataTests
 //
 
-#import "ManagedObjectAdditionTests.h"
 #import "VICoreDataManager.h"
 #import "VIPerson.h"
 
@@ -18,6 +17,12 @@ NSString *const LAST_NAME_CUSTOM_KEY = @"last";
 NSString *const BIRTHDAY_CUSTOM_KEY = @"date_of_birth";
 NSString *const CATS_CUSTOM_KEY = @"cat_num";
 NSString *const COOL_RANCH_CUSTOM_KEY = @"CR_PREF";
+
+#import <XCTest/XCTest.h>
+
+@interface ManagedObjectAdditionTests : XCTestCase
+
+@end
 
 @implementation ManagedObjectAdditionTests
 

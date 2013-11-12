@@ -40,7 +40,9 @@
         _batchSize = batchSize;
         _fetchLimit = fetchLimit;
         _delegate = delegate;
-
+        
+        _clearsTableViewCellSelection = YES;
+        
         [self initFetchedResultsController];
     }
 
@@ -186,7 +188,9 @@
         [_delegate fetchResultsDataSourceSelectedObject:[_fetchedResultsController objectAtIndexPath:indexPath]];
     }
 
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (self.clearsTableViewCellSelection) {
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    }
 }
 
 #pragma mark - UITableViewDataSource
