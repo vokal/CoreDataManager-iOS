@@ -391,7 +391,6 @@
 
 - (VIManagedObjectMapper *)mapperForClass:(Class)objectClass
 {
-
     VIManagedObjectMapper * mapper = self.mapperCollection[NSStringFromClass(objectClass)];
     while (!mapper && objectClass) {
         objectClass = [objectClass superclass];
