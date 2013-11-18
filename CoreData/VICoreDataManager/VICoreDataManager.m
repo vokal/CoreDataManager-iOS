@@ -335,9 +335,24 @@
 #pragma mark - Context Saving and Merging
 - (void)saveMainContext
 {
-    dispatch_async(dispatch_get_main_queue(), ^{
+    if ([NSOperationQueue mainQueue] == [NSOperationQueue currentQueue]) {
         [self saveContext:[self managedObjectContext]];
-    });
+    } else {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self saveContext:[self managedObjectContext]];
+        });
+    }
+}
+
+- (void)saveMainContextAndWait
+{
+    if ([NSOperationQueue mainQueue] == [NSOperationQueue currentQueue]) {
+        [self saveContext:[self managedObjectContext]];
+    } else {
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [self saveContext:[self managedObjectContext]];
+        });
+    }
 }
 
 - (void)saveContext:(NSManagedObjectContext *)context
@@ -377,6 +392,7 @@
 
 - (void)saveAndMergeWithMainContext:(NSManagedObjectContext *)context
 {
+    NSAssert(context != [self managedObjectContext], @"This is NOT for saving the main context.");
     [self saveTempContext:context];
 }
 
@@ -391,7 +407,6 @@
 
 - (VIManagedObjectMapper *)mapperForClass:(Class)objectClass
 {
-
     VIManagedObjectMapper * mapper = self.mapperCollection[NSStringFromClass(objectClass)];
     while (!mapper && objectClass) {
         objectClass = [objectClass superclass];

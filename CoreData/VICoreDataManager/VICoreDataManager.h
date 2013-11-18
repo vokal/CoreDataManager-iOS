@@ -9,9 +9,9 @@
 
 #ifndef CDLog
 #ifdef DEBUG
-#    define CDLog(...) NSLog(__VA_ARGS__)
+#   define CDLog(...) NSLog(@"%s %@", __PRETTY_FUNCTION__, [NSString stringWithFormat:__VA_ARGS__])
 #else
-#    define CDLog(...) /* */
+#   define CDLog(...) /* */
 #endif
 #endif
 
@@ -24,63 +24,218 @@
 
 @interface VICoreDataManager : NSObject
 
-//this constructor is explicitly a VICoreDataManager because it's not expected to be subclassed
+/**
+ Returns the singleton core data manager. VICoreDataManager is not expected to be subclassed.
+ On launch you should also set the resource and database names. Example:
+ @code
+ [[VICoreDataManager sharedInstance] setResource:@"VICoreDataModel" database:@"VICoreDataModel.sqlite"];
+ @endcode
+ @return The shared core data manager.
+ */
 + (VICoreDataManager *)sharedInstance;
 
+/**
+ The primary managed object context. Only for use on the main queue.
+ @return 
+ The main managed object context.
+ */
 - (NSManagedObjectContext *)managedObjectContext;
 
-//use one of these setup methods before interacting with Core Data
-//passing in nil for the database parameter will create an in-memory store
+/**
+ Set the name of the managed object model and the name of the SQL lite store on disk.
+ @param resource
+ The filename of the mom or momd file in your project
+ @param database
+ The filename of the SQLite store in your application. A nil database name will create an in-memory store.
+ */
 - (void)setResource:(NSString *)resource
            database:(NSString *)database;
 
-//Create and configure new NSManagedObject subclasses
-//If contextOrNil is nil the main context will be used.
+/**
+ Create a new instance of a given NSManagedObject subclass.
+ @param managedObjectClass
+ The class of the object to return.
+ @param contextOrNil
+ The managed object context in which to insert the new object. A nil context will use the main context.
+ @return 
+ A new instance of the requested managed object subclass.
+ */
 - (NSManagedObject *)managedObjectOfClass:(Class)managedObjectClass
                                 inContext:(NSManagedObjectContext *)contextOrNil;
-
+/**
+ Set the object mapper for a given NSManagedObject subclass
+ @param objMap
+ The object mapper for importing data.
+ @param objectClass
+ Specifies the class to instantiate or fetch when importing data.
+ @return
+ YES if the mapper and class are set. NO if the relationship could not be set.
+ */
 - (BOOL)setObjectMapper:(VIManagedObjectMapper *)objMap
                forClass:(Class)objectClass;
-
+/**
+ Deserializes the NSDictionaries full of strings and creates/updates instances in the given context.
+ @param inputArray
+ An NSArray of NSDictionaries with data to be deserialized and imported into the managed object context.
+ @param objectClass
+ Specifies the class to instantiate or fetch when importing data.
+ @param contextOrNil
+ The managed object context in which to insert or fetch instances of the given class. A nil context will use the main context.
+ @return
+ An NSArray of instances of the given class. As subclasses of NSManagedObject they are not threadsafe.
+ */
 - (NSArray *)importArray:(NSArray *)inputArray
                 forClass:(Class)objectClass
              withContext:(NSManagedObjectContext*)contextOrNil;
 
+/**
+ Deserializes a single NSDictionaries full of strings and updates instances the given object.
+ @param inputDict
+ An NSDictionary with data to be deserialized.
+ @param object
+ The object to update.
+ */
 - (void)setInformationFromDictionary:(NSDictionary *)inputDict
                     forManagedObject:(NSManagedObject *)object;
 
-//Return the dictionary representation of a managed object
+/**
+ Serializes a managed object.
+ @param object
+ Specifies the class to instantiate or fetch when importing data.
+ @return
+ An NSDictionary representation of the given object using the mapper associated with the object's class.
+ */
 - (NSDictionary *)dictionaryRepresentationOfManagedObject:(NSManagedObject *)object;
 
 //Count, Fetch, and Delete NSManagedObject subclasses
 //NOT threadsafe! Always use a temp context if you are NOT on the main thread.
+
+/**
+ Counts every instance of a given class using the main managed object context. Includes subentities.
+ @param managedObjectClass
+ The class to count.
+ @return
+ Zero or greater count of the instances of the class.
+ */
 - (NSUInteger)countForClass:(Class)managedObjectClass;
+
+/**
+ Counts every instance of a given class using the given managed object context. Includes subentities.
+ @param managedObjectClass
+ The class to count.
+ @param contextOrNil
+ The managed object context in which count instances of the given class. A nil context will use the main context.
+ @return
+ Zero or greater count of the instances of the class.
+ */
 - (NSUInteger)countForClass:(Class)managedObjectClass
                  forContext:(NSManagedObjectContext *)contextOrNil;
+
+/**
+ Counts every instance of a given class that matches the predicate using the given managed object context. Includes subentities.
+ @param managedObjectClass
+ The class to count.
+ @param predicate
+ The predicate limit the count.
+ @param contextOrNil
+ The managed object context in which count instances of the given class. A nil context will use the main context.
+ @return
+ Zero or greater count of the instances of the class.
+ */
 - (NSUInteger)countForClass:(Class)managedObjectClass
               withPredicate:(NSPredicate *)predicate
                  forContext:(NSManagedObjectContext *)contextOrNil;
 
+/**
+ Fetches every instance of a given class using the main managed object context. Includes subentities.
+ @param managedObjectClass
+ The class to fetch
+ @return
+ An NSArray of managed object subclasses. Not threadsafe.
+ */
 - (NSArray *)arrayForClass:(Class)managedObjectClass;
+
+/**
+ Fetches every instance of a given class using the given managed object context. Includes subentities.
+ @param managedObjectClass
+ The class to fetch.
+ @param contextOrNil
+ The managed object context in which fetch instances of the given class. A nil context will use the main context.
+ @return
+ An NSArray of managed object subclasses. Not threadsafe.
+ */
 - (NSArray *)arrayForClass:(Class)managedObjectClass
                 forContext:(NSManagedObjectContext *)contextOrNil;
+
+/**
+ Fetches every instance of a given class that matches the predicate using the given managed object context. Includes subentities.
+ @param managedObjectClass
+ The class to fetch.
+ @param predicate
+ The predicate limit the fetch.
+ @param contextOrNil
+ The managed object context in which fetch instances of the given class. A nil context will use the main context.
+ @return
+ An NSArray of managed object subclasses. Not threadsafe.
+ */
 - (NSArray *)arrayForClass:(Class)managedObjectClass
              withPredicate:(NSPredicate *)predicate
                 forContext:(NSManagedObjectContext *)contextOrNil;
 
+/**
+ Deletes a given object in its current context.
+ @param object
+ The object to delete.
+ */
 - (void)deleteObject:(NSManagedObject *)object;
+
+/**
+ Deletes all instances of a class in the given context.
+ @param managedObjectClass
+ Instances of this class will all be deleted from the given context.
+ @param contextOrNil
+ The managed object context in which delete instances of the given class. A nil context will use the main context.
+ @return
+ YES if all objects were successfully deleted. NO if the attemp to delete was unsuccessful.
+ */
 - (BOOL)deleteAllObjectsOfClass:(Class)managedObjectClass
                         context:(NSManagedObjectContext *)contextOrNil;
 
-//This saves the main context asynchronously on the main thread
+/**
+ Saves the main context asynchronously on the main queue. If already on the main queue it will block and save synchronously.
+ */
 - (void)saveMainContext;
 
-//wrap your background transactions in these methods
-//you are responsible for retaining temp contexts yourself
+/**
+ Saves the main context synchronously on the main queue. If already on the main queue it performs the same as saveMainContext.
+ */
+- (void)saveMainContextAndWait;
+
+/**
+ Provides a managed object context for scratch work or background processing. As with all managed object contexts it is not threadsafe.
+ Create the context and do work on the same queue. You are responsible for retaining temporary contexts yourself.
+ Here is an example background import:
+ @code
+ NSManagedObjectContext *backgroundContext = [[VICoreDataManager sharedInstance] temporaryContext];
+ [self loadDataWithContext:backgroundContext]; //do some data loading
+ [[VICoreDataManager sharedInstance] saveAndMergeWithMainContext:backgroundContext];
+ @endcode
+ @return
+ A managed object context with the same persistant store coordinator as tha main context, but otherwise no relationship.
+ */
 - (NSManagedObjectContext *)temporaryContext;
+
+/**
+ Saves any temporary managed object context and merges those changes with the main managed object context in a thread-safe way.
+ This method is safe to call from any queue.
+ @param context
+ The termporary context to save. Do not use this method to save the main context.
+ */
 - (void)saveAndMergeWithMainContext:(NSManagedObjectContext *)context;
 
-//this deletes the persistent stores and resets the main context and model to nil
+/**
+ Deletes the persistent stores and resets the main context and model to nil
+ */
 - (void)resetCoreData;
 
 @end
