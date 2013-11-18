@@ -409,8 +409,6 @@
 + (void)writeToTemporaryContext:(void (^)(NSManagedObjectContext *tempContext))writeBlock
                      completion:(void (^)(void))completion
 {
-    NSOperationQueue *callingQueue = [NSOperationQueue currentQueue];
-    
     NSAssert(writeBlock, @"Write block must not be nil");
     [[VICoreDataManager sharedInstance].writingQueue addOperationWithBlock:^{
         
@@ -418,7 +416,7 @@
         writeBlock(tempContext);
         [[VICoreDataManager sharedInstance] saveAndMergeWithMainContext:tempContext];
         
-        [callingQueue addOperationWithBlock:^{
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             if (completion) {
                 completion();
             }
