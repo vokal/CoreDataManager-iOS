@@ -226,6 +226,15 @@
 - (NSManagedObjectContext *)temporaryContext;
 
 /**
+ *  This provides a way for an application with heavy amounts of Core Data threading and writing to maintain object graph integrety by assuring that only one context is being written to at once.
+ *
+ *  @param writeBlock Do not use GCD or thread jumping inside this block. Handle all fetches, creates and writes using the tempContext variable passed to this block. Do not save or merge this context, it will be done for you.
+ *  @param completion This will be fired on the main thread once the context has been saved.
+ */
+- (void)writeToTemporaryContext:(void (^)(NSManagedObjectContext *tempContext))writeBlock
+                     completion:(void (^)(void))completion;
+
+/**
  Saves any temporary managed object context and merges those changes with the main managed object context in a thread-safe way.
  This method is safe to call from any queue.
  @param context
