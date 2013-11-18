@@ -231,7 +231,7 @@
  *  @param writeBlock Do not use GCD or thread jumping inside this block. Handle all fetches, creates and writes using the tempContext variable passed to this block. Do not save or merge this context, it will be done for you.
  *  @param completion This will be fired on the main thread once the context has been saved.
  */
-- (void)writeToTemporaryContext:(void (^)(NSManagedObjectContext *tempContext))writeBlock
++ (void)writeToTemporaryContext:(void (^)(NSManagedObjectContext *tempContext))writeBlock
                      completion:(void (^)(void))completion;
 
 /**

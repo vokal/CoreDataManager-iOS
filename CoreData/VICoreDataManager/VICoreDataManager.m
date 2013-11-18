@@ -72,8 +72,12 @@
     self = [super init];
     if (self) {
         _mapperCollection = [NSMutableDictionary dictionary];
-        _writingQueue = [[NSOperationQueue alloc] init];
-        [_writingQueue setMaxConcurrentOperationCount:1];
+        
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            _writingQueue = [[NSOperationQueue alloc] init];
+            [_writingQueue setMaxConcurrentOperationCount:1];
+        });
     }
     return self;
 }
@@ -402,17 +406,19 @@
 
 #pragma mark - Convenience Methods
 
-- (void)writeToTemporaryContext:(void (^)(NSManagedObjectContext *tempContext))writeBlock
++ (void)writeToTemporaryContext:(void (^)(NSManagedObjectContext *tempContext))writeBlock
                      completion:(void (^)(void))completion
 {
+    NSOperationQueue *callingQueue = [NSOperationQueue currentQueue];
+    
     NSAssert(writeBlock, @"Write block must not be nil");
-    [self.writingQueue addOperationWithBlock:^{
+    [[VICoreDataManager sharedInstance].writingQueue addOperationWithBlock:^{
         
-        NSManagedObjectContext *tempContext = [self temporaryContext];
+        NSManagedObjectContext *tempContext = [[VICoreDataManager sharedInstance] temporaryContext];
         writeBlock(tempContext);
-        [self saveAndMergeWithMainContext:tempContext];
+        [[VICoreDataManager sharedInstance] saveAndMergeWithMainContext:tempContext];
         
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [callingQueue addOperationWithBlock:^{
             if (completion) {
                 completion();
             }
