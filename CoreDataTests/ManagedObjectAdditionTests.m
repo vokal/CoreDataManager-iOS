@@ -90,6 +90,34 @@ NSString *const COOL_RANCH_CUSTOM_KEY = @"CR_PREF";
     }];
 }
 
+- (void)testImportArrayWithCustomMapperMalformedInput
+{
+    NSArray *array = @[[self makePersonDictForCustomMapper],
+                       [self makePersonDictForCustomMapper],
+                       [self makePersonDictForCustomMapperWithMalformedInput],
+                       [self makePersonDictForCustomMapper],
+                       [self makePersonDictForCustomMapper]];
+    VIManagedObjectMapper *mapper = [VIManagedObjectMapper mapperWithUniqueKey:nil andMaps:[self customMapsArray]];
+    [[VICoreDataManager sharedInstance] setObjectMapper:mapper forClass:[VIPerson class]];
+    NSArray *arrayOfPeople = [VIPerson addWithArray:array forManagedObjectContext:nil];
+
+    XCTAssertTrue([arrayOfPeople count] == 5, @"person array has incorrect number of people");
+    //just need to check the count and make sure it doesn't crash
+}
+
+- (void)testImportArrayWithDefaultMapperMalformedInput
+{
+    NSArray *array = @[[self makePersonDictForDefaultMapper],
+                       [self makePersonDictForDefaultMapper],
+                       [self makePersonDictForDefaultMapperWithMalformedInput],
+                       [self makePersonDictForDefaultMapper],
+                       [self makePersonDictForDefaultMapper]];
+    NSArray *arrayOfPeople = [VIPerson addWithArray:array forManagedObjectContext:nil];
+
+    XCTAssertTrue([arrayOfPeople count] == 5, @"person array has incorrect number of people");
+    //just need to check the count and make sure it doesn't crash
+}
+
 - (void)testImportWithCustomMapperAndAnEmptyInputValue
 {
     VIManagedObjectMapper *mapper = [VIManagedObjectMapper mapperWithUniqueKey:FIRST_NAME_DEFAULT_KEY andMaps:[self customMapsArray]];
@@ -275,6 +303,27 @@ NSString *const COOL_RANCH_CUSTOM_KEY = @"CR_PREF";
                            COOL_RANCH_CUSTOM_KEY : @YES};
     return dict;
 }
+
+- (NSDictionary *)makePersonDictForDefaultMapperWithMalformedInput
+{
+    NSDictionary *dict = @{FIRST_NAME_DEFAULT_KEY :  @"BILLY",
+                           LAST_NAME_DEFAULT_KEY : @"TESTCASE" ,
+                           BIRTHDAY_DEFAULT_KEY : @"1983-07-24T03:22:15Z",
+                           CATS_DEFAULT_KEY : @[@17],
+                           COOL_RANCH_DEFAULT_KEY : @{@"something": @NO}};
+    return dict;
+}
+
+- (NSDictionary *)makePersonDictForCustomMapperWithMalformedInput
+{
+    NSDictionary *dict = @{FIRST_NAME_CUSTOM_KEY : @"CUSTOM",
+                           LAST_NAME_CUSTOM_KEY : @"MAPMAN",
+                           BIRTHDAY_CUSTOM_KEY : @"24 Jul 83 14:16",
+                           CATS_CUSTOM_KEY : @{@"something": @192},
+                           COOL_RANCH_CUSTOM_KEY : @[@YES]};
+    return dict;
+}
+
 
 - (NSDateFormatter *)customDateFormatter
 {
