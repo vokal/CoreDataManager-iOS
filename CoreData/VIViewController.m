@@ -48,11 +48,11 @@
     [df setDateFormat:@"dd' 'LLL' 'yy' 'HH:mm"];
     [df setTimeZone:[NSTimeZone localTimeZone]];
 
-    NSArray *maps = @[[VIManagedObjectMap mapWithForeignKey:@"first" coreDataKeyPath:@"firstName"],
-                      [VIManagedObjectMap mapWithForeignKey:@"last" coreDataKeyPath:@"lastName"],
+    NSArray *maps = @[[VIManagedObjectMap mapWithForeignKeyPath:@"first" coreDataKey:@"firstName"],
+                      [VIManagedObjectMap mapWithForeignKeyPath:@"last" coreDataKey:@"lastName"],
                       [VIManagedObjectMap mapWithForeignKeyPath:@"date_of_birth" coreDataKey:@"birthDay" dateFormatter:df],
-                      [VIManagedObjectMap mapWithForeignKey:@"cat_num" coreDataKeyPath:@"numberOfCats"],
-                      [VIManagedObjectMap mapWithForeignKey:@"CR_PREF" coreDataKeyPath:@"lovesCoolRanch"]];
+                      [VIManagedObjectMap mapWithForeignKeyPath:@"cat_num" coreDataKey:@"numberOfCats"],
+                      [VIManagedObjectMap mapWithForeignKeyPath:@"CR_PREF" coreDataKey:@"lovesCoolRanch"]];
     VIManagedObjectMapper *mapper = [VIManagedObjectMapper mapperWithUniqueKey:@"lastName" andMaps:maps];
     [[VICoreDataManager sharedInstance] setObjectMapper:mapper forClass:[VIPerson class]];
 }

@@ -132,11 +132,11 @@ NSString *const COOL_RANCH_MALFORMED_KEY = @"CR_PREF";
                        [self makePersonDictForDefaultMapper],
                        [self makePersonDictForDefaultMapper]];
 
-    NSArray *malformedMaps = @[[VIManagedObjectMap mapWithForeignKey:FIRST_NAME_MALFORMED_KEY coreDataKeyPath:FIRST_NAME_DEFAULT_KEY],
-                            [VIManagedObjectMap mapWithForeignKey:LAST_NAME_MALFORMED_KEY coreDataKeyPath:LAST_NAME_DEFAULT_KEY],
+    NSArray *malformedMaps = @[[VIManagedObjectMap mapWithForeignKeyPath:FIRST_NAME_MALFORMED_KEY coreDataKey:FIRST_NAME_DEFAULT_KEY],
+                            [VIManagedObjectMap mapWithForeignKeyPath:LAST_NAME_MALFORMED_KEY coreDataKey:LAST_NAME_DEFAULT_KEY],
                             [VIManagedObjectMap mapWithForeignKeyPath:BIRTHDAY_MALFORMED_KEY coreDataKey:BIRTHDAY_DEFAULT_KEY dateFormatter:[self customDateFormatter]],
-                            [VIManagedObjectMap mapWithForeignKey:CATS_MALFORMED_KEY coreDataKeyPath:CATS_DEFAULT_KEY],
-                            [VIManagedObjectMap mapWithForeignKey:COOL_RANCH_MALFORMED_KEY coreDataKeyPath:COOL_RANCH_DEFAULT_KEY]];
+                            [VIManagedObjectMap mapWithForeignKeyPath:CATS_MALFORMED_KEY coreDataKey:CATS_DEFAULT_KEY],
+                            [VIManagedObjectMap mapWithForeignKeyPath:COOL_RANCH_MALFORMED_KEY coreDataKey:COOL_RANCH_DEFAULT_KEY]];
     VIManagedObjectMapper *mapper = [VIManagedObjectMapper mapperWithUniqueKey:@"fart" andMaps:malformedMaps];
     [[VICoreDataManager sharedInstance] setObjectMapper:mapper forClass:[VIPerson class]];
     NSArray *arrayOfPeople = [VIPerson addWithArray:array forManagedObjectContext:nil];
@@ -362,11 +362,11 @@ NSString *const COOL_RANCH_MALFORMED_KEY = @"CR_PREF";
 
 - (NSArray *)customMapsArray
 {
-    return @[[VIManagedObjectMap mapWithForeignKey:FIRST_NAME_CUSTOM_KEY coreDataKeyPath:FIRST_NAME_DEFAULT_KEY],
-             [VIManagedObjectMap mapWithForeignKey:LAST_NAME_CUSTOM_KEY coreDataKeyPath:LAST_NAME_DEFAULT_KEY],
+    return @[[VIManagedObjectMap mapWithForeignKeyPath:FIRST_NAME_CUSTOM_KEY coreDataKey:FIRST_NAME_DEFAULT_KEY],
+             [VIManagedObjectMap mapWithForeignKeyPath:LAST_NAME_CUSTOM_KEY coreDataKey:LAST_NAME_DEFAULT_KEY],
              [VIManagedObjectMap mapWithForeignKeyPath:BIRTHDAY_CUSTOM_KEY coreDataKey:BIRTHDAY_DEFAULT_KEY dateFormatter:[self customDateFormatter]],
-             [VIManagedObjectMap mapWithForeignKey:CATS_CUSTOM_KEY coreDataKeyPath:CATS_DEFAULT_KEY],
-             [VIManagedObjectMap mapWithForeignKey:COOL_RANCH_CUSTOM_KEY coreDataKeyPath:COOL_RANCH_DEFAULT_KEY]];
+             [VIManagedObjectMap mapWithForeignKeyPath:CATS_CUSTOM_KEY coreDataKey:CATS_DEFAULT_KEY],
+             [VIManagedObjectMap mapWithForeignKeyPath:COOL_RANCH_CUSTOM_KEY coreDataKey:COOL_RANCH_DEFAULT_KEY]];
 }
 
 @end

@@ -18,8 +18,8 @@
 //Defaults to NSNumberFormatterDecimalStyle
 + (NSNumberFormatter *)defaultNumberFormatter;
 
-+ (instancetype)mapWithForeignKey:(NSString *)foreignKey
-                  coreDataKeyPath:(NSString *)coreDataKey;
++ (instancetype)mapWithForeignKeyPath:(NSString *)foreignKey
+                          coreDataKey:(NSString *)coreDataKey;
 
 + (instancetype)mapWithForeignKeyPath:(NSString *)foreignKey
                           coreDataKey:(NSString *)coreDataKey
