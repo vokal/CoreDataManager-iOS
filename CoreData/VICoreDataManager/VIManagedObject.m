@@ -11,7 +11,7 @@
 - (void)safeSetValue:(id)value forKey:(NSString *)key
 {
     if (value && ![[NSNull null] isEqual:value]) {
-        [self setValue:value forKey:key];
+        [self setValue:value forKeyPath:key];
     } else {
         [self setNilValueForKey:key];
     }
@@ -41,6 +41,10 @@
 
 + (instancetype)addWithDictionary:(NSDictionary *)inputDict forManagedObjectContext:(NSManagedObjectContext*)contextOrNil
 {
+    if (!inputDict || [[NSNull null] isEqual:inputDict]) {
+        return nil;
+    }
+
     NSArray *array = [[VICoreDataManager sharedInstance] importArray:@[inputDict] forClass:[self class] withContext:contextOrNil];
     
     if (array.count) {
