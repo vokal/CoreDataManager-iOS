@@ -18,6 +18,12 @@ NSString *const BIRTHDAY_CUSTOM_KEY = @"date_of_birth";
 NSString *const CATS_CUSTOM_KEY = @"cat_num";
 NSString *const COOL_RANCH_CUSTOM_KEY = @"CR_PREF";
 
+NSString *const FIRST_NAME_MALFORMED_KEY = @"first.banana";
+NSString *const LAST_NAME_MALFORMED_KEY = @"somethingsomething.something.something";
+NSString *const BIRTHDAY_MALFORMED_KEY = @"date_of_birth?";
+NSString *const CATS_MALFORMED_KEY = @"cat_num_biz";
+NSString *const COOL_RANCH_MALFORMED_KEY = @"CR_PREF";
+
 #import <XCTest/XCTest.h>
 
 @interface ManagedObjectAdditionTests : XCTestCase
@@ -88,6 +94,55 @@ NSString *const COOL_RANCH_CUSTOM_KEY = @"CR_PREF";
     [arrayOfPeople enumerateObjectsUsingBlock:^(VIPerson *obj, NSUInteger idx, BOOL *stop) {
         [self checkMappingForPerson:obj andDictionary:[self makePersonDictForDefaultMapper]];
     }];
+}
+
+- (void)testImportArrayWithCustomMapperMalformedInput
+{
+    NSArray *array = @[[self makePersonDictForCustomMapper],
+                       [self makePersonDictForCustomMapper],
+                       [self makePersonDictForCustomMapperWithMalformedInput],
+                       [self makePersonDictForCustomMapper],
+                       [self makePersonDictForCustomMapper]];
+    VIManagedObjectMapper *mapper = [VIManagedObjectMapper mapperWithUniqueKey:nil andMaps:[self customMapsArray]];
+    [[VICoreDataManager sharedInstance] setObjectMapper:mapper forClass:[VIPerson class]];
+    NSArray *arrayOfPeople = [VIPerson addWithArray:array forManagedObjectContext:nil];
+
+    XCTAssertTrue([arrayOfPeople count] == 5, @"person array has incorrect number of people");
+    //just need to check the count and make sure it doesn't crash
+}
+
+- (void)testImportArrayWithDefaultMapperMalformedInput
+{
+    NSArray *array = @[[self makePersonDictForDefaultMapper],
+                       [self makePersonDictForDefaultMapper],
+                       [self makePersonDictForDefaultMapperWithMalformedInput],
+                       [self makePersonDictForDefaultMapper],
+                       [self makePersonDictForDefaultMapper]];
+    NSArray *arrayOfPeople = [VIPerson addWithArray:array forManagedObjectContext:nil];
+
+    XCTAssertTrue([arrayOfPeople count] == 5, @"person array has incorrect number of people");
+    //just need to check the count and make sure it doesn't crash
+}
+
+- (void)testImportArrayWithMalformedMapper
+{
+    NSArray *array = @[[self makePersonDictForDefaultMapper],
+                       [self makePersonDictForDefaultMapper],
+                       [self makePersonDictForDefaultMapperWithMalformedInput],
+                       [self makePersonDictForDefaultMapper],
+                       [self makePersonDictForDefaultMapper]];
+
+    NSArray *malformedMaps = @[[VIManagedObjectMap mapWithForeignKey:FIRST_NAME_MALFORMED_KEY coreDataKeyPath:FIRST_NAME_DEFAULT_KEY],
+                            [VIManagedObjectMap mapWithForeignKey:LAST_NAME_MALFORMED_KEY coreDataKeyPath:LAST_NAME_DEFAULT_KEY],
+                            [VIManagedObjectMap mapWithForeignKeyPath:BIRTHDAY_MALFORMED_KEY coreDataKey:BIRTHDAY_DEFAULT_KEY dateFormatter:[self customDateFormatter]],
+                            [VIManagedObjectMap mapWithForeignKey:CATS_MALFORMED_KEY coreDataKeyPath:CATS_DEFAULT_KEY],
+                            [VIManagedObjectMap mapWithForeignKey:COOL_RANCH_MALFORMED_KEY coreDataKeyPath:COOL_RANCH_DEFAULT_KEY]];
+    VIManagedObjectMapper *mapper = [VIManagedObjectMapper mapperWithUniqueKey:@"fart" andMaps:malformedMaps];
+    [[VICoreDataManager sharedInstance] setObjectMapper:mapper forClass:[VIPerson class]];
+    NSArray *arrayOfPeople = [VIPerson addWithArray:array forManagedObjectContext:nil];
+
+    XCTAssertTrue([arrayOfPeople count] == 5, @"person array has incorrect number of people");
+    //just need to check the count and make sure it doesn't crash
 }
 
 - (void)testImportWithCustomMapperAndAnEmptyInputValue
@@ -276,6 +331,27 @@ NSString *const COOL_RANCH_CUSTOM_KEY = @"CR_PREF";
     return dict;
 }
 
+- (NSDictionary *)makePersonDictForDefaultMapperWithMalformedInput
+{
+    NSDictionary *dict = @{FIRST_NAME_DEFAULT_KEY :  @"BILLY",
+                           LAST_NAME_DEFAULT_KEY : @"TESTCASE" ,
+                           BIRTHDAY_DEFAULT_KEY : @"1983-07-24T03:22:15Z",
+                           CATS_DEFAULT_KEY : @[@17],
+                           COOL_RANCH_DEFAULT_KEY : @{@"something": @NO}};
+    return dict;
+}
+
+- (NSDictionary *)makePersonDictForCustomMapperWithMalformedInput
+{
+    NSDictionary *dict = @{FIRST_NAME_CUSTOM_KEY : @"CUSTOM",
+                           LAST_NAME_CUSTOM_KEY : @"MAPMAN",
+                           BIRTHDAY_CUSTOM_KEY : @"24 Jul 83 14:16",
+                           CATS_CUSTOM_KEY : @{@"something": @192},
+                           COOL_RANCH_CUSTOM_KEY : @[@YES]};
+    return dict;
+}
+
+
 - (NSDateFormatter *)customDateFormatter
 {
     NSDateFormatter *df = [[NSDateFormatter alloc] init];
@@ -286,11 +362,11 @@ NSString *const COOL_RANCH_CUSTOM_KEY = @"CR_PREF";
 
 - (NSArray *)customMapsArray
 {
-    return @[[VIManagedObjectMap mapWithForeignKey:FIRST_NAME_CUSTOM_KEY coreDataKey:FIRST_NAME_DEFAULT_KEY],
-             [VIManagedObjectMap mapWithForeignKey:LAST_NAME_CUSTOM_KEY coreDataKey:LAST_NAME_DEFAULT_KEY],
-             [VIManagedObjectMap mapWithForeignKey:BIRTHDAY_CUSTOM_KEY coreDataKey:BIRTHDAY_DEFAULT_KEY dateFormatter:[self customDateFormatter]],
-             [VIManagedObjectMap mapWithForeignKey:CATS_CUSTOM_KEY coreDataKey:CATS_DEFAULT_KEY],
-             [VIManagedObjectMap mapWithForeignKey:COOL_RANCH_CUSTOM_KEY coreDataKey:COOL_RANCH_DEFAULT_KEY]];
+    return @[[VIManagedObjectMap mapWithForeignKey:FIRST_NAME_CUSTOM_KEY coreDataKeyPath:FIRST_NAME_DEFAULT_KEY],
+             [VIManagedObjectMap mapWithForeignKey:LAST_NAME_CUSTOM_KEY coreDataKeyPath:LAST_NAME_DEFAULT_KEY],
+             [VIManagedObjectMap mapWithForeignKeyPath:BIRTHDAY_CUSTOM_KEY coreDataKey:BIRTHDAY_DEFAULT_KEY dateFormatter:[self customDateFormatter]],
+             [VIManagedObjectMap mapWithForeignKey:CATS_CUSTOM_KEY coreDataKeyPath:CATS_DEFAULT_KEY],
+             [VIManagedObjectMap mapWithForeignKey:COOL_RANCH_CUSTOM_KEY coreDataKeyPath:COOL_RANCH_DEFAULT_KEY]];
 }
 
 @end

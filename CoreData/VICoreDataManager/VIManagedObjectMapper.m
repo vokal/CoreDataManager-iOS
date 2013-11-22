@@ -150,12 +150,12 @@
 - (void)setInformationFromDictionary:(NSDictionary *)inputDict forManagedObject:(NSManagedObject *)object
 {
     [self.mapsArray enumerateObjectsUsingBlock:^(VIManagedObjectMap *aMap, NSUInteger idx, BOOL *stop) {
-        id inputObject = inputDict[aMap.inputKey];
+        id inputObject = [inputDict valueForKeyPath:aMap.inputKey];
         inputObject = [self checkDate:inputObject withDateFormatter:aMap.dateFormatter];
         inputObject = [self checkNumber:inputObject withNumberFormatter:aMap.numberFormatter];
         inputObject = [self checkClass:inputObject managedObject:object key:aMap.coreDataKey];        
         inputObject = [self checkNull:inputObject];
-        [object safeSetValue:inputObject forKey:aMap.coreDataKey];
+        [object safeSetValue:inputObject forKeyPath:aMap.coreDataKey];
     }];
 }
 
@@ -183,7 +183,7 @@
         inputObject = [self checkNumber:inputObject withNumberFormatter:[VIManagedObjectMap defaultNumberFormatter]];
         inputObject = [self checkClass:inputObject managedObject:object key:key];
         inputObject = [self checkNull:inputObject];
-        [object safeSetValue:inputObject forKey:key];
+        [object safeSetValue:inputObject forKeyPath:key];
     }];
 }
 

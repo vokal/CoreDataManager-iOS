@@ -208,7 +208,15 @@
     NSArray *existingObjectArray;
 
     if (mapper.uniqueComparisonKey) {
+        NSMutableArray *safeArrayOfUniqueKeys = [NSMutableArray array];
         NSArray *arrayOfUniqueKeys = [inputArray valueForKey:mapper.foreignUniqueComparisonKey];
+        NSNull *nullObj = [NSNull null];
+        [arrayOfUniqueKeys enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            if (![nullObj isEqual:obj]) {
+                [safeArrayOfUniqueKeys addObject:obj];
+            }
+        }];
+        arrayOfUniqueKeys = [safeArrayOfUniqueKeys copy];
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(%K IN %@)", mapper.uniqueComparisonKey, arrayOfUniqueKeys];
         existingObjectArray = [self arrayForClass:objectClass withPredicate:predicate forContext:contextOrNil];
     }
