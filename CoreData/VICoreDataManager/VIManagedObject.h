@@ -7,7 +7,7 @@
 
 @interface NSManagedObject (VIManagedObjectAdditions)
 
-- (void)safeSetValue:(id)value forKey:(NSString *)key;
+- (void)safeSetValue:(id)value forKeyPath:(NSString *)key;
 
 - (NSDictionary *)dictionaryRepresentation;
 

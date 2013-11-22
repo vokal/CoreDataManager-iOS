@@ -8,12 +8,12 @@
 
 @implementation VIManagedObjectMap
 
-+ (instancetype)mapWithForeignKey:(NSString *)foreignKey coreDataKey:(NSString *)coreDataKey
++ (instancetype)mapWithForeignKey:(NSString *)foreignKey coreDataKeyPath:(NSString *)coreDataKey
 {
-    return [self mapWithForeignKey:foreignKey coreDataKey:coreDataKey dateFormatter:nil];
+    return [self mapWithForeignKeyPath:foreignKey coreDataKey:coreDataKey dateFormatter:nil];
 }
 
-+ (instancetype)mapWithForeignKey:(NSString *)foreignKey
++ (instancetype)mapWithForeignKeyPath:(NSString *)foreignKey
                       coreDataKey:(NSString *)coreDataKey
                     dateFormatter:(NSDateFormatter *)dateFormatter
 {
@@ -24,7 +24,7 @@
     return map;
 }
 
-+ (instancetype)mapWithForeignKey:(NSString *)foreignKey
++ (instancetype)mapWithForeignKeyPath:(NSString *)foreignKey
                       coreDataKey:(NSString *)coreDataKey
                   numberFormatter:(NSNumberFormatter *)numberFormatter
 {
@@ -41,7 +41,7 @@
 
     [mapDict enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
         //key = input key, obj = core data key
-        [mapArray addObject:[self mapWithForeignKey:key coreDataKey:obj]];
+        [mapArray addObject:[self mapWithForeignKey:key coreDataKeyPath:obj]];
     }];
 
     return [mapArray copy];

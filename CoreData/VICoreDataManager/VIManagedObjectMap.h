@@ -19,15 +19,15 @@
 + (NSNumberFormatter *)defaultNumberFormatter;
 
 + (instancetype)mapWithForeignKey:(NSString *)foreignKey
-                      coreDataKey:(NSString *)coreDataKey;
+                  coreDataKeyPath:(NSString *)coreDataKey;
 
-+ (instancetype)mapWithForeignKey:(NSString *)foreignKey
-                      coreDataKey:(NSString *)coreDataKey
-                    dateFormatter:(NSDateFormatter *)dateFormatter;
++ (instancetype)mapWithForeignKeyPath:(NSString *)foreignKey
+                          coreDataKey:(NSString *)coreDataKey
+                        dateFormatter:(NSDateFormatter *)dateFormatter;
 
-+ (instancetype)mapWithForeignKey:(NSString *)foreignKey
-                      coreDataKey:(NSString *)coreDataKey
-                  numberFormatter:(NSNumberFormatter *)numberFormatter;
++ (instancetype)mapWithForeignKeyPath:(NSString *)foreignKey
+                          coreDataKey:(NSString *)coreDataKey
+                      numberFormatter:(NSNumberFormatter *)numberFormatter;
 
 //Make a dictionary of keys and values and get an array of maps in return
 //key = expected input key, value = core data key
