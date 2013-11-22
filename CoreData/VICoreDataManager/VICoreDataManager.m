@@ -11,6 +11,8 @@
     NSPersistentStoreCoordinator *_persistentStoreCoordinator;
 }
 
+@property NSOperationQueue *writingQueue;
+
 @property NSString *resource;
 @property NSString *databaseFilename;
 @property NSMutableDictionary *mapperCollection;
@@ -70,6 +72,12 @@
     self = [super init];
     if (self) {
         _mapperCollection = [NSMutableDictionary dictionary];
+        
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            _writingQueue = [[NSOperationQueue alloc] init];
+            [_writingQueue setMaxConcurrentOperationCount:1];
+        });
     }
     return self;
 }
@@ -397,6 +405,25 @@
 }
 
 #pragma mark - Convenience Methods
+
++ (void)writeToTemporaryContext:(void (^)(NSManagedObjectContext *tempContext))writeBlock
+                     completion:(void (^)(void))completion
+{
+    NSAssert(writeBlock, @"Write block must not be nil");
+    [[VICoreDataManager sharedInstance].writingQueue addOperationWithBlock:^{
+        
+        NSManagedObjectContext *tempContext = [[VICoreDataManager sharedInstance] temporaryContext];
+        writeBlock(tempContext);
+        [[VICoreDataManager sharedInstance] saveAndMergeWithMainContext:tempContext];
+        
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            if (completion) {
+                completion();
+            }
+        }];
+    }];
+}
+
 - (NSFetchRequest *)fetchRequestWithClass:(Class)managedObjectClass predicate:(NSPredicate *)predicate
 {
     NSString *entityName = NSStringFromClass(managedObjectClass);
