@@ -18,6 +18,12 @@ NSString *const BIRTHDAY_CUSTOM_KEY = @"date_of_birth";
 NSString *const CATS_CUSTOM_KEY = @"cat_num";
 NSString *const COOL_RANCH_CUSTOM_KEY = @"CR_PREF";
 
+NSString *const FIRST_NAME_MALFORMED_KEY = @"first.banana";
+NSString *const LAST_NAME_MALFORMED_KEY = @"somethingsomething.something.something";
+NSString *const BIRTHDAY_MALFORMED_KEY = @"date_of_birth?";
+NSString *const CATS_MALFORMED_KEY = @"cat_num_biz";
+NSString *const COOL_RANCH_MALFORMED_KEY = @"CR_PREF";
+
 #import <XCTest/XCTest.h>
 
 @interface ManagedObjectAdditionTests : XCTestCase
@@ -112,6 +118,27 @@ NSString *const COOL_RANCH_CUSTOM_KEY = @"CR_PREF";
                        [self makePersonDictForDefaultMapperWithMalformedInput],
                        [self makePersonDictForDefaultMapper],
                        [self makePersonDictForDefaultMapper]];
+    NSArray *arrayOfPeople = [VIPerson addWithArray:array forManagedObjectContext:nil];
+
+    XCTAssertTrue([arrayOfPeople count] == 5, @"person array has incorrect number of people");
+    //just need to check the count and make sure it doesn't crash
+}
+
+- (void)testImportArrayWithMalformedMapper
+{
+    NSArray *array = @[[self makePersonDictForDefaultMapper],
+                       [self makePersonDictForDefaultMapper],
+                       [self makePersonDictForDefaultMapperWithMalformedInput],
+                       [self makePersonDictForDefaultMapper],
+                       [self makePersonDictForDefaultMapper]];
+
+    NSArray *malformedMaps = @[[VIManagedObjectMap mapWithForeignKey:FIRST_NAME_MALFORMED_KEY coreDataKeyPath:FIRST_NAME_DEFAULT_KEY],
+                            [VIManagedObjectMap mapWithForeignKey:LAST_NAME_MALFORMED_KEY coreDataKeyPath:LAST_NAME_DEFAULT_KEY],
+                            [VIManagedObjectMap mapWithForeignKeyPath:BIRTHDAY_MALFORMED_KEY coreDataKey:BIRTHDAY_DEFAULT_KEY dateFormatter:[self customDateFormatter]],
+                            [VIManagedObjectMap mapWithForeignKey:CATS_MALFORMED_KEY coreDataKeyPath:CATS_DEFAULT_KEY],
+                            [VIManagedObjectMap mapWithForeignKey:COOL_RANCH_MALFORMED_KEY coreDataKeyPath:COOL_RANCH_DEFAULT_KEY]];
+    VIManagedObjectMapper *mapper = [VIManagedObjectMapper mapperWithUniqueKey:@"fart" andMaps:malformedMaps];
+    [[VICoreDataManager sharedInstance] setObjectMapper:mapper forClass:[VIPerson class]];
     NSArray *arrayOfPeople = [VIPerson addWithArray:array forManagedObjectContext:nil];
 
     XCTAssertTrue([arrayOfPeople count] == 5, @"person array has incorrect number of people");
