@@ -109,11 +109,9 @@
  */
 - (NSDictionary *)dictionaryRepresentationOfManagedObject:(NSManagedObject *)object respectKeyPaths:(BOOL)keyPathsEnabled;
 
-//Count, Fetch, and Delete NSManagedObject subclasses
-//NOT threadsafe! Always use a temp context if you are NOT on the main thread.
-
 /**
  Counts every instance of a given class using the main managed object context. Includes subentities.
+ NOT threadsafe! Always use a temp context if you are NOT on the main queue.
  @param managedObjectClass
  The class to count.
  @return
@@ -123,6 +121,7 @@
 
 /**
  Counts every instance of a given class using the given managed object context. Includes subentities.
+ NOT threadsafe! Always use a temp context if you are NOT on the main queue.
  @param managedObjectClass
  The class to count.
  @param contextOrNil
@@ -135,6 +134,7 @@
 
 /**
  Counts every instance of a given class that matches the predicate using the given managed object context. Includes subentities.
+ NOT threadsafe! Always use a temp context if you are NOT on the main queue.
  @param managedObjectClass
  The class to count.
  @param predicate
@@ -150,6 +150,7 @@
 
 /**
  Fetches every instance of a given class using the main managed object context. Includes subentities.
+ NOT threadsafe! Always use a temp context if you are NOT on the main queue.
  @param managedObjectClass
  The class to fetch
  @return
@@ -159,6 +160,7 @@
 
 /**
  Fetches every instance of a given class using the given managed object context. Includes subentities.
+ NOT threadsafe! Always use a temp context if you are NOT on the main queue.
  @param managedObjectClass
  The class to fetch.
  @param contextOrNil
@@ -171,6 +173,7 @@
 
 /**
  Fetches every instance of a given class that matches the predicate using the given managed object context. Includes subentities.
+ NOT threadsafe! Always use a temp context if you are NOT on the main queue.
  @param managedObjectClass
  The class to fetch.
  @param predicate
@@ -185,7 +188,7 @@
                 forContext:(NSManagedObjectContext *)contextOrNil;
 
 /**
- Deletes a given object in its current context.
+ Deletes a given object in its current context. Uses the object's context. As always, remember to keep NSManagedObjects on one queue.
  @param object
  The object to delete.
  */
