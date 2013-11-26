@@ -57,16 +57,16 @@
 }
 
 NSOperationQueue *VI_WritingQueue;
-VICoreDataManager *VI_sharedObject;
+VICoreDataManager *VI_SharedObject;
 + (VICoreDataManager *)sharedInstance
 {
     static dispatch_once_t pred;
     dispatch_once(&pred,^{
-        VI_sharedObject = [[self alloc] init];
+        VI_SharedObject = [[self alloc] init];
         VI_WritingQueue = [[NSOperationQueue alloc] init];
         [VI_WritingQueue setMaxConcurrentOperationCount:1];
     });
-    return VI_sharedObject;
+    return VI_SharedObject;
 }
 
 - (instancetype)init
