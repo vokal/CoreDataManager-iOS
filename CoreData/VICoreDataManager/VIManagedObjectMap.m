@@ -50,25 +50,25 @@
 + (NSDateFormatter *)defaultDateFormatter
 {
     static dispatch_once_t pred = 0;
-    static NSDateFormatter *df;
+    static NSDateFormatter *DefaultDateFormatter;
     dispatch_once(&pred, ^{
-        df = [NSDateFormatter new];
-        [df setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
-        [df setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+        DefaultDateFormatter = [NSDateFormatter new];
+        [DefaultDateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
+        [DefaultDateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
     });
 
-    return df;
+    return DefaultDateFormatter;
 }
 
 + (NSNumberFormatter *)defaultNumberFormatter
 {
     static dispatch_once_t pred = 0;
-    static NSNumberFormatter *nf;
+    static NSNumberFormatter *DefaultNumberFormatter;
     dispatch_once(&pred, ^{
-        nf = [NSNumberFormatter new];
-        [nf setNumberStyle:NSNumberFormatterDecimalStyle];
+        DefaultNumberFormatter = [NSNumberFormatter new];
+        [DefaultNumberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
     });
-    return nf;
+    return DefaultNumberFormatter;
 }
 
 #pragma mark - Description
