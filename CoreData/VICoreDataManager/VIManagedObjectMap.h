@@ -7,30 +7,72 @@
 
 @interface VIManagedObjectMap : NSObject
 
-@property NSString *inputKey;
+@property NSString *inputKeyPath;
 @property NSString *coreDataKey;
 @property (nonatomic) NSDateFormatter *dateFormatter;
 @property (nonatomic) NSNumberFormatter *numberFormatter;
 
-//easy access to rfc3339, like "1985-04-12T23:20:50.52Z"
+/**
+ Provides easy access to rfc3339 date formatter, like "1985-04-12T23:20:50.52Z"
+ @return
+ A static instance of NSDateFormatter.
+ */
 + (NSDateFormatter *)defaultDateFormatter;
 
-//Defaults to NSNumberFormatterDecimalStyle
+/**
+ Provides easy access to NSNumberFormatterDecimalStyle.
+ @return
+ A static instance of NSNumberFormatterDecimalStyle
+ */
 + (NSNumberFormatter *)defaultNumberFormatter;
 
-+ (instancetype)mapWithForeignKeyPath:(NSString *)foreignKey
+/**
+ Creates a map.
+ @param inputKeyPath
+ The foreign key to match with the local key.
+ @param coreDataKey
+ The local key.
+ @return
+ A VIManagedObjectMap
+ */
++ (instancetype)mapWithForeignKeyPath:(NSString *)inputKeyPath
                           coreDataKey:(NSString *)coreDataKey;
-
-+ (instancetype)mapWithForeignKeyPath:(NSString *)foreignKey
+/**
+ Creates a map with a date formatter. If the input object is an NSString the date formatter will be appied.
+ @param inputKeyPath
+ The foreign key to match with the local key.
+ @param coreDataKey
+ The local key.
+ @param dateFormatter
+ A date formatter to parse in and out of core data.
+ @return
+ A VIManagedObjectMap
+ */
++ (instancetype)mapWithForeignKeyPath:(NSString *)inputKeyPath
                           coreDataKey:(NSString *)coreDataKey
                         dateFormatter:(NSDateFormatter *)dateFormatter;
-
-+ (instancetype)mapWithForeignKeyPath:(NSString *)foreignKey
+/**
+ Creates a map with a number formatter. If the input object is an NSNumber the number formatter will be appied.
+ @param inputKeyPath
+ The foreign key to match with the local key.
+ @param coreDataKey
+ The local key.
+ @param numberFormatter
+ A number formatter to parse in and out of core data.
+ @return
+ A VIManagedObjectMap
+ */
++ (instancetype)mapWithForeignKeyPath:(NSString *)inputKeyPath
                           coreDataKey:(NSString *)coreDataKey
                       numberFormatter:(NSNumberFormatter *)numberFormatter;
 
-//Make a dictionary of keys and values and get an array of maps in return
-//key = expected input key, value = core data key
+/**
+ Make a dictionary of keys and values and get an array of maps in return.
+ @param mapDict
+ Each key is the expected input keyPath and each value is core data key.
+ @return
+ An array of VIManagedObjectMaps.
+ */
 + (NSArray *)mapsFromDictionary:(NSDictionary *)mapDict;
 
 @end

@@ -6,6 +6,9 @@
 #import "VIManagedObjectMapper.h"
 #import "VICoreDataManager.h"
 
+@interface VIManagedObjectDefaultMapper : VIManagedObjectMapper
+@end
+
 @interface VIManagedObjectMapper()
 @property (nonatomic) NSArray *mapsArray;
 - (void)updateForeignComparisonKey;
@@ -62,7 +65,7 @@
 {
     [self.mapsArray enumerateObjectsUsingBlock:^(VIManagedObjectMap *aMap, NSUInteger idx, BOOL *stop) {
         if ([aMap.coreDataKey isEqualToString:self.uniqueComparisonKey]) {
-            _foreignUniqueComparisonKey = aMap.inputKey;
+            _foreignUniqueComparisonKey = aMap.inputKeyPath;
         }
     }];
 }
@@ -70,7 +73,11 @@
 #pragma mark - Description
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"<%@: %p>\nMaps:%@\nUniqueKey:%@",NSStringFromClass([self class]), self, self.mapsArray, self.uniqueComparisonKey];
+    return [NSString stringWithFormat:@"<%@: %p>\nMaps:%@\nUniqueKey:%@",
+            NSStringFromClass([self class]),
+            self,
+            self.mapsArray,
+            self.uniqueComparisonKey];
 }
 
 #pragma mark - Import Safety Checks
@@ -145,16 +152,17 @@
 
 @end
 
+#pragma mark - Dictionary Input and Output
 @implementation VIManagedObjectMapper (dictionaryInputOutput)
 - (void)setInformationFromDictionary:(NSDictionary *)inputDict forManagedObject:(NSManagedObject *)object
 {
     [self.mapsArray enumerateObjectsUsingBlock:^(VIManagedObjectMap *aMap, NSUInteger idx, BOOL *stop) {
-        id inputObject = [inputDict valueForKeyPath:aMap.inputKey];
+        id inputObject = [inputDict valueForKeyPath:aMap.inputKeyPath];
         inputObject = [self checkDate:inputObject withDateFormatter:aMap.dateFormatter];
         inputObject = [self checkNumber:inputObject withNumberFormatter:aMap.numberFormatter];
         inputObject = [self checkClass:inputObject managedObject:object key:aMap.coreDataKey];        
         inputObject = [self checkNull:inputObject];
-        [object safeSetValue:inputObject forKeyPath:aMap.coreDataKey];
+        [object safeSetValue:inputObject forKey:aMap.coreDataKey];
     }];
 }
 
@@ -165,7 +173,7 @@
         id outputObject = [object valueForKey:aMap.coreDataKey];
         outputObject = [self checkString:outputObject withDateFormatter:aMap.dateFormatter];
         outputObject = [self checkString:outputObject withNumberFormatter:aMap.numberFormatter];
-        outputDict[aMap.inputKey] = outputObject;
+        outputDict[aMap.inputKeyPath] = outputObject;
     }];
     
     return [outputDict copy];
@@ -180,9 +188,9 @@ NSString *const period = @".";
         outputObject = [self checkString:outputObject withDateFormatter:aMap.dateFormatter];
         outputObject = [self checkString:outputObject withNumberFormatter:aMap.numberFormatter];
 
-        NSArray *components = [aMap.inputKey componentsSeparatedByString:period];
+        NSArray *components = [aMap.inputKeyPath componentsSeparatedByString:period];
         [self createNestedDictionary:outputDict fromKeyPathComponents:components];
-        [outputDict setValue:outputObject forKeyPath:aMap.inputKey];
+        [outputDict setValue:outputObject forKeyPath:aMap.inputKeyPath];
     }];
 
     return [outputDict copy];
@@ -202,6 +210,7 @@ NSString *const period = @".";
 
 @end
 
+#pragma mark - Dictionary Input and Output with the Default Mapper
 @implementation VIManagedObjectDefaultMapper
 - (void)setInformationFromDictionary:(NSDictionary *)inputDict forManagedObject:(NSManagedObject *)object
 {
@@ -212,7 +221,7 @@ NSString *const period = @".";
         inputObject = [self checkNumber:inputObject withNumberFormatter:[VIManagedObjectMap defaultNumberFormatter]];
         inputObject = [self checkClass:inputObject managedObject:object key:key];
         inputObject = [self checkNull:inputObject];
-        [object safeSetValue:inputObject forKeyPath:key];
+        [object safeSetValue:inputObject forKey:key];
     }];
 }
 

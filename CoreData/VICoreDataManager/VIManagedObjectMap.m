@@ -8,28 +8,28 @@
 
 @implementation VIManagedObjectMap
 
-+ (instancetype)mapWithForeignKeyPath:(NSString *)foreignKey coreDataKey:(NSString *)coreDataKey
++ (instancetype)mapWithForeignKeyPath:(NSString *)inputKeyPath coreDataKey:(NSString *)coreDataKey
 {
-    return [self mapWithForeignKeyPath:foreignKey coreDataKey:coreDataKey dateFormatter:nil];
+    return [self mapWithForeignKeyPath:inputKeyPath coreDataKey:coreDataKey dateFormatter:nil];
 }
 
-+ (instancetype)mapWithForeignKeyPath:(NSString *)foreignKey
++ (instancetype)mapWithForeignKeyPath:(NSString *)inputKeyPath
                           coreDataKey:(NSString *)coreDataKey
                         dateFormatter:(NSDateFormatter *)dateFormatter
 {
     VIManagedObjectMap *map = [[self alloc] init];
-    [map setInputKey:foreignKey];
+    [map setInputKeyPath:inputKeyPath];
     [map setCoreDataKey:coreDataKey];
     [map setDateFormatter:dateFormatter];
     return map;
 }
 
-+ (instancetype)mapWithForeignKeyPath:(NSString *)foreignKey
++ (instancetype)mapWithForeignKeyPath:(NSString *)inputKeyPath
                           coreDataKey:(NSString *)coreDataKey
                       numberFormatter:(NSNumberFormatter *)numberFormatter
 {
     VIManagedObjectMap *map = [[self alloc] init];
-    [map setInputKey:foreignKey];
+    [map setInputKeyPath:inputKeyPath];
     [map setCoreDataKey:coreDataKey];
     [map setNumberFormatter:numberFormatter];
     return map;
@@ -74,7 +74,7 @@
 #pragma mark - Description
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"<%@: %p>\nCore Data Key : %@\nForeign Key : %@",NSStringFromClass([self class]), self, self.coreDataKey, self.inputKey];
+    return [NSString stringWithFormat:@"<%@: %p>\nCore Data Key : %@\nForeign Key : %@",NSStringFromClass([self class]), self, self.coreDataKey, self.inputKeyPath];
 }
 
 @end
