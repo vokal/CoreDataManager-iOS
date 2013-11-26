@@ -60,8 +60,7 @@
 
 - (void)updateForeignComparisonKey
 {
-    [self.mapsArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        VIManagedObjectMap *aMap = obj;
+    [self.mapsArray enumerateObjectsUsingBlock:^(VIManagedObjectMap *aMap, NSUInteger idx, BOOL *stop) {
         if ([aMap.coreDataKey isEqualToString:self.uniqueComparisonKey]) {
             _foreignUniqueComparisonKey = aMap.inputKey;
         }
