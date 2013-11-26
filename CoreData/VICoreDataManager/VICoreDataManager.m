@@ -141,7 +141,7 @@ VICoreDataManager *VI_sharedObject;
 
 - (void)initPersistentStoreCoordinator
 {
-
+    NSAssert([NSOperationQueue currentQueue] == [NSOperationQueue mainQueue], @"Must be on the main queue when initializing persistant store coordinator");
     NSDictionary *options = @{NSMigratePersistentStoresAutomaticallyOption: @(YES),
                               NSInferMappingModelAutomaticallyOption: @(YES)};
     
@@ -167,6 +167,7 @@ VICoreDataManager *VI_sharedObject;
 
 - (void)initManagedObjectContext
 {
+    NSAssert([NSOperationQueue currentQueue] == [NSOperationQueue mainQueue], @"Must be on the main queue when initializing main context");
     NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
 
     if (coordinator) {
@@ -418,6 +419,7 @@ VICoreDataManager *VI_sharedObject;
 + (void)writeToTemporaryContext:(void (^)(NSManagedObjectContext *tempContext))writeBlock
                      completion:(void (^)(void))completion
 {
+    [[VICoreDataManager sharedInstance]  managedObjectContext];
     NSAssert(writeBlock, @"Write block must not be nil");
     [VI_WritingQueue addOperationWithBlock:^{
         
