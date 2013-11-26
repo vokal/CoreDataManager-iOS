@@ -8,10 +8,10 @@
 
 @implementation NSManagedObject (VIManagedObjectAdditions)
 
-- (void)safeSetValue:(id)value forKeyPath:(NSString *)key
+- (void)safeSetValue:(id)value forKey:(NSString *)key
 {
     if (value && ![[NSNull null] isEqual:value]) {
-        [self setValue:value forKeyPath:key];
+        [self setValue:value forKey:key];
     } else {
         [self setNilValueForKey:key];
     }
@@ -94,7 +94,9 @@
 {
     NSArray *results = [self fetchAllForPredicate:predicate forManagedObjectContext:contextOrNil];
 
-    if ([results count]) {
+    NSUInteger count = [results count];
+    if (count) {
+        NSAssert(count == 1, @"Your predicate is returning more than 1 object, but the coredatamanger returns only one.");
         return [results lastObject];
     }
 

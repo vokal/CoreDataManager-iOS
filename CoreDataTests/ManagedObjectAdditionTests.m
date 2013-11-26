@@ -108,6 +108,31 @@ NSString *const COOL_RANCH_KEYPATH_KEY = @"prefs.coolRanch";
     }];
 }
 
+- (void)testImportArrayWithCustomMapperOnWriteBlock
+{
+    NSArray *array = @[[self makePersonDictForCustomMapper],
+                       [self makePersonDictForCustomMapper],
+                       [self makePersonDictForCustomMapper],
+                       [self makePersonDictForCustomMapper],
+                       [self makePersonDictForCustomMapper]];
+    VIManagedObjectMapper *mapper = [VIManagedObjectMapper mapperWithUniqueKey:nil andMaps:[self customMapsArray]];
+    [[VICoreDataManager sharedInstance] setObjectMapper:mapper forClass:[VIPerson class]];
+
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+    [VICoreDataManager writeToTemporaryContext:^(NSManagedObjectContext *tempContext) {
+        [VIPerson addWithArray:array forManagedObjectContext:tempContext];
+        dispatch_semaphore_signal(semaphore);
+    } completion:NULL];
+    [self waitForResponse:1 semaphore:semaphore];
+
+    NSArray *arrayOfPeople = [VIPerson fetchAllForPredicate:nil forManagedObjectContext:nil];
+    XCTAssertTrue([arrayOfPeople count] == 5, @"person array has incorrect number of people");
+
+    [arrayOfPeople enumerateObjectsUsingBlock:^(VIPerson *obj, NSUInteger idx, BOOL *stop) {
+        [self checkMappingForPerson:obj andDictionary:[self makePersonDictForCustomMapper]];
+    }];
+}
+
 - (void)testImportArrayWithDefaultMapper
 {
     NSArray *array = @[[self makePersonDictForDefaultMapper],
@@ -292,6 +317,18 @@ NSString *const COOL_RANCH_KEYPATH_KEY = @"prefs.coolRanch";
 }
 
 #pragma mark - Convenience stuff
+- (void)waitForResponse:(NSInteger)waitTimeInSeconds semaphore:(dispatch_semaphore_t)semaphore
+{
+    NSDate *timeoutDate = [NSDate dateWithTimeIntervalSinceNow:waitTimeInSeconds];
+    while (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW)) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:timeoutDate];
+        if (timeoutDate == [timeoutDate earlierDate:[NSDate date]]) {
+            XCTAssertTrue(NO, @"Waiting for completion took longer than %dsec", waitTimeInSeconds);
+            return;
+        }
+    }
+}
+
 - (void)checkMappingForPerson:(VIPerson *)person andDictionary:(NSDictionary *)dict
 {
     XCTAssertTrue(person != nil, @"person was not created");
