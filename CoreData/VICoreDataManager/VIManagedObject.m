@@ -19,7 +19,12 @@
 
 - (NSDictionary *)dictionaryRepresentation
 {
-    return [[VICoreDataManager sharedInstance] dictionaryRepresentationOfManagedObject:self];
+    return [[VICoreDataManager sharedInstance] dictionaryRepresentationOfManagedObject:self respectKeyPaths:NO];
+}
+
+- (NSDictionary *)dictionaryRepresentationRespectingKeyPaths
+{
+    return [[VICoreDataManager sharedInstance] dictionaryRepresentationOfManagedObject:self respectKeyPaths:YES];
 }
 
 #pragma mark - Create Objects
