@@ -9,7 +9,7 @@
 
 #ifndef CDLog
 #ifdef DEBUG
-#   define CDLog(...) NSLog(@"%s %@", __PRETTY_FUNCTION__, [NSString stringWithFormat:__VA_ARGS__])
+#   define CDLog(...) NSLog(@"%s\n%@", __PRETTY_FUNCTION__, [NSString stringWithFormat:__VA_ARGS__])
 #else
 #   define CDLog(...) /* */
 #endif
