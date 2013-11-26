@@ -171,6 +171,36 @@
     
     return [outputDict copy];
 }
+
+NSString *const period = @".";
+- (NSDictionary *)hierarchicalDictionaryRepresentationOfManagedObject:(NSManagedObject *)object
+{
+    NSMutableDictionary *outputDict = [NSMutableDictionary new];
+    [self.mapsArray enumerateObjectsUsingBlock:^(VIManagedObjectMap *aMap, NSUInteger idx, BOOL *stop) {
+        id outputObject = [object valueForKey:aMap.coreDataKey];
+        outputObject = [self checkString:outputObject withDateFormatter:aMap.dateFormatter];
+        outputObject = [self checkString:outputObject withNumberFormatter:aMap.numberFormatter];
+
+        NSArray *components = [aMap.inputKey componentsSeparatedByString:period];
+        [self createNestedDictionary:outputDict fromKeyPathComponents:components];
+        [outputDict setValue:outputObject forKeyPath:aMap.inputKey];
+    }];
+
+    return [outputDict copy];
+}
+
+- (void)createNestedDictionary:(NSMutableDictionary *)outputDict fromKeyPathComponents:(NSArray *)components
+{
+    __block NSMutableDictionary *nestedDict = outputDict;
+    NSUInteger lastObjectIndex = [components count] - 1;
+    [components enumerateObjectsUsingBlock:^(NSString *keyPathComponent, NSUInteger idx, BOOL *stop) {
+        if(![nestedDict valueForKey:keyPathComponent] && idx < lastObjectIndex) {
+            nestedDict[keyPathComponent] = [NSMutableDictionary dictionary];
+        }
+        nestedDict = [nestedDict valueForKey:keyPathComponent];
+    }];
+}
+
 @end
 
 @implementation VIManagedObjectDefaultMapper
@@ -199,4 +229,11 @@
     
     return [outputDict copy];
 }
+
+- (NSDictionary *)hierarchicalDictionaryRepresentationOfManagedObject:(NSManagedObject *)object
+{
+    //the default mapper does not have key paths
+    return [self dictionaryRepresentationOfManagedObject:object];
+}
+
 @end

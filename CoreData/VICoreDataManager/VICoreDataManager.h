@@ -102,10 +102,12 @@
  Serializes a managed object.
  @param object
  Specifies the class to instantiate or fetch when importing data.
+ @param keyPathsEnabled
+ If enabled the dictionary will include nexted dictionaries, following keys paths. If disabled the resulting dictionary will be flat.
  @return
  An NSDictionary representation of the given object using the mapper associated with the object's class.
  */
-- (NSDictionary *)dictionaryRepresentationOfManagedObject:(NSManagedObject *)object;
+- (NSDictionary *)dictionaryRepresentationOfManagedObject:(NSManagedObject *)object respectKeyPaths:(BOOL)keyPathsEnabled;
 
 //Count, Fetch, and Delete NSManagedObject subclasses
 //NOT threadsafe! Always use a temp context if you are NOT on the main thread.

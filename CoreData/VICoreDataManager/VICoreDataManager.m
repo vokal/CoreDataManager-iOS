@@ -47,6 +47,7 @@
 @interface VIManagedObjectMapper (dictionaryInputOutput)
 - (void)setInformationFromDictionary:(NSDictionary *)inputDict forManagedObject:(NSManagedObject *)object;
 - (NSDictionary *)dictionaryRepresentationOfManagedObject:(NSManagedObject *)object;
+- (NSDictionary *)hierarchicalDictionaryRepresentationOfManagedObject:(NSManagedObject *)object;
 @end
 
 @implementation VICoreDataManager
@@ -255,9 +256,14 @@
 }
 
 #pragma mark - Convenient Output
-- (NSDictionary *)dictionaryRepresentationOfManagedObject:(NSManagedObject *)object
+- (NSDictionary *)dictionaryRepresentationOfManagedObject:(NSManagedObject *)object respectKeyPaths:(BOOL)keyPathsEnabled
 {
-    return [[self mapperForClass:[object class]] dictionaryRepresentationOfManagedObject:object];
+    VIManagedObjectMapper *mapper = [self mapperForClass:[object class]];
+    if (keyPathsEnabled) {
+        return [mapper hierarchicalDictionaryRepresentationOfManagedObject:object];
+    } else {
+        return [mapper dictionaryRepresentationOfManagedObject:object];
+    }
 }
 
 #pragma mark - Count, Fetch, and Delete
