@@ -24,6 +24,12 @@ NSString *const BIRTHDAY_MALFORMED_KEY = @"date_of_birth?";
 NSString *const CATS_MALFORMED_KEY = @"cat_num_biz";
 NSString *const COOL_RANCH_MALFORMED_KEY = @"CR_PREF";
 
+NSString *const FIRST_NAME_KEYPATH_KEY = @"name.first";
+NSString *const LAST_NAME_KEYPATH_KEY = @"name.last";
+NSString *const BIRTHDAY_KEYPATH_KEY = @"birthday";
+NSString *const CATS_KEYPATH_KEY = @"prefs.cats.number";
+NSString *const COOL_RANCH_KEYPATH_KEY = @"prefs.coolRanch";
+
 #import <XCTest/XCTest.h>
 
 @interface ManagedObjectAdditionTests : XCTestCase
@@ -34,12 +40,14 @@ NSString *const COOL_RANCH_MALFORMED_KEY = @"CR_PREF";
 
 - (void)setUp
 {
+    [super setUp];
+    [[VICoreDataManager sharedInstance] resetCoreData];
     [[VICoreDataManager sharedInstance] setResource:@"VICoreDataModel" database:@"VICoreDataTestingModel.sqlite"];
 }
 
 - (void)tearDown
 {
-    [[VICoreDataManager sharedInstance] resetCoreData];
+    [super tearDown];
 }
 
 - (void)testImportExportDictionaryWithDefaultMapper
@@ -62,6 +70,26 @@ NSString *const COOL_RANCH_MALFORMED_KEY = @"CR_PREF";
     XCTAssertTrue([dict isEqualToDictionary:[self makePersonDictForCustomMapper]], @"dictionary representation failed to match input dictionary");
 }
 
+- (void)testImportExportDictionaryWithCustomKeyPathMapper
+{
+    VIManagedObjectMapper *mapper = [VIManagedObjectMapper mapperWithUniqueKey:nil andMaps:[self customMapsArrayWithKeyPaths]];
+    [[VICoreDataManager sharedInstance] setObjectMapper:mapper forClass:[VIPerson class]];
+    VIPerson *person = [VIPerson addWithDictionary:[self makePersonDictForCustomMapperWithKeyPaths] forManagedObjectContext:nil];
+
+    XCTAssertTrue(person != nil, @"person was not created");
+    XCTAssertTrue([person isKindOfClass:[VIPerson class]], @"person is wrong class");
+    XCTAssertTrue([person.firstName isEqualToString:@"CUSTOMFIRSTNAME"], @"person first name is incorrect");
+    XCTAssertTrue([person.lastName isEqualToString:@"CUSTOMLASTNAME"], @"person last name is incorrect");
+    XCTAssertTrue([person.numberOfCats isEqualToNumber:@876], @"person number of cats is incorrect");
+    XCTAssertTrue([person.lovesCoolRanch isEqualToNumber:@YES], @"person lovesCoolRanch is incorrect");
+
+    NSDate *birthdate = [[self customDateFormatter] dateFromString:@"24 Jul 83 14:16"];
+    XCTAssertTrue([person.birthDay isEqualToDate:birthdate], @"person birthdate is incorrect");
+
+    NSDictionary *dict = [person dictionaryRepresentationRespectingKeyPaths];
+    XCTAssertTrue([dict isEqualToDictionary:[self makePersonDictForCustomMapperWithKeyPaths]], @"dictionary representation failed to match input dictionary");
+}
+
 - (void)testImportArrayWithCustomMapper
 {
     NSArray *array = @[[self makePersonDictForCustomMapper],
@@ -73,6 +101,31 @@ NSString *const COOL_RANCH_MALFORMED_KEY = @"CR_PREF";
     [[VICoreDataManager sharedInstance] setObjectMapper:mapper forClass:[VIPerson class]];
     NSArray *arrayOfPeople = [VIPerson addWithArray:array forManagedObjectContext:nil];
 
+    XCTAssertTrue([arrayOfPeople count] == 5, @"person array has incorrect number of people");
+
+    [arrayOfPeople enumerateObjectsUsingBlock:^(VIPerson *obj, NSUInteger idx, BOOL *stop) {
+        [self checkMappingForPerson:obj andDictionary:[self makePersonDictForCustomMapper]];
+    }];
+}
+
+- (void)testImportArrayWithCustomMapperOnWriteBlock
+{
+    NSArray *array = @[[self makePersonDictForCustomMapper],
+                       [self makePersonDictForCustomMapper],
+                       [self makePersonDictForCustomMapper],
+                       [self makePersonDictForCustomMapper],
+                       [self makePersonDictForCustomMapper]];
+    VIManagedObjectMapper *mapper = [VIManagedObjectMapper mapperWithUniqueKey:nil andMaps:[self customMapsArray]];
+    [[VICoreDataManager sharedInstance] setObjectMapper:mapper forClass:[VIPerson class]];
+
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+    [VICoreDataManager writeToTemporaryContext:^(NSManagedObjectContext *tempContext) {
+        [VIPerson addWithArray:array forManagedObjectContext:tempContext];
+        dispatch_semaphore_signal(semaphore);
+    } completion:NULL];
+    [self waitForResponse:1 semaphore:semaphore];
+
+    NSArray *arrayOfPeople = [VIPerson fetchAllForPredicate:nil forManagedObjectContext:nil];
     XCTAssertTrue([arrayOfPeople count] == 5, @"person array has incorrect number of people");
 
     [arrayOfPeople enumerateObjectsUsingBlock:^(VIPerson *obj, NSUInteger idx, BOOL *stop) {
@@ -264,6 +317,18 @@ NSString *const COOL_RANCH_MALFORMED_KEY = @"CR_PREF";
 }
 
 #pragma mark - Convenience stuff
+- (void)waitForResponse:(NSInteger)waitTimeInSeconds semaphore:(dispatch_semaphore_t)semaphore
+{
+    NSDate *timeoutDate = [NSDate dateWithTimeIntervalSinceNow:waitTimeInSeconds];
+    while (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW)) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:timeoutDate];
+        if (timeoutDate == [timeoutDate earlierDate:[NSDate date]]) {
+            XCTAssertTrue(NO, @"Waiting for completion took longer than %dsec", waitTimeInSeconds);
+            return;
+        }
+    }
+}
+
 - (void)checkMappingForPerson:(VIPerson *)person andDictionary:(NSDictionary *)dict
 {
     XCTAssertTrue(person != nil, @"person was not created");
@@ -310,6 +375,21 @@ NSString *const COOL_RANCH_MALFORMED_KEY = @"CR_PREF";
                            BIRTHDAY_CUSTOM_KEY : @"24 Jul 83 14:16",
                            CATS_CUSTOM_KEY : @192,
                            COOL_RANCH_CUSTOM_KEY : @YES};
+    return dict;
+}
+
+- (NSDictionary *)makePersonDictForCustomMapperWithKeyPaths
+{
+    NSDictionary *nameDict = @{@"first": @"CUSTOMFIRSTNAME",
+                               @"last": @"CUSTOMLASTNAME"};
+    NSDictionary *catsDict = @{@"number": @876};
+
+    NSDictionary *prefsDict = @{@"cats": catsDict,
+                                @"coolRanch": @YES};
+
+    NSDictionary *dict = @{@"name": nameDict,
+                           BIRTHDAY_KEYPATH_KEY : @"24 Jul 83 14:16",
+                           @"prefs": prefsDict};
     return dict;
 }
 
@@ -367,6 +447,15 @@ NSString *const COOL_RANCH_MALFORMED_KEY = @"CR_PREF";
              [VIManagedObjectMap mapWithForeignKeyPath:BIRTHDAY_CUSTOM_KEY coreDataKey:BIRTHDAY_DEFAULT_KEY dateFormatter:[self customDateFormatter]],
              [VIManagedObjectMap mapWithForeignKeyPath:CATS_CUSTOM_KEY coreDataKey:CATS_DEFAULT_KEY],
              [VIManagedObjectMap mapWithForeignKeyPath:COOL_RANCH_CUSTOM_KEY coreDataKey:COOL_RANCH_DEFAULT_KEY]];
+}
+
+- (NSArray *)customMapsArrayWithKeyPaths
+{
+    return @[[VIManagedObjectMap mapWithForeignKeyPath:FIRST_NAME_KEYPATH_KEY coreDataKey:FIRST_NAME_DEFAULT_KEY],
+             [VIManagedObjectMap mapWithForeignKeyPath:LAST_NAME_KEYPATH_KEY coreDataKey:LAST_NAME_DEFAULT_KEY],
+             [VIManagedObjectMap mapWithForeignKeyPath:BIRTHDAY_KEYPATH_KEY coreDataKey:BIRTHDAY_DEFAULT_KEY dateFormatter:[self customDateFormatter]],
+             [VIManagedObjectMap mapWithForeignKeyPath:CATS_KEYPATH_KEY coreDataKey:CATS_DEFAULT_KEY],
+             [VIManagedObjectMap mapWithForeignKeyPath:COOL_RANCH_KEYPATH_KEY coreDataKey:COOL_RANCH_DEFAULT_KEY]];
 }
 
 @end

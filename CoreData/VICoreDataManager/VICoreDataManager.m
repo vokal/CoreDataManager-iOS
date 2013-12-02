@@ -11,10 +11,8 @@
     NSPersistentStoreCoordinator *_persistentStoreCoordinator;
 }
 
-@property NSOperationQueue *writingQueue;
-
-@property NSString *resource;
-@property NSString *databaseFilename;
+@property (copy) NSString *resource;
+@property (copy) NSString *databaseFilename;
 @property NSMutableDictionary *mapperCollection;
 
 //Getters
@@ -47,6 +45,7 @@
 @interface VIManagedObjectMapper (dictionaryInputOutput)
 - (void)setInformationFromDictionary:(NSDictionary *)inputDict forManagedObject:(NSManagedObject *)object;
 - (NSDictionary *)dictionaryRepresentationOfManagedObject:(NSManagedObject *)object;
+- (NSDictionary *)hierarchicalDictionaryRepresentationOfManagedObject:(NSManagedObject *)object;
 @end
 
 @implementation VICoreDataManager
@@ -57,14 +56,17 @@
     [self sharedInstance];
 }
 
+NSOperationQueue *VI_WritingQueue;
+VICoreDataManager *VI_SharedObject;
 + (VICoreDataManager *)sharedInstance
 {
-    static VICoreDataManager *_sharedObject;
     static dispatch_once_t pred;
     dispatch_once(&pred,^{
-        _sharedObject = [[self alloc] init];
+        VI_SharedObject = [[self alloc] init];
+        VI_WritingQueue = [[NSOperationQueue alloc] init];
+        [VI_WritingQueue setMaxConcurrentOperationCount:1];
     });
-    return _sharedObject;
+    return VI_SharedObject;
 }
 
 - (instancetype)init
@@ -72,12 +74,6 @@
     self = [super init];
     if (self) {
         _mapperCollection = [NSMutableDictionary dictionary];
-        
-        static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
-            _writingQueue = [[NSOperationQueue alloc] init];
-            [_writingQueue setMaxConcurrentOperationCount:1];
-        });
     }
     return self;
 }
@@ -138,14 +134,14 @@
     NSURL *modelURL = [[NSBundle bundleForClass:[self class]] URLForResource:self.resource withExtension:@"momd"];
     if (!modelURL) {
         modelURL = [[NSBundle bundleForClass:[self class]] URLForResource:self.resource withExtension:@"mom"];
-        NSAssert(modelURL != nil, @"Managed object model not found.");
     }
+    NSAssert(modelURL != nil, @"Managed object model not found.");
     _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
 }
 
 - (void)initPersistentStoreCoordinator
 {
-
+    NSAssert([NSOperationQueue currentQueue] == [NSOperationQueue mainQueue], @"Must be on the main queue when initializing persistant store coordinator");
     NSDictionary *options = @{NSMigratePersistentStoresAutomaticallyOption: @(YES),
                               NSInferMappingModelAutomaticallyOption: @(YES)};
     
@@ -171,6 +167,7 @@
 
 - (void)initManagedObjectContext
 {
+    NSAssert([NSOperationQueue currentQueue] == [NSOperationQueue mainQueue], @"Must be on the main queue when initializing main context");
     NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
 
     if (coordinator) {
@@ -224,7 +221,7 @@
     NSMutableArray *returnArray = [NSMutableArray array];
     [inputArray enumerateObjectsUsingBlock:^(NSDictionary *inputDict, NSUInteger idx, BOOL *stop) {
         if (![inputDict isKindOfClass:[NSDictionary class]]) {
-            CDLog(@"ERROR\n %s \nexpecting an NSArray full of NSDictionaries", __PRETTY_FUNCTION__);
+            CDLog(@"ERROR\nExpecting an NSArray full of NSDictionaries");
             return;
         }
 
@@ -232,8 +229,9 @@
 
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", mapper.uniqueComparisonKey, [inputDict valueForKey:mapper.foreignUniqueComparisonKey]];
         NSArray *matchingObjects = [existingObjectArray filteredArrayUsingPredicate:predicate];
-        if ([matchingObjects count]) {
-            NSAssert([matchingObjects count] < 2, @"UNIQUE IDENTIFIER IS NOT UNIQUE. MORE THAN ONE MATCHING OBJECT FOUND");
+        NSUInteger matchingObjectsCount = [matchingObjects count];
+        if (matchingObjectsCount) {
+            NSAssert(matchingObjectsCount < 2, @"UNIQUE IDENTIFIER IS NOT UNIQUE. MORE THAN ONE MATCHING OBJECT FOUND");
             returnObject = matchingObjects[0];
             if (mapper.overwriteObjectsWithServerChanges) {
                 [self setInformationFromDictionary:inputDict forManagedObject:returnObject];
@@ -255,9 +253,14 @@
 }
 
 #pragma mark - Convenient Output
-- (NSDictionary *)dictionaryRepresentationOfManagedObject:(NSManagedObject *)object
+- (NSDictionary *)dictionaryRepresentationOfManagedObject:(NSManagedObject *)object respectKeyPaths:(BOOL)keyPathsEnabled
 {
-    return [[self mapperForClass:[object class]] dictionaryRepresentationOfManagedObject:object];
+    VIManagedObjectMapper *mapper = [self mapperForClass:[object class]];
+    if (keyPathsEnabled) {
+        return [mapper hierarchicalDictionaryRepresentationOfManagedObject:object];
+    } else {
+        return [mapper dictionaryRepresentationOfManagedObject:object];
+    }
 }
 
 #pragma mark - Count, Fetch, and Delete
@@ -413,22 +416,20 @@
 }
 
 #pragma mark - Convenience Methods
-
 + (void)writeToTemporaryContext:(void (^)(NSManagedObjectContext *tempContext))writeBlock
                      completion:(void (^)(void))completion
 {
+    [[VICoreDataManager sharedInstance]  managedObjectContext];
     NSAssert(writeBlock, @"Write block must not be nil");
-    [[VICoreDataManager sharedInstance].writingQueue addOperationWithBlock:^{
+    [VI_WritingQueue addOperationWithBlock:^{
         
         NSManagedObjectContext *tempContext = [[VICoreDataManager sharedInstance] temporaryContext];
         writeBlock(tempContext);
         [[VICoreDataManager sharedInstance] saveAndMergeWithMainContext:tempContext];
-        
-        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            if (completion) {
-                completion();
-            }
-        }];
+
+        if (completion) {
+            dispatch_async(dispatch_get_main_queue(), completion);
+        }
     }];
 }
 
