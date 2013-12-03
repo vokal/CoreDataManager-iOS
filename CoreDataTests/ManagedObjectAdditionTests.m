@@ -323,7 +323,7 @@ NSString *const COOL_RANCH_KEYPATH_KEY = @"prefs.coolRanch";
     while (dispatch_semaphore_wait(semaphore, DISPATCH_TIME_NOW)) {
         [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:timeoutDate];
         if (timeoutDate == [timeoutDate earlierDate:[NSDate date]]) {
-            XCTAssertTrue(NO, @"Waiting for completion took longer than %dsec", waitTimeInSeconds);
+            XCTAssertTrue(NO, @"Waiting for completion took longer than %ldsec", (long)waitTimeInSeconds);
             return;
         }
     }
