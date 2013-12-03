@@ -173,7 +173,9 @@
         id outputObject = [object valueForKey:aMap.coreDataKey];
         outputObject = [self checkString:outputObject withDateFormatter:aMap.dateFormatter];
         outputObject = [self checkString:outputObject withNumberFormatter:aMap.numberFormatter];
-        outputDict[aMap.inputKeyPath] = outputObject;
+        if (outputObject) {
+            outputDict[aMap.inputKeyPath] = outputObject;
+        }
     }];
     
     return [outputDict copy];
@@ -190,7 +192,9 @@ NSString *const period = @".";
 
         NSArray *components = [aMap.inputKeyPath componentsSeparatedByString:period];
         [self createNestedDictionary:outputDict fromKeyPathComponents:components];
-        [outputDict setValue:outputObject forKeyPath:aMap.inputKeyPath];
+        if (outputObject) {
+            [outputDict setValue:outputObject forKeyPath:aMap.inputKeyPath];
+        }
     }];
 
     return [outputDict copy];
@@ -232,7 +236,9 @@ NSString *const period = @".";
     [attributes enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
         id outputObject = [object valueForKey:key];
         outputObject = [self checkString:outputObject withDateFormatter:[VIManagedObjectMap defaultDateFormatter]];
-        outputDict[key] = outputObject;
+        if (outputObject) {
+            outputDict[key] = outputObject;
+        }
     }];
     
     return [outputDict copy];
