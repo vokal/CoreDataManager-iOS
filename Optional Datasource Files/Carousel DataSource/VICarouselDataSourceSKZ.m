@@ -6,13 +6,13 @@
 //  Copyright (c) 2013 teejay. All rights reserved.
 //
 
-#import "VICarouselDataSource.h"
+#import "VICarouselDataSourceSKZ.h"
 
-@implementation VICarouselDataSource
+@implementation VICarouselDataSourceSKZ
 
 - (id)initWithPredicate:(NSPredicate *)predicate
               cacheName:(NSString *)cacheName
-               carousel:(iCarousel *)carousel
+               carousel:(iCarouselSKZ *)carousel
      sectionNameKeyPath:(NSString *)sectionNameKeyPath
         sortDescriptors:(NSArray *)sortDescriptors
      managedObjectClass:(Class)managedObjectClass
@@ -40,7 +40,7 @@
 
 - (id)initWithPredicate:(NSPredicate *)predicate
               cacheName:(NSString *)cacheName
-               carousel:(iCarousel *)carousel
+               carousel:(iCarouselSKZ *)carousel
      sectionNameKeyPath:(NSString *)sectionNameKeyPath
         sortDescriptors:(NSArray *)sortDescriptors
      managedObjectClass:(Class)managedObjectClass
@@ -58,7 +58,7 @@
 
 - (id)initWithPredicate:(NSPredicate *)predicate
               cacheName:(NSString *)cacheName
-               carousel:(iCarousel *)carousel
+               carousel:(iCarouselSKZ *)carousel
      sectionNameKeyPath:(NSString *)sectionNameKeyPath
         sortDescriptors:(NSArray *)sortDescriptors
      managedObjectClass:(Class)managedObjectClass
@@ -74,7 +74,7 @@
 
 - (id)initWithPredicate:(NSPredicate *)predicate
               cacheName:(NSString *)cacheName
-               carousel:(iCarousel *)carousel
+               carousel:(iCarouselSKZ *)carousel
      sectionNameKeyPath:(NSString *)sectionNameKeyPath
         sortDescriptors:(NSArray *)sortDescriptors
      managedObjectClass:(Class)managedObjectClass
@@ -143,12 +143,12 @@
 
 #pragma mark Carousel Methods
 
-- (NSUInteger)numberOfItemsInCarousel:(iCarousel *)carousel
+- (NSUInteger)numberOfItemsInCarousel:(iCarouselSKZ *)carousel
 {
     return [self.fetchedObjects count];
 }
 
-- (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view
+- (UIView *)carousel:(iCarouselSKZ *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view
 {
     UILabel *label = nil;
     

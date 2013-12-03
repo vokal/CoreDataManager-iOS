@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 teejay. All rights reserved.
 //
 
-#import "VICollectionDataSource.h"
+#import "VICollectionDataSourceSKZ.h"
 
-@interface VICollectionDataSource ()
+@interface VICollectionDataSourceSKZ ()
 {
     NSMutableArray *_objectChanges;
     NSMutableArray *_sectionChanges;
@@ -16,7 +16,7 @@
 
 @end
 
-@implementation VICollectionDataSource
+@implementation VICollectionDataSourceSKZ
 
 - (id)initWithPredicate:(NSPredicate *)predicate
               cacheName:(NSString *)cacheName

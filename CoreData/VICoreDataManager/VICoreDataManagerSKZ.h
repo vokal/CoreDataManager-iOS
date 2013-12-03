@@ -4,7 +4,7 @@
 //
 
 #ifndef __IPHONE_5_0
-#warning "VICoreDataManager uses features only available in iOS SDK 5.0 and later."
+#warning "VICoreDataManagerSKZ uses features only available in iOS SDK 5.0 and later."
 #endif
 
 #ifndef CDLog
@@ -18,21 +18,21 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-#import "VIManagedObjectMapper.h"
+#import "VIManagedObjectMapperSKZ.h"
 #import "VIManagedObject.h"
-#import "VIFetchResultsDataSource.h"
+#import "VIFetchResultsDataSourceSKZ.h"
 
-@interface VICoreDataManager : NSObject
+@interface VICoreDataManagerSKZ : NSObject
 
 /**
- Returns the singleton core data manager. VICoreDataManager is not expected to be subclassed.
+ Returns the singleton core data manager. VICoreDataManagerSKZ is not expected to be subclassed.
  On launch you should also set the resource and database names. Example:
  @code
- [[VICoreDataManager sharedInstance] setResource:@"VICoreDataModel" database:@"VICoreDataModel.sqlite"];
+ [[VICoreDataManagerSKZ sharedInstance] setResource:@"VICoreDataModel" database:@"VICoreDataModel.sqlite"];
  @endcode
  @return The shared core data manager.
  */
-+ (VICoreDataManager *)sharedInstance;
++ (VICoreDataManagerSKZ *)sharedInstance;
 
 /**
  The primary managed object context. Only for use on the main queue.
@@ -71,7 +71,7 @@
  @return
  YES if the mapper and class are set. NO if the relationship could not be set.
  */
-- (BOOL)setObjectMapper:(VIManagedObjectMapper *)objMap
+- (BOOL)setObjectMapper:(VIManagedObjectMapperSKZ *)objMap
                forClass:(Class)objectClass;
 /**
  Deserializes the NSDictionaries full of strings and creates/updates instances in the given context.
@@ -221,9 +221,9 @@
  Create the context and do work on the same queue. You are responsible for retaining temporary contexts yourself.
  Here is an example background import:
  @code
- NSManagedObjectContext *backgroundContext = [[VICoreDataManager sharedInstance] temporaryContext];
+ NSManagedObjectContext *backgroundContext = [[VICoreDataManagerSKZ sharedInstance] temporaryContext];
  [self loadDataWithContext:backgroundContext]; //do some data loading
- [[VICoreDataManager sharedInstance] saveAndMergeWithMainContext:backgroundContext];
+ [[VICoreDataManagerSKZ sharedInstance] saveAndMergeWithMainContext:backgroundContext];
  @endcode
  @return
  A managed object context with the same persistant store coordinator as tha main context, but otherwise no relationship.

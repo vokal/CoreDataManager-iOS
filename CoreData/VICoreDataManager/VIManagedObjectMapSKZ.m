@@ -3,10 +3,10 @@
 //  CoreData
 //
 
-#import "VIManagedObjectMap.h"
-#import "VICoreDataManager.h"
+#import "VIManagedObjectMapSKZ.h"
+#import "VICoreDataManagerSKZ.h"
 
-@implementation VIManagedObjectMap
+@implementation VIManagedObjectMapSKZ
 
 + (instancetype)mapWithForeignKeyPath:(NSString *)inputKeyPath coreDataKey:(NSString *)coreDataKey
 {
@@ -17,7 +17,7 @@
                           coreDataKey:(NSString *)coreDataKey
                         dateFormatter:(NSDateFormatter *)dateFormatter
 {
-    VIManagedObjectMap *map = [[self alloc] init];
+    VIManagedObjectMapSKZ *map = [[self alloc] init];
     [map setInputKeyPath:inputKeyPath];
     [map setCoreDataKey:coreDataKey];
     [map setDateFormatter:dateFormatter];
@@ -28,7 +28,7 @@
                           coreDataKey:(NSString *)coreDataKey
                       numberFormatter:(NSNumberFormatter *)numberFormatter
 {
-    VIManagedObjectMap *map = [[self alloc] init];
+    VIManagedObjectMapSKZ *map = [[self alloc] init];
     [map setInputKeyPath:inputKeyPath];
     [map setCoreDataKey:coreDataKey];
     [map setNumberFormatter:numberFormatter];

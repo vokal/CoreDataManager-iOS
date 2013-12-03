@@ -3,17 +3,17 @@
 //  CoreData
 //
 
-#import "VIFetchResultsDataSource.h"
-#import "VICoreDataManager.h"
+#import "VIFetchResultsDataSourceSKZ.h"
+#import "VICoreDataManagerSKZ.h"
 
-@interface VIFetchResultsDataSource ()
+@interface VIFetchResultsDataSourceSKZ ()
 
 @property NSString *sectionNameKeyPath;
 @property NSString *cacheName;
 
 @end
 
-@implementation VIFetchResultsDataSource
+@implementation VIFetchResultsDataSourceSKZ
 
 - (id)initWithPredicate:(NSPredicate *)predicate
               cacheName:(NSString *)cacheName
@@ -28,7 +28,7 @@
     self = [super init];
 
     if (self) {
-        _managedObjectContext = [[VICoreDataManager sharedInstance] managedObjectContext];
+        _managedObjectContext = [[VICoreDataManagerSKZ sharedInstance] managedObjectContext];
         _predicate = predicate;
         _sortDescriptors = sortDescriptors;
         _managedObjectClass = managedObjectClass;

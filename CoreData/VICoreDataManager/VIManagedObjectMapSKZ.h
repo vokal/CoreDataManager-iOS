@@ -5,7 +5,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface VIManagedObjectMap : NSObject
+@interface VIManagedObjectMapSKZ : NSObject
 
 @property NSString *inputKeyPath;
 @property NSString *coreDataKey;
