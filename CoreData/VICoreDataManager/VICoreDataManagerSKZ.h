@@ -1,5 +1,5 @@
 //
-//  VICoreDataManager.h
+//  VICoreDataManagerSKZ.h 
 //  CoreData
 //
 
