@@ -70,6 +70,17 @@ NSString *const COOL_RANCH_KEYPATH_KEY = @"prefs.coolRanch";
     XCTAssertTrue([dict isEqualToDictionary:[self makePersonDictForCustomMapper]], @"dictionary representation failed to match input dictionary");
 }
 
+- (void)testImportExportDictionaryWithCustomMapperAndNilProperty
+{
+    VIManagedObjectMapper *mapper = [VIManagedObjectMapper mapperWithUniqueKey:nil andMaps:[self customMapsArray]];
+    [[VICoreDataManager sharedInstance] setObjectMapper:mapper forClass:[VIPerson class]];
+    VIPerson *person = [VIPerson addWithDictionary:[self makePersonDictForCustomMapperAndMissingParameter] forManagedObjectContext:nil];
+    [self checkMappingForPerson:person andDictionary:[self makePersonDictForCustomMapperAndMissingParameter]];
+
+    NSDictionary *dict = [person dictionaryRepresentation];
+    XCTAssertTrue([dict isEqualToDictionary:[self makePersonDictForCustomMapperAndMissingParameter]], @"dictionary representation failed to match input dictionary");
+}
+
 - (void)testImportExportDictionaryWithCustomKeyPathMapper
 {
     VIManagedObjectMapper *mapper = [VIManagedObjectMapper mapperWithUniqueKey:nil andMaps:[self customMapsArrayWithKeyPaths]];
@@ -88,6 +99,26 @@ NSString *const COOL_RANCH_KEYPATH_KEY = @"prefs.coolRanch";
 
     NSDictionary *dict = [person dictionaryRepresentationRespectingKeyPaths];
     XCTAssertTrue([dict isEqualToDictionary:[self makePersonDictForCustomMapperWithKeyPaths]], @"dictionary representation failed to match input dictionary");
+}
+
+- (void)testImportExportDictionaryWithCustomKeyPathMapperAndNilProperty
+{
+    VIManagedObjectMapper *mapper = [VIManagedObjectMapper mapperWithUniqueKey:nil andMaps:[self customMapsArrayWithKeyPaths]];
+    [[VICoreDataManager sharedInstance] setObjectMapper:mapper forClass:[VIPerson class]];
+    VIPerson *person = [VIPerson addWithDictionary:[self makePersonDictForCustomMapperWithKeyPathsAndMissingParameter] forManagedObjectContext:nil];
+
+    XCTAssertTrue(person != nil, @"person was not created");
+    XCTAssertTrue([person isKindOfClass:[VIPerson class]], @"person is wrong class");
+    XCTAssertTrue([person.firstName isEqualToString:@"CUSTOMFIRSTNAME"], @"person first name is incorrect");
+    XCTAssertTrue([person.lastName isEqualToString:@"CUSTOMLASTNAME"], @"person last name is incorrect");
+    XCTAssertNil(person.numberOfCats, @"number of cats should be nil");
+    XCTAssertTrue([person.lovesCoolRanch isEqualToNumber:@YES], @"person lovesCoolRanch is incorrect");
+
+    NSDate *birthdate = [[self customDateFormatter] dateFromString:@"24 Jul 83 14:16"];
+    XCTAssertTrue([person.birthDay isEqualToDate:birthdate], @"person birthdate is incorrect");
+
+    NSDictionary *dict = [person dictionaryRepresentationRespectingKeyPaths];
+    XCTAssertTrue([dict isEqualToDictionary:[self makePersonDictForCustomMapperWithKeyPathsAndMissingParameter]], @"dictionary representation failed to match input dictionary");
 }
 
 - (void)testImportArrayWithCustomMapper
@@ -350,7 +381,10 @@ NSString *const COOL_RANCH_KEYPATH_KEY = @"prefs.coolRanch";
     if (!birthdate) {
         birthdate = [[self customDateFormatter] dateFromString:[dict objectForKey:BIRTHDAY_CUSTOM_KEY]];
     }
-    XCTAssertTrue([person.birthDay isEqualToDate:birthdate], @"person birthdate is incorrect");
+    if (person.birthDay) {
+        //only check if birthday should be there.
+        XCTAssertTrue([person.birthDay isEqualToDate:birthdate], @"person birthdate is incorrect");
+    }
 }
 
 - (NSString *)randomNumberString
@@ -378,11 +412,36 @@ NSString *const COOL_RANCH_KEYPATH_KEY = @"prefs.coolRanch";
     return dict;
 }
 
+- (NSDictionary *)makePersonDictForCustomMapperAndMissingParameter
+{
+    NSDictionary *dict = @{FIRST_NAME_CUSTOM_KEY : @"CUSTOM",
+                           LAST_NAME_CUSTOM_KEY : @"MAPMAN",
+                           CATS_CUSTOM_KEY : @192,
+                           COOL_RANCH_CUSTOM_KEY : @YES};
+    return dict;
+}
+
+
 - (NSDictionary *)makePersonDictForCustomMapperWithKeyPaths
 {
     NSDictionary *nameDict = @{@"first": @"CUSTOMFIRSTNAME",
                                @"last": @"CUSTOMLASTNAME"};
     NSDictionary *catsDict = @{@"number": @876};
+
+    NSDictionary *prefsDict = @{@"cats": catsDict,
+                                @"coolRanch": @YES};
+
+    NSDictionary *dict = @{@"name": nameDict,
+                           BIRTHDAY_KEYPATH_KEY : @"24 Jul 83 14:16",
+                           @"prefs": prefsDict};
+    return dict;
+}
+
+- (NSDictionary *)makePersonDictForCustomMapperWithKeyPathsAndMissingParameter
+{
+    NSDictionary *nameDict = @{@"first": @"CUSTOMFIRSTNAME",
+                               @"last": @"CUSTOMLASTNAME"};
+    NSDictionary *catsDict = @{};
 
     NSDictionary *prefsDict = @{@"cats": catsDict,
                                 @"coolRanch": @YES};
