@@ -1,29 +1,30 @@
 //
 //  VICollectionDataSource.h
-//  MuOptics
+//  Changes
 //
 //  Created by teejay on 5/6/13.
 //  Copyright (c) 2013 teejay. All rights reserved.
 //
 
-#import "VIFetchResultsDataSource.h"
+#import "VIFetchResultsDataSourceSKZ.h"
+#import "iCarouselSKZ.h"
 
-@interface VICollectionDataSource : VIFetchResultsDataSource <UICollectionViewDataSource, UICollectionViewDelegate>
+@interface VICarouselDataSourceSKZ : VIFetchResultsDataSourceSKZ <iCarouselDataSourceSKZ, iCarouselDelegateSKZ>
 
 @property (strong, readonly) NSFetchedResultsController *fetchedResultsController;
 
-@property (weak) UICollectionView *collectionView;
+@property (weak) iCarouselSKZ *carousel;
 
 - (id)initWithPredicate:(NSPredicate *)predicate
               cacheName:(NSString *)cacheName
-         collectionView:(UICollectionView *)collectionView
+               carousel:(iCarouselSKZ *)carousel
      sectionNameKeyPath:(NSString *)sectionNameKeyPath
         sortDescriptors:(NSArray *)sortDescriptors
      managedObjectClass:(Class)managedObjectClass;
 
 - (id)initWithPredicate:(NSPredicate *)predicate
               cacheName:(NSString *)cacheName
-         collectionView:(UICollectionView *)collectionView
+               carousel:(iCarouselSKZ *)carousel
      sectionNameKeyPath:(NSString *)sectionNameKeyPath
         sortDescriptors:(NSArray *)sortDescriptors
      managedObjectClass:(Class)managedObjectClass
@@ -31,7 +32,7 @@
 
 - (id)initWithPredicate:(NSPredicate *)predicate
               cacheName:(NSString *)cacheName
-         collectionView:(UICollectionView *)collectionView
+               carousel:(iCarouselSKZ *)carousel
      sectionNameKeyPath:(NSString *)sectionNameKeyPath
         sortDescriptors:(NSArray *)sortDescriptors
      managedObjectClass:(Class)managedObjectClass
@@ -39,7 +40,7 @@
 
 - (id)initWithPredicate:(NSPredicate *)predicate
               cacheName:(NSString *)cacheName
-         collectionView:(UICollectionView *)collectionView
+               carousel:(iCarouselSKZ *)carousel
      sectionNameKeyPath:(NSString *)sectionNameKeyPath
         sortDescriptors:(NSArray *)sortDescriptors
      managedObjectClass:(Class)managedObjectClass

@@ -4,11 +4,11 @@
 //
 
 #import "VIManagedObject.h"
-#import "VICoreDataManager.h"
+#import "VICoreDataManagerSKZ.h"
 
 @implementation NSManagedObject (VIManagedObjectAdditions)
 
-- (void)safeSetValue:(id)value forKey:(NSString *)key
+- (void)safeSetValueSKZ:(id)value forKey:(NSString *)key
 {
     if (value && ![[NSNull null] isEqual:value]) {
         [self setValue:value forKey:key];
@@ -17,40 +17,40 @@
     }
 }
 
-- (NSDictionary *)dictionaryRepresentation
+- (NSDictionary *)dictionaryRepresentationSKZ
 {
-    return [[VICoreDataManager sharedInstance] dictionaryRepresentationOfManagedObject:self respectKeyPaths:NO];
+    return [[VICoreDataManagerSKZ sharedInstance] dictionaryRepresentationOfManagedObject:self respectKeyPaths:NO];
 }
 
-- (NSDictionary *)dictionaryRepresentationRespectingKeyPaths
+- (NSDictionary *)dictionaryRepresentationRespectingKeyPathsSKZ
 {
-    return [[VICoreDataManager sharedInstance] dictionaryRepresentationOfManagedObject:self respectKeyPaths:YES];
+    return [[VICoreDataManagerSKZ sharedInstance] dictionaryRepresentationOfManagedObject:self respectKeyPaths:YES];
 }
 
 #pragma mark - Create Objects
-+ (instancetype)newInstance
++ (instancetype)newInstanceSKZ
 {
-    return [self newInstanceWithContext:nil];
+    return [self newInstanceWithContextSKZ:nil];
 }
 
-+ (instancetype)newInstanceWithContext:(NSManagedObjectContext *)context
++ (instancetype)newInstanceWithContextSKZ:(NSManagedObjectContext *)context
 {
-    return [[VICoreDataManager sharedInstance] managedObjectOfClass:self inContext:context];
+    return [[VICoreDataManagerSKZ sharedInstance] managedObjectOfClass:self inContext:context];
 }
 
 #pragma mark - Add Objects
-+ (NSArray *)addWithArray:(NSArray *)inputArray forManagedObjectContext:(NSManagedObjectContext*)contextOrNil
++ (NSArray *)addWithArraySKZ:(NSArray *)inputArray forManagedObjectContext:(NSManagedObjectContext*)contextOrNil
 {
-    return [[VICoreDataManager sharedInstance] importArray:inputArray forClass:[self class] withContext:contextOrNil];
+    return [[VICoreDataManagerSKZ sharedInstance] importArray:inputArray forClass:[self class] withContext:contextOrNil];
 }
 
-+ (instancetype)addWithDictionary:(NSDictionary *)inputDict forManagedObjectContext:(NSManagedObjectContext*)contextOrNil
++ (instancetype)addWithDictionarySKZ:(NSDictionary *)inputDict forManagedObjectContext:(NSManagedObjectContext*)contextOrNil
 {
     if (!inputDict || [[NSNull null] isEqual:inputDict]) {
         return nil;
     }
 
-    NSArray *array = [[VICoreDataManager sharedInstance] importArray:@[inputDict] forClass:[self class] withContext:contextOrNil];
+    NSArray *array = [[VICoreDataManagerSKZ sharedInstance] importArray:@[inputDict] forClass:[self class] withContext:contextOrNil];
     
     if (array.count) {
         return array[0];
@@ -60,39 +60,39 @@
 }
 
 #pragma mark - Fetch with Object's Context
-+ (BOOL)existsForPredicate:(NSPredicate *)predicate forManagedObject:(NSManagedObject *)object
++ (BOOL)existsForPredicateSKZ:(NSPredicate *)predicate forManagedObject:(NSManagedObject *)object
 {
-    return [self existsForPredicate:predicate forManagedObjectContext:[object managedObjectContext]];
+    return [self existsForPredicateSKZ:predicate forManagedObjectContext:[object managedObjectContext]];
 }
 
-+ (NSArray *)fetchAllForPredicate:(NSPredicate *)predicate forManagedObject:(NSManagedObject *)object
++ (NSArray *)fetchAllForPredicateSKZ:(NSPredicate *)predicate forManagedObject:(NSManagedObject *)object
 {
-    return [self fetchAllForPredicate:predicate forManagedObjectContext:[object managedObjectContext]];
+    return [self fetchAllForPredicateSKZ:predicate forManagedObjectContext:[object managedObjectContext]];
 }
 
-+ (id)fetchForPredicate:(NSPredicate *)predicate forManagedObject:(NSManagedObject *)object
++ (id)fetchForPredicateSKZ:(NSPredicate *)predicate forManagedObject:(NSManagedObject *)object
 {
-    return [self fetchForPredicate:predicate forManagedObjectContext:[object managedObjectContext]];
+    return [self fetchForPredicateSKZ:predicate forManagedObjectContext:[object managedObjectContext]];
 }
 
 #pragma mark - Fetch with Context
-+ (BOOL)existsForPredicate:(NSPredicate *)predicate forManagedObjectContext:(NSManagedObjectContext *)contextOrNil
++ (BOOL)existsForPredicateSKZ:(NSPredicate *)predicate forManagedObjectContext:(NSManagedObjectContext *)contextOrNil
 {
-    return [[VICoreDataManager sharedInstance] countForClass:[self class]
+    return [[VICoreDataManagerSKZ sharedInstance] countForClass:[self class]
                                                withPredicate:predicate
                                                   forContext:contextOrNil];
 }
 
-+ (NSArray *)fetchAllForPredicate:(NSPredicate *)predicate forManagedObjectContext:(NSManagedObjectContext *)contextOrNil
++ (NSArray *)fetchAllForPredicateSKZ:(NSPredicate *)predicate forManagedObjectContext:(NSManagedObjectContext *)contextOrNil
 {
-    return [[VICoreDataManager sharedInstance] arrayForClass:[self class]
+    return [[VICoreDataManagerSKZ sharedInstance] arrayForClass:[self class]
                                                withPredicate:predicate
                                                   forContext:contextOrNil];
 }
 
-+ (id)fetchForPredicate:(NSPredicate *)predicate forManagedObjectContext:(NSManagedObjectContext *)contextOrNil
++ (id)fetchForPredicateSKZ:(NSPredicate *)predicate forManagedObjectContext:(NSManagedObjectContext *)contextOrNil
 {
-    NSArray *results = [self fetchAllForPredicate:predicate forManagedObjectContext:contextOrNil];
+    NSArray *results = [self fetchAllForPredicateSKZ:predicate forManagedObjectContext:contextOrNil];
 
     NSUInteger count = [results count];
     if (count) {

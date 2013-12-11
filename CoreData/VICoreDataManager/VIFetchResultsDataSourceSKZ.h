@@ -12,7 +12,7 @@
 - (void)fetchResultsDataSourceHasResults:(BOOL)hasResults;
 @end
 
-@interface VIFetchResultsDataSource : NSObject <NSFetchedResultsControllerDelegate, UITableViewDelegate, UITableViewDataSource> {
+@interface VIFetchResultsDataSourceSKZ : NSObject <NSFetchedResultsControllerDelegate, UITableViewDelegate, UITableViewDataSource> {
     NSFetchedResultsController *_fetchedResultsController;
 }
 

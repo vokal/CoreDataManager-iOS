@@ -6,9 +6,9 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-#import "VIManagedObjectMap.h"
+#import "VIManagedObjectMapSKZ.h"
 
-@interface VIManagedObjectMapper : NSObject
+@interface VIManagedObjectMapperSKZ : NSObject
 
 /// Used to identify and update NSManagedObjects. Like a "primary key" in databases.
 @property (readonly) NSString *uniqueComparisonKey;

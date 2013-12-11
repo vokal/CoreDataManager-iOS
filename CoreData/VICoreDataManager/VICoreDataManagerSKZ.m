@@ -3,9 +3,9 @@
 //  CoreData
 //
 
-#import "VICoreDataManager.h"
+#import "VICoreDataManagerSKZ.h"
 
-@interface VICoreDataManager () {
+@interface VICoreDataManagerSKZ () {
     NSManagedObjectContext *_managedObjectContext;
     NSManagedObjectModel *_managedObjectModel;
     NSPersistentStoreCoordinator *_persistentStoreCoordinator;
@@ -36,19 +36,19 @@
 
 //Convenience Methods
 - (NSFetchRequest *)fetchRequestWithClass:(Class)managedObjectClass predicate:(NSPredicate *)predicate;
-- (VIManagedObjectMapper *)mapperForClass:(Class)objectClass;
+- (VIManagedObjectMapperSKZ *)mapperForClass:(Class)objectClass;
 - (NSURL *)applicationLibraryDirectory;
 
 @end
 
 //private interface to VIManagedObjectMapper
-@interface VIManagedObjectMapper (dictionaryInputOutput)
+@interface VIManagedObjectMapperSKZ (dictionaryInputOutput)
 - (void)setInformationFromDictionary:(NSDictionary *)inputDict forManagedObject:(NSManagedObject *)object;
 - (NSDictionary *)dictionaryRepresentationOfManagedObject:(NSManagedObject *)object;
 - (NSDictionary *)hierarchicalDictionaryRepresentationOfManagedObject:(NSManagedObject *)object;
 @end
 
-@implementation VICoreDataManager
+@implementation VICoreDataManagerSKZ
 
 + (void)initialize
 {
@@ -57,8 +57,8 @@
 }
 
 NSOperationQueue *VI_WritingQueue;
-VICoreDataManager *VI_SharedObject;
-+ (VICoreDataManager *)sharedInstance
+VICoreDataManagerSKZ *VI_SharedObject;
++ (VICoreDataManagerSKZ *)sharedInstance
 {
     static dispatch_once_t pred;
     dispatch_once(&pred,^{
@@ -186,7 +186,7 @@ VICoreDataManager *VI_SharedObject;
     return [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass(managedObjectClass) inManagedObjectContext:contextOrNil];
 }
 
-- (BOOL)setObjectMapper:(VIManagedObjectMapper *)objMapper forClass:(Class)objectClass
+- (BOOL)setObjectMapper:(VIManagedObjectMapperSKZ *)objMapper forClass:(Class)objectClass
 {
     if (objMapper && objectClass) {
         (self.mapperCollection)[NSStringFromClass(objectClass)] = objMapper;
@@ -198,7 +198,7 @@ VICoreDataManager *VI_SharedObject;
 
 - (NSArray *)importArray:(NSArray *)inputArray forClass:(Class)objectClass withContext:(NSManagedObjectContext*)contextOrNil;
 {
-    VIManagedObjectMapper *mapper = [self mapperForClass:objectClass];
+    VIManagedObjectMapperSKZ *mapper = [self mapperForClass:objectClass];
 
     contextOrNil = [self safeContext:contextOrNil];
 
@@ -248,14 +248,14 @@ VICoreDataManager *VI_SharedObject;
 
 - (void)setInformationFromDictionary:(NSDictionary *)inputDict forManagedObject:(NSManagedObject *)object
 {
-    VIManagedObjectMapper *mapper = [self mapperForClass:[object class]];
+    VIManagedObjectMapperSKZ *mapper = [self mapperForClass:[object class]];
     [mapper setInformationFromDictionary:inputDict forManagedObject:object];
 }
 
 #pragma mark - Convenient Output
 - (NSDictionary *)dictionaryRepresentationOfManagedObject:(NSManagedObject *)object respectKeyPaths:(BOOL)keyPathsEnabled
 {
-    VIManagedObjectMapper *mapper = [self mapperForClass:[object class]];
+    VIManagedObjectMapperSKZ *mapper = [self mapperForClass:[object class]];
     if (keyPathsEnabled) {
         return [mapper hierarchicalDictionaryRepresentationOfManagedObject:object];
     } else {
@@ -419,13 +419,13 @@ VICoreDataManager *VI_SharedObject;
 + (void)writeToTemporaryContext:(void (^)(NSManagedObjectContext *tempContext))writeBlock
                      completion:(void (^)(void))completion
 {
-    [[VICoreDataManager sharedInstance]  managedObjectContext];
+    [[VICoreDataManagerSKZ sharedInstance]  managedObjectContext];
     NSAssert(writeBlock, @"Write block must not be nil");
     [VI_WritingQueue addOperationWithBlock:^{
         
-        NSManagedObjectContext *tempContext = [[VICoreDataManager sharedInstance] temporaryContext];
+        NSManagedObjectContext *tempContext = [[VICoreDataManagerSKZ sharedInstance] temporaryContext];
         writeBlock(tempContext);
-        [[VICoreDataManager sharedInstance] saveAndMergeWithMainContext:tempContext];
+        [[VICoreDataManagerSKZ sharedInstance] saveAndMergeWithMainContext:tempContext];
 
         if (completion) {
             dispatch_async(dispatch_get_main_queue(), completion);
@@ -441,15 +441,15 @@ VICoreDataManager *VI_SharedObject;
     return fetchRequest;
 }
 
-- (VIManagedObjectMapper *)mapperForClass:(Class)objectClass
+- (VIManagedObjectMapperSKZ *)mapperForClass:(Class)objectClass
 {
-    VIManagedObjectMapper * mapper = self.mapperCollection[NSStringFromClass(objectClass)];
+    VIManagedObjectMapperSKZ * mapper = self.mapperCollection[NSStringFromClass(objectClass)];
     while (!mapper && objectClass) {
         objectClass = [objectClass superclass];
         mapper = self.mapperCollection[NSStringFromClass(objectClass)];
         
         if (objectClass == [NSManagedObject class] && !mapper) {
-            mapper = [VIManagedObjectMapper defaultMapper];
+            mapper = [VIManagedObjectMapperSKZ defaultMapper];
         }
     }
     

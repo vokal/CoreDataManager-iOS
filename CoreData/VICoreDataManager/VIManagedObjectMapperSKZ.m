@@ -3,13 +3,13 @@
 //  CoreData
 //
 
-#import "VIManagedObjectMapper.h"
-#import "VICoreDataManager.h"
+#import "VIManagedObjectMapperSKZ.h"
+#import "VICoreDataManagerSKZ.h"
 
-@interface VIManagedObjectDefaultMapper : VIManagedObjectMapper
+@interface VIManagedObjectDefaultMapper : VIManagedObjectMapperSKZ
 @end
 
-@interface VIManagedObjectMapper()
+@interface VIManagedObjectMapperSKZ()
 @property (nonatomic) NSArray *mapsArray;
 - (void)updateForeignComparisonKey;
 - (id)checkNull:(id)inputObject;
@@ -19,11 +19,11 @@
 - (Class)expectedClassForObject:(NSManagedObject *)object andKey:(id)key;
 @end
 
-@implementation VIManagedObjectMapper
+@implementation VIManagedObjectMapperSKZ
 
 + (instancetype)mapperWithUniqueKey:(NSString *)comparisonKey andMaps:(NSArray *)mapsArray;
 {
-    VIManagedObjectMapper *mapper = [[self alloc] init];
+    VIManagedObjectMapperSKZ *mapper = [[self alloc] init];
     [mapper setMapsArray:mapsArray];
     [mapper setUniqueComparisonKey:comparisonKey];
     return mapper;
@@ -63,7 +63,7 @@
 
 - (void)updateForeignComparisonKey
 {
-    [self.mapsArray enumerateObjectsUsingBlock:^(VIManagedObjectMap *aMap, NSUInteger idx, BOOL *stop) {
+    [self.mapsArray enumerateObjectsUsingBlock:^(VIManagedObjectMapSKZ *aMap, NSUInteger idx, BOOL *stop) {
         if ([aMap.coreDataKey isEqualToString:self.uniqueComparisonKey]) {
             _foreignUniqueComparisonKey = aMap.inputKeyPath;
         }
@@ -153,23 +153,23 @@
 @end
 
 #pragma mark - Dictionary Input and Output
-@implementation VIManagedObjectMapper (dictionaryInputOutput)
+@implementation VIManagedObjectMapperSKZ (dictionaryInputOutput)
 - (void)setInformationFromDictionary:(NSDictionary *)inputDict forManagedObject:(NSManagedObject *)object
 {
-    [self.mapsArray enumerateObjectsUsingBlock:^(VIManagedObjectMap *aMap, NSUInteger idx, BOOL *stop) {
+    [self.mapsArray enumerateObjectsUsingBlock:^(VIManagedObjectMapSKZ *aMap, NSUInteger idx, BOOL *stop) {
         id inputObject = [inputDict valueForKeyPath:aMap.inputKeyPath];
         inputObject = [self checkDate:inputObject withDateFormatter:aMap.dateFormatter];
         inputObject = [self checkNumber:inputObject withNumberFormatter:aMap.numberFormatter];
         inputObject = [self checkClass:inputObject managedObject:object key:aMap.coreDataKey];        
         inputObject = [self checkNull:inputObject];
-        [object safeSetValue:inputObject forKey:aMap.coreDataKey];
+        [object safeSetValueSKZ:inputObject forKey:aMap.coreDataKey];
     }];
 }
 
 - (NSDictionary *)dictionaryRepresentationOfManagedObject:(NSManagedObject *)object
 {
     NSMutableDictionary *outputDict = [NSMutableDictionary new];
-    [self.mapsArray enumerateObjectsUsingBlock:^(VIManagedObjectMap *aMap, NSUInteger idx, BOOL *stop) {
+    [self.mapsArray enumerateObjectsUsingBlock:^(VIManagedObjectMapSKZ *aMap, NSUInteger idx, BOOL *stop) {
         id outputObject = [object valueForKey:aMap.coreDataKey];
         outputObject = [self checkString:outputObject withDateFormatter:aMap.dateFormatter];
         outputObject = [self checkString:outputObject withNumberFormatter:aMap.numberFormatter];
@@ -185,7 +185,7 @@ NSString *const period = @".";
 - (NSDictionary *)hierarchicalDictionaryRepresentationOfManagedObject:(NSManagedObject *)object
 {
     NSMutableDictionary *outputDict = [NSMutableDictionary new];
-    [self.mapsArray enumerateObjectsUsingBlock:^(VIManagedObjectMap *aMap, NSUInteger idx, BOOL *stop) {
+    [self.mapsArray enumerateObjectsUsingBlock:^(VIManagedObjectMapSKZ *aMap, NSUInteger idx, BOOL *stop) {
         id outputObject = [object valueForKey:aMap.coreDataKey];
         outputObject = [self checkString:outputObject withDateFormatter:aMap.dateFormatter];
         outputObject = [self checkString:outputObject withNumberFormatter:aMap.numberFormatter];
@@ -221,11 +221,11 @@ NSString *const period = @".";
     //this default mapper assumes that local keys and entities match foreign keys and entities
     [inputDict enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
         id inputObject = obj;
-        inputObject = [self checkDate:inputObject withDateFormatter:[VIManagedObjectMap defaultDateFormatter]];
-        inputObject = [self checkNumber:inputObject withNumberFormatter:[VIManagedObjectMap defaultNumberFormatter]];
+        inputObject = [self checkDate:inputObject withDateFormatter:[VIManagedObjectMapSKZ defaultDateFormatter]];
+        inputObject = [self checkNumber:inputObject withNumberFormatter:[VIManagedObjectMapSKZ defaultNumberFormatter]];
         inputObject = [self checkClass:inputObject managedObject:object key:key];
         inputObject = [self checkNull:inputObject];
-        [object safeSetValue:inputObject forKey:key];
+        [object safeSetValueSKZ:inputObject forKey:key];
     }];
 }
 
@@ -235,7 +235,7 @@ NSString *const period = @".";
     NSMutableDictionary *outputDict = [NSMutableDictionary new];
     [attributes enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
         id outputObject = [object valueForKey:key];
-        outputObject = [self checkString:outputObject withDateFormatter:[VIManagedObjectMap defaultDateFormatter]];
+        outputObject = [self checkString:outputObject withDateFormatter:[VIManagedObjectMapSKZ defaultDateFormatter]];
         if (outputObject) {
             outputDict[key] = outputObject;
         }

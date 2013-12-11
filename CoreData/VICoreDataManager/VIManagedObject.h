@@ -14,7 +14,7 @@
  @param key
  The key to set.
  */
-- (void)safeSetValue:(id)value forKey:(NSString *)key;
+- (void)safeSetValueSKZ:(id)value forKey:(NSString *)key;
 
 /**
  Creates a dictionary based on the set mapping. This should round-trip data from dictionaries to core data and back.
@@ -22,7 +22,7 @@
  @return
  An NSDictioary matching the original input dictionary.
  */
-- (NSDictionary *)dictionaryRepresentation;
+- (NSDictionary *)dictionaryRepresentationSKZ;
 
 /**
  Creates a dictionary based on the set mapping. This should round-trip data from dictionaries to core data and back.
@@ -30,14 +30,14 @@
  @return
  An NSDictioary matching the original input dictionary.
  */
-- (NSDictionary *)dictionaryRepresentationRespectingKeyPaths;
+- (NSDictionary *)dictionaryRepresentationRespectingKeyPathsSKZ;
 
 /**
  A convenience methods to create a new instance of a VIManagedObject subclass.
  @return
  A new managed object subclass in the main context.
  */
-+ (instancetype)newInstance;
++ (instancetype)newInstanceSKZ;
 
 /**
  A convenience methods to create a new instance of a VIManagedObject subclass.
@@ -46,7 +46,7 @@
  @return
  A new managed object subclass in the main context.
  */
-+ (instancetype)newInstanceWithContext:(NSManagedObjectContext *)contextOrNil;
++ (instancetype)newInstanceWithContextSKZ:(NSManagedObjectContext *)contextOrNil;
 
 /*
  Create or update many NSManagedObjects, respecting overwriteObjectsWithServerChanges.
@@ -59,7 +59,7 @@
  @return 
  An array of this subclass of NSManagedObject.
  **/
-+ (NSArray *)addWithArray:(NSArray *)inputArray forManagedObjectContext:(NSManagedObjectContext*)contextOrNil;
++ (NSArray *)addWithArraySKZ:(NSArray *)inputArray forManagedObjectContext:(NSManagedObjectContext*)contextOrNil;
 
 /*
  Create or update a single NSManagedObject, respecting overwriteObjectsWithServerChanges.
@@ -72,18 +72,18 @@
  @return
  An instance of this subclass of NSManagedObject.
  **/
-+ (instancetype)addWithDictionary:(NSDictionary *)inputDict forManagedObjectContext:(NSManagedObjectContext*)contextOrNil;
++ (instancetype)addWithDictionarySKZ:(NSDictionary *)inputDict forManagedObjectContext:(NSManagedObjectContext*)contextOrNil;
 
 
 //These will adhere to the NSManagedObjectContext of the managedObject.
-+ (BOOL)existsForPredicate:(NSPredicate *)predicate forManagedObject:(NSManagedObject *)object;
-+ (NSArray *)fetchAllForPredicate:(NSPredicate *)predicate forManagedObject:(NSManagedObject *)object;
-+ (id)fetchForPredicate:(NSPredicate *)predicate forManagedObject:(NSManagedObject *)object;
++ (BOOL)existsForPredicateSKZ:(NSPredicate *)predicate forManagedObject:(NSManagedObject *)object;
++ (NSArray *)fetchAllForPredicateSKZ:(NSPredicate *)predicate forManagedObject:(NSManagedObject *)object;
++ (id)fetchForPredicateSKZ:(NSPredicate *)predicate forManagedObject:(NSManagedObject *)object;
 
 
 //These allow for more flexibility.
-+ (BOOL)existsForPredicate:(NSPredicate *)predicate forManagedObjectContext:(NSManagedObjectContext *)contextOrNil;
-+ (NSArray *)fetchAllForPredicate:(NSPredicate *)predicate forManagedObjectContext:(NSManagedObjectContext *)contextOrNil;
-+ (id)fetchForPredicate:(NSPredicate *)predicate forManagedObjectContext:(NSManagedObjectContext *)contextOrNil;
++ (BOOL)existsForPredicateSKZ:(NSPredicate *)predicate forManagedObjectContext:(NSManagedObjectContext *)contextOrNil;
++ (NSArray *)fetchAllForPredicateSKZ:(NSPredicate *)predicate forManagedObjectContext:(NSManagedObjectContext *)contextOrNil;
++ (id)fetchForPredicateSKZ:(NSPredicate *)predicate forManagedObjectContext:(NSManagedObjectContext *)contextOrNil;
 
 @end
