@@ -25,7 +25,7 @@
         sortDescriptors:(NSArray *)sortDescriptors
      managedObjectClass:(Class)managedObjectClass
               batchSize:(NSInteger)batchSize
-               delegate:(id <VIFetchResultsDataSourceDelegate>)delegate
+               delegate:(id <VIFetchResultsDataSourceDelegateSKZ>)delegate
 {
     self.collectionView = collectionView;
     self.collectionView.delegate = self;
@@ -48,7 +48,7 @@
      sectionNameKeyPath:(NSString *)sectionNameKeyPath
         sortDescriptors:(NSArray *)sortDescriptors
      managedObjectClass:(Class)managedObjectClass
-               delegate:(id <VIFetchResultsDataSourceDelegate>)delegate
+               delegate:(id <VIFetchResultsDataSourceDelegateSKZ>)delegate
 {
     return [self initWithPredicate:predicate
                          cacheName:cacheName

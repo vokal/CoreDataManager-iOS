@@ -6,7 +6,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@protocol VIFetchResultsDataSourceDelegate <NSObject>
+@protocol VIFetchResultsDataSourceDelegateSKZ <NSObject>
 @optional
 - (void)fetchResultsDataSourceSelectedObject:(NSManagedObject *)object;
 - (void)fetchResultsDataSourceHasResults:(BOOL)hasResults;
@@ -20,7 +20,7 @@
 @property (weak, readonly) UITableView *tableView;
 @property (weak, readonly) NSManagedObjectContext *managedObjectContext;
 
-@property (weak) id <VIFetchResultsDataSourceDelegate> delegate;
+@property (weak) id <VIFetchResultsDataSourceDelegateSKZ> delegate;
 
 //these are exposed to handle reconfiguration of the protected _fetchedResultsController, when they change
 @property (nonatomic, assign) NSInteger batchSize;
@@ -62,7 +62,7 @@
      sectionNameKeyPath:(NSString *)sectionNameKeyPath
         sortDescriptors:(NSArray *)sortDescriptors
      managedObjectClass:(Class)managedObjectClass
-               delegate:(id <VIFetchResultsDataSourceDelegate>)delegate;
+               delegate:(id <VIFetchResultsDataSourceDelegateSKZ>)delegate;
 
 - (id)initWithPredicate:(NSPredicate *)predicate
               cacheName:(NSString *)cacheName
@@ -71,7 +71,7 @@
         sortDescriptors:(NSArray *)sortDescriptors
      managedObjectClass:(Class)managedObjectClass
               batchSize:(NSInteger)batchSize
-               delegate:(id <VIFetchResultsDataSourceDelegate>)delegate;
+               delegate:(id <VIFetchResultsDataSourceDelegateSKZ>)delegate;
 
 - (id)initWithPredicate:(NSPredicate *)predicate
               cacheName:(NSString *)cacheName
@@ -81,7 +81,7 @@
      managedObjectClass:(Class)managedObjectClass
               batchSize:(NSInteger)batchSize
              fetchLimit:(NSInteger)fetchLimit
-               delegate:(id <VIFetchResultsDataSourceDelegate>)delegate;
+               delegate:(id <VIFetchResultsDataSourceDelegateSKZ>)delegate;
 
 - (UITableViewCell *)cellAtIndexPath:(NSIndexPath *)indexPath;
 

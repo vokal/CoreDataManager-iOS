@@ -35,7 +35,7 @@
      sectionNameKeyPath:(NSString *)sectionNameKeyPath
         sortDescriptors:(NSArray *)sortDescriptors
      managedObjectClass:(Class)managedObjectClass
-               delegate:(id <VIFetchResultsDataSourceDelegate>)delegate;
+               delegate:(id <VIFetchResultsDataSourceDelegateSKZ>)delegate;
 
 - (id)initWithPredicate:(NSPredicate *)predicate
               cacheName:(NSString *)cacheName
@@ -44,6 +44,6 @@
         sortDescriptors:(NSArray *)sortDescriptors
      managedObjectClass:(Class)managedObjectClass
               batchSize:(NSInteger)batchSize
-               delegate:(id <VIFetchResultsDataSourceDelegate>)delegate;
+               delegate:(id <VIFetchResultsDataSourceDelegateSKZ>)delegate;
 
 @end
