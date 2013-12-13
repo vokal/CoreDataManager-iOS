@@ -7,10 +7,13 @@
 
 @interface VIManagedObjectMapSKZ : NSObject
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-property-no-attribute"
 @property NSString *inputKeyPath;
 @property NSString *coreDataKey;
 @property (nonatomic) NSDateFormatter *dateFormatter;
 @property (nonatomic) NSNumberFormatter *numberFormatter;
+#pragma clang diagnostic pop
 
 /**
  Provides easy access to rfc3339 date formatter, like "1985-04-12T23:20:50.52Z"
