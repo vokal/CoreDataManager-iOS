@@ -312,6 +312,22 @@ VICoreDataManager *VI_SharedObject;
     return results;
 }
 
+- (id)fetchForURIRepresentation:(NSURL *)uri forManagedObjectContext:(NSManagedObjectContext *)contextOrNil
+{
+    contextOrNil = [self safeContext:contextOrNil];
+    
+    NSManagedObjectID *objectId = [self.persistentStoreCoordinator managedObjectIDForURIRepresentation:uri];
+    return [contextOrNil objectWithID:objectId];
+}
+
+- (id)fetchForURIRepresentation:(NSURL *)uri forManagedObject:(NSManagedObject *)object
+{
+    NSManagedObjectContext *fetchContext = [self safeContext:object.managedObjectContext];
+    
+    NSManagedObjectID *objectId = [self.persistentStoreCoordinator managedObjectIDForURIRepresentation:uri];
+    return [fetchContext objectWithID:objectId];
+}
+
 - (void)deleteObject:(NSManagedObject *)object
 {
     [[object managedObjectContext] deleteObject:object];
