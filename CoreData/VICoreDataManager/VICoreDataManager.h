@@ -188,7 +188,8 @@
                 forContext:(NSManagedObjectContext *)contextOrNil;
 
 /**
- Finds an object for a given NSManagedObjectID URI Representation. Relies on existingObjectWithID:error:
+ Finds an object for a given NSManagedObjectID URI Representation. This method relies on existingObjectWithID:error:.
+ A very malformed URI will cause managedObjectIDForURIRepresentation: to throw an exception. All other known errors are handled by logging and returning nil.
  @param uri
  URIRepresetion of an NSManagedObjectId
  @param contextOrNil
