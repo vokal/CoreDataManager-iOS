@@ -188,6 +188,26 @@
                 forContext:(NSManagedObjectContext *)contextOrNil;
 
 /**
+ *  Fetches an object for a given NSManagedObjectID URI Representation
+ *
+ *  @param uri          URIRepresetion of an NSManagedObjectId
+ *  @param contextOrNil If nil context is passed in, the object will be fetched from the main context
+ *
+ *  @return The object matching the uri passed in, if it still exists.
+ */
+- (id)fetchForURIRepresentation:(NSURL *)uri forManagedObjectContext:(NSManagedObjectContext *)contextOrNil;
+
+/**
+ *  Fetches an object for a given NSManagedObjectID URI Representation
+ *
+ *  @param uri          URIRepresetion of an NSManagedObjectId
+ *  @param object
+ *
+ *  @return The object matching the uri passed in, if it still exists.
+ */
+- (id)fetchForURIRepresentation:(NSURL *)uri forManagedObject:(NSManagedObject *)object;
+
+/**
  Deletes a given object in its current context. Uses the object's context. As always, remember to keep NSManagedObjects on one queue.
  @param object
  The object to delete.
