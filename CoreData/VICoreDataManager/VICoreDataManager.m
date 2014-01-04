@@ -314,15 +314,17 @@ VICoreDataManager *VI_SharedObject;
 
 - (id)existingObjectAtURI:(NSURL *)uri forManagedObjectContext:(NSManagedObjectContext *)contextOrNil
 {
-    contextOrNil = [self safeContext:contextOrNil];
-    
     NSManagedObjectID *objectID = [self.persistentStoreCoordinator managedObjectIDForURIRepresentation:uri];
 
     NSError *error;
-    id returnObject;
-    if (objectID) {
-        returnObject = [contextOrNil existingObjectWithID:objectID error:&error];
+
+    if (!objectID) {
+        CDLog(@"No object exists at\n%@", uri);
+        return nil;
     }
+
+    contextOrNil = [self safeContext:contextOrNil];
+    id returnObject = [contextOrNil existingObjectWithID:objectID error:&error];
 
     if (!returnObject) {
         CDLog(@"No object exists at\n%@.\n\nError:\n%@", uri, error);
