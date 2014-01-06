@@ -347,6 +347,27 @@ NSString *const COOL_RANCH_KEYPATH_KEY = @"prefs.coolRanch";
     XCTAssertTrue([[array[0] numberOfCats] isEqualToNumber:@777], @"\"overwriteObjectsWithServerChanges = NO\" was ignored");
 }
 
+- (void)testFetchWithURI
+{
+    VIPerson *person = [VIPerson addWithDictionary:[self makePersonDictForDefaultMapperWithAnEmptyInputValues] forManagedObjectContext:nil];
+    [[VICoreDataManager sharedInstance] saveMainContext];
+    NSManagedObjectID *objectID = person.objectID;
+    NSURL *uri = objectID.URIRepresentation;
+    person = nil;
+    [[[VICoreDataManager sharedInstance] managedObjectContext] reset];
+
+    VIPerson *personFromURI = [[VICoreDataManager sharedInstance] existingObjectAtURI:uri forManagedObjectContext:nil];
+    XCTAssertTrue(personFromURI, @"failed to get existing person object from URI");
+    XCTAssertTrue([personFromURI isKindOfClass:[VIPerson class]], @"existing person object was not correct class");
+}
+
+- (void)testFetchWithMalformedURI
+{
+    NSURL *uri = [NSURL URLWithString:@"x-coredata://1C8D8740-06E2-4B79-A739-94071E03CD74/VIPerson/p99"];
+    VIPerson *personFromURI = [[VICoreDataManager sharedInstance] existingObjectAtURI:uri forManagedObjectContext:nil];
+    XCTAssertNil(personFromURI, @"existingObjectAtURI did not fail correctly. returned non nil value for malformed URI");
+}
+
 #pragma mark - Convenience stuff
 - (void)waitForResponse:(NSInteger)waitTimeInSeconds semaphore:(dispatch_semaphore_t)semaphore
 {

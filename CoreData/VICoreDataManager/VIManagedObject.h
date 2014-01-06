@@ -74,12 +74,10 @@
  **/
 + (instancetype)addWithDictionary:(NSDictionary *)inputDict forManagedObjectContext:(NSManagedObjectContext*)contextOrNil;
 
-
 //These will adhere to the NSManagedObjectContext of the managedObject.
 + (BOOL)existsForPredicate:(NSPredicate *)predicate forManagedObject:(NSManagedObject *)object;
 + (NSArray *)fetchAllForPredicate:(NSPredicate *)predicate forManagedObject:(NSManagedObject *)object;
 + (id)fetchForPredicate:(NSPredicate *)predicate forManagedObject:(NSManagedObject *)object;
-
 
 //These allow for more flexibility.
 + (BOOL)existsForPredicate:(NSPredicate *)predicate forManagedObjectContext:(NSManagedObjectContext *)contextOrNil;

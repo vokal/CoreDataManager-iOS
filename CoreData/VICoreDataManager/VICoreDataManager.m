@@ -312,6 +312,27 @@ VICoreDataManager *VI_SharedObject;
     return results;
 }
 
+- (id)existingObjectAtURI:(NSURL *)uri forManagedObjectContext:(NSManagedObjectContext *)contextOrNil
+{
+    NSManagedObjectID *objectID = [self.persistentStoreCoordinator managedObjectIDForURIRepresentation:uri];
+
+    NSError *error;
+
+    if (!objectID) {
+        CDLog(@"No object exists at\n%@", uri);
+        return nil;
+    }
+
+    contextOrNil = [self safeContext:contextOrNil];
+    id returnObject = [contextOrNil existingObjectWithID:objectID error:&error];
+
+    if (!returnObject) {
+        CDLog(@"No object exists at\n%@.\n\nError:\n%@", uri, error);
+    }
+
+    return returnObject;
+}
+
 - (void)deleteObject:(NSManagedObject *)object
 {
     [[object managedObjectContext] deleteObject:object];
