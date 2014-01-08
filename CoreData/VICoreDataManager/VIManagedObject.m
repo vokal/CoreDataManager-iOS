@@ -96,7 +96,9 @@
 
     NSUInteger count = [results count];
     if (count) {
-        NSAssert(count == 1, @"Your predicate is returning more than 1 object, but the coredatamanger returns only one.");
+        if (count > 1) {
+            SKZLog(@"Your predicate is returning more than 1 object, but the coredatamanger returns only one.");
+        }
         return [results lastObject];
     }
 
