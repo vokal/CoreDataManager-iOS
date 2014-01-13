@@ -167,7 +167,7 @@
         abort();
     }
     //FOR TESTING ONLY, NOT NECESSARY
-    [_tableView reloadData];
+//    [_tableView reloadData];
 }
 
 - (NSArray *)fetchedObjects
