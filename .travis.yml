@@ -1,0 +1,3 @@
+language: objective-c
+xcode_project: CoreData.xcodeproj
+xcode_scheme: CoreData Tests
