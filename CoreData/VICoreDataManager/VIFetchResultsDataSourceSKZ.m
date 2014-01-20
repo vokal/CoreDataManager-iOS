@@ -180,6 +180,11 @@
    return _fetchedResultsController.fetchedObjects;
 }
 
+- (id)objectAtIndexPath:(NSIndexPath *)path
+{
+    return [_fetchedResultsController objectAtIndexPath:path];
+}
+
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

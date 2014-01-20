@@ -39,6 +39,8 @@
 
 - (NSArray *)fetchedObjects;
 
+- (id)objectAtIndexPath:(NSIndexPath *)path;
+
 - (void)reloadData;
 
 - (id)initWithPredicate:(NSPredicate *)predicate
