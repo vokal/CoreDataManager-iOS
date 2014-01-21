@@ -43,24 +43,24 @@
                                                     sortDescriptors:sortDescriptors
                                                 managedObjectClass:[VIPlayer class]];
     
-    [self.dataSource setupForTriggerDistance:65 upAction:^(UITableView *tableView, VICompletionAction fetchCompleted) {
+    [self.dataSource setupForTriggerDistance:60 upAction:^(UITableView *tableView, VICompletionAction fetchCompleted) {
         //Normally this wait would be waiting on an API call.
-        [self loadHigherScores];
         
-        double delayInSeconds = 5.0;
+        double delayInSeconds = 3.0;
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
             //Call our finish method to notify accessory views
+            [self loadHigherScores];
             fetchCompleted();
         });
     } headerView:nil downAction:^(UITableView *tableView, VICompletionAction fetchCompleted) {
         //Normally this wait would actually be an API call.
-        [self loadLowerScores];
         
-        double delayInSeconds = 5.0;
+        double delayInSeconds = 3.0;
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
             //Call our finish method to notify accessory views
+            [self loadLowerScores];
             fetchCompleted();
         });
     } footerView:nil];

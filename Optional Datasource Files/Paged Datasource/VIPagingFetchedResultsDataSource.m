@@ -5,7 +5,7 @@
 //
 
 #import "VIPagingFetchedResultsDataSource.h"
-#import "VIDefaultPagingAccessoryView.h"
+#import "VIDefaultPagingAccessory.h"
 
 @interface VIPagingFetchedResultsDataSource () <UIScrollViewDelegate>
 
@@ -17,6 +17,7 @@
 
 @property BOOL isLoading;
 @property CGFloat triggerDistance;
+@property UIEdgeInsets orginalInsets;
 @end
 
 
@@ -38,6 +39,7 @@
     self.isLoading = NO;
     
     self.triggerDistance = overscrollTriggerDistance;
+    self.orginalInsets = self.tableView.contentInset;
     
     [self setupAccessoryViews];
     
@@ -47,20 +49,19 @@
 {
     //Attach given views, or generate default views.
     if (!self.headerView) {
-        self.headerView = [[VIDefaultPagingAccessoryView alloc] initWithFrame:(CGRect){0, -65, self.tableView.frame.size.width, 65}];
+        self.headerView = [[VIDefaultPagingAccessory alloc] initWithFrame:(CGRect){0, -30, self.tableView.frame.size.width, 30}];
     }
     
     [self.tableView addSubview:self.headerView];
     
-    /*if (!self.footerView) {
-        self.footerView = [[VIDefaultPagingAccessoryView alloc] initWithFrame:(CGRect){0, MAX(self.tableView.contentSize.height, self.tableView.bounds.size.height),
-            self.tableView.frame.size.width, 65}];
-        [(VIDefaultPagingAccessoryView *)self.footerView setIsFooter:YES];
+    if (!self.footerView) {
+        self.footerView = [[VIDefaultPagingAccessory alloc] initWithFrame:(CGRect){0, MAX(self.tableView.contentSize.height, self.tableView.bounds.size.height),
+            self.tableView.frame.size.width, 30}];
     }
     
     [self.tableView addSubview:self.footerView];
     
-    [self.tableView addObserver:self forKeyPath:@"contentSize" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld | NSKeyValueObservingOptionPrior context:NULL];*/
+    [self.tableView addObserver:self forKeyPath:@"contentSize" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld | NSKeyValueObservingOptionPrior context:NULL];
 }
 
 - (void)cleanUpPageController
@@ -92,59 +93,85 @@
     if (!self.isLoading) {
         //Calculate scrollable height
         CGFloat contentHeight = scrollView.contentSize.height;
-        CGFloat scrollableHeight = contentHeight + scrollView.bounds.size.height;
+        CGFloat scrollableHeight = contentHeight - scrollView.bounds.size.height;
         
-        CGFloat topOffset = scrollView.contentOffset.y - scrollView.contentInset.top;
-        if (topOffset > (scrollableHeight + self.triggerDistance) && self.downAction)
+        if (scrollView.contentOffset.y > (scrollableHeight + self.triggerDistance) && self.downAction)
         {
             self.isLoading = YES;
             [self.footerView loadingWillBegin];
-            
-            VICompletionAction completionAction = ^void (void)
-            {
-                self.isLoading = NO;
-                [self.footerView loadingHasFinished];
-            };
-            
-            self.downAction(self.tableView, completionAction);
+
+            [UIView animateWithDuration:.3 animations:^{
+                
+                UIEdgeInsets newInsets = self.orginalInsets;
+                newInsets.bottom += self.footerView.frame.size.height;
+                [self.tableView setContentInset:newInsets];
+                [self.tableView setUserInteractionEnabled:NO];
+                
+            } completion:^(BOOL finished) {
+                VICompletionAction completionAction = ^void (void)
+                {
+                    self.isLoading = NO;
+                    [self.footerView loadingHasFinished];
+                    
+                    [self.tableView setUserInteractionEnabled:YES];
+                    [self.tableView setContentInset:self.orginalInsets];
+                };
+                
+                self.downAction(self.tableView, completionAction);
+            }];
             
         }
         
+        CGFloat topOffset = scrollView.contentOffset.y - scrollView.contentInset.top;
         if (topOffset < (-self.triggerDistance) && self.upAction)
         {
             self.isLoading = YES;
             [self.headerView loadingWillBegin];
             
-            VICompletionAction completionAction = ^void (void)
-            {
-                self.isLoading = NO;
-                [self.headerView loadingHasFinished];
-            };
-            
-            self.upAction(self.tableView, completionAction);
+            [UIView animateWithDuration:.3 animations:^{
+                
+                UIEdgeInsets newInsets = self.orginalInsets;
+                newInsets.top += self.headerView.frame.size.height;
+                [self.tableView setContentInset:newInsets];
+                [self.tableView setUserInteractionEnabled:NO];
+                
+            } completion:^(BOOL finished) {
+                VICompletionAction completionAction = ^void (void)
+                {
+                    self.isLoading = NO;
+                    [self.headerView loadingHasFinished];
+                    
+                    [self.tableView setUserInteractionEnabled:YES];
+                    [self.tableView setContentInset:self.orginalInsets];
+                };
+                
+                self.upAction(self.tableView, completionAction);
+            }];
         }
     }
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    //Calculate scrollable height
-    CGFloat contentHeight = scrollView.contentSize.height;
-    CGFloat scrollableHeight = contentHeight-scrollView.bounds.size.height;
-    
-    CGFloat topOffset = scrollView.contentOffset.y + scrollView.contentInset.top;
-    
-    if (topOffset > scrollableHeight) {
-        CGFloat distanceOverscrolled = topOffset - scrollableHeight;
-        [self.footerView hasOverScrolled:(distanceOverscrolled/self.triggerDistance)];
-    } else {
-        [self.footerView hasOverScrolled:0.0];
-    }
-    
-    if (topOffset < 0) {
-        [self.headerView hasOverScrolled:(fabsf(topOffset)/self.triggerDistance)];
-    } else {
-        [self.headerView hasOverScrolled:0.0];
+    if (!self.isLoading) {
+        //Calculate scrollable height
+        CGFloat contentHeight = scrollView.contentSize.height;
+        CGFloat scrollableHeight = contentHeight - scrollView.bounds.size.height;
+        
+        CGFloat topOffset = scrollView.contentOffset.y + scrollView.contentInset.top;
+        
+        if (topOffset > scrollableHeight) {
+            CGFloat distanceOverscrolled = topOffset - scrollableHeight;
+            [self.footerView hasOverScrolled:(distanceOverscrolled/self.triggerDistance)];
+        } else {
+            [self.footerView hasOverScrolled:0.0];
+        }
+        
+        if (topOffset < 0) {
+            [self.headerView hasOverScrolled:(fabsf(topOffset)/self.triggerDistance)];
+        } else {
+            [self.headerView hasOverScrolled:0.0];
+        }
     }
 }
 

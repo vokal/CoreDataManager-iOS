@@ -13,10 +13,11 @@
 		37B7F9E6188EEEC90012A710 /* VICoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B7F9E0188EEEC90012A710 /* VICoreDataManager.m */; };
 		37B7F9E7188EEEC90012A710 /* VIFetchResultsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B7F9E2188EEEC90012A710 /* VIFetchResultsDataSource.m */; };
 		37B7F9F1188EEEDB0012A710 /* VIPlayerDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B7F9EB188EEEDB0012A710 /* VIPlayerDataSource.m */; };
-		37B7F9F9188EEFAB0012A710 /* VIDefaultPagingAccessoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B7F9F6188EEFAB0012A710 /* VIDefaultPagingAccessoryView.m */; };
+		37B7F9F9188EEFAB0012A710 /* VIPongPagingAccessoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B7F9F6188EEFAB0012A710 /* VIPongPagingAccessoryView.m */; };
 		37B7F9FA188EEFAB0012A710 /* VIPagingFetchedResultsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B7F9F8188EEFAB0012A710 /* VIPagingFetchedResultsDataSource.m */; };
 		37B7F9FD188EF35E0012A710 /* VIPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B7F9FC188EF35E0012A710 /* VIPlayer.m */; };
 		37B7FA02188EFE7C0012A710 /* VIPagingDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 37B7FA00188EFE7C0012A710 /* VIPagingDataModel.xcdatamodeld */; };
+		37B7FA05188F19640012A710 /* VIDefaultPagingAccessory.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B7FA04188F19640012A710 /* VIDefaultPagingAccessory.m */; };
 		3D40DE3D180729A10048D5EE /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D40DE34180728BF0048D5EE /* XCTest.framework */; };
 		3D40DE3E180729A10048D5EE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5F19A615C196500089AA44 /* Foundation.framework */; };
 		3D40DE3F180729A10048D5EE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5F19A415C196500089AA44 /* UIKit.framework */; };
@@ -54,13 +55,15 @@
 		37B7F9E2188EEEC90012A710 /* VIFetchResultsDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIFetchResultsDataSource.m; sourceTree = "<group>"; };
 		37B7F9EA188EEEDB0012A710 /* VIPlayerDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIPlayerDataSource.h; sourceTree = "<group>"; };
 		37B7F9EB188EEEDB0012A710 /* VIPlayerDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIPlayerDataSource.m; sourceTree = "<group>"; };
-		37B7F9F5188EEFAB0012A710 /* VIDefaultPagingAccessoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIDefaultPagingAccessoryView.h; sourceTree = "<group>"; };
-		37B7F9F6188EEFAB0012A710 /* VIDefaultPagingAccessoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIDefaultPagingAccessoryView.m; sourceTree = "<group>"; };
+		37B7F9F5188EEFAB0012A710 /* VIPongPagingAccessoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIPongPagingAccessoryView.h; sourceTree = "<group>"; };
+		37B7F9F6188EEFAB0012A710 /* VIPongPagingAccessoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIPongPagingAccessoryView.m; sourceTree = "<group>"; };
 		37B7F9F7188EEFAB0012A710 /* VIPagingFetchedResultsDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIPagingFetchedResultsDataSource.h; sourceTree = "<group>"; };
 		37B7F9F8188EEFAB0012A710 /* VIPagingFetchedResultsDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIPagingFetchedResultsDataSource.m; sourceTree = "<group>"; };
 		37B7F9FB188EF35E0012A710 /* VIPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIPlayer.h; sourceTree = "<group>"; };
 		37B7F9FC188EF35E0012A710 /* VIPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIPlayer.m; sourceTree = "<group>"; };
 		37B7FA01188EFE7C0012A710 /* VIPagingDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = VIPagingDataModel.xcdatamodel; sourceTree = "<group>"; };
+		37B7FA03188F19640012A710 /* VIDefaultPagingAccessory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIDefaultPagingAccessory.h; sourceTree = "<group>"; };
+		37B7FA04188F19640012A710 /* VIDefaultPagingAccessory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIDefaultPagingAccessory.m; sourceTree = "<group>"; };
 		3D40DE34180728BF0048D5EE /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		3D40DE3C180729A10048D5EE /* PagingCoreData Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PagingCoreData Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6FE6F6EC16C556A600E79EDE /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -162,10 +165,12 @@
 		37B7F9F4188EEFAB0012A710 /* Paged Datasource */ = {
 			isa = PBXGroup;
 			children = (
-				37B7F9F5188EEFAB0012A710 /* VIDefaultPagingAccessoryView.h */,
-				37B7F9F6188EEFAB0012A710 /* VIDefaultPagingAccessoryView.m */,
+				37B7F9F5188EEFAB0012A710 /* VIPongPagingAccessoryView.h */,
+				37B7F9F6188EEFAB0012A710 /* VIPongPagingAccessoryView.m */,
 				37B7F9F7188EEFAB0012A710 /* VIPagingFetchedResultsDataSource.h */,
 				37B7F9F8188EEFAB0012A710 /* VIPagingFetchedResultsDataSource.m */,
+				37B7FA03188F19640012A710 /* VIDefaultPagingAccessory.h */,
+				37B7FA04188F19640012A710 /* VIDefaultPagingAccessory.m */,
 			);
 			name = "Paged Datasource";
 			path = "../Optional Datasource Files/Paged Datasource";
@@ -331,8 +336,9 @@
 				37B7FA02188EFE7C0012A710 /* VIPagingDataModel.xcdatamodeld in Sources */,
 				37B7F9E4188EEEC90012A710 /* VIManagedObjectMap.m in Sources */,
 				37B7F9FA188EEFAB0012A710 /* VIPagingFetchedResultsDataSource.m in Sources */,
-				37B7F9F9188EEFAB0012A710 /* VIDefaultPagingAccessoryView.m in Sources */,
+				37B7F9F9188EEFAB0012A710 /* VIPongPagingAccessoryView.m in Sources */,
 				37B7F9E6188EEEC90012A710 /* VICoreDataManager.m in Sources */,
+				37B7FA05188F19640012A710 /* VIDefaultPagingAccessory.m in Sources */,
 				EA5F19B115C196500089AA44 /* main.m in Sources */,
 				EA5F19B515C196500089AA44 /* VIAppDelegate.m in Sources */,
 				EA5F19B815C196500089AA44 /* VIPagingViewController.m in Sources */,
