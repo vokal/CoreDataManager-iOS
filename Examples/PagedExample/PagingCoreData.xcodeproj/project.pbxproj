@@ -7,28 +7,28 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3D095BD216E274340074CBA2 /* VIManagedObjectMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D095BD116E274340074CBA2 /* VIManagedObjectMapper.m */; };
-		3D330BCB1707341700B6D42B /* VIPerson.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D330BCA1707341700B6D42B /* VIPerson.m */; };
+		37B7F9E3188EEEC90012A710 /* VIManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B7F9DA188EEEC90012A710 /* VIManagedObject.m */; };
+		37B7F9E4188EEEC90012A710 /* VIManagedObjectMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B7F9DC188EEEC90012A710 /* VIManagedObjectMap.m */; };
+		37B7F9E5188EEEC90012A710 /* VIManagedObjectMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B7F9DE188EEEC90012A710 /* VIManagedObjectMapper.m */; };
+		37B7F9E6188EEEC90012A710 /* VICoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B7F9E0188EEEC90012A710 /* VICoreDataManager.m */; };
+		37B7F9E7188EEEC90012A710 /* VIFetchResultsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B7F9E2188EEEC90012A710 /* VIFetchResultsDataSource.m */; };
+		37B7F9F1188EEEDB0012A710 /* VIPlayerDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B7F9EB188EEEDB0012A710 /* VIPlayerDataSource.m */; };
+		37B7F9F9188EEFAB0012A710 /* VIDefaultPagingAccessoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B7F9F6188EEFAB0012A710 /* VIDefaultPagingAccessoryView.m */; };
+		37B7F9FA188EEFAB0012A710 /* VIPagingFetchedResultsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B7F9F8188EEFAB0012A710 /* VIPagingFetchedResultsDataSource.m */; };
+		37B7F9FD188EF35E0012A710 /* VIPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B7F9FC188EF35E0012A710 /* VIPlayer.m */; };
+		37B7FA02188EFE7C0012A710 /* VIPagingDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 37B7FA00188EFE7C0012A710 /* VIPagingDataModel.xcdatamodeld */; };
 		3D40DE3D180729A10048D5EE /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D40DE34180728BF0048D5EE /* XCTest.framework */; };
 		3D40DE3E180729A10048D5EE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5F19A615C196500089AA44 /* Foundation.framework */; };
 		3D40DE3F180729A10048D5EE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5F19A415C196500089AA44 /* UIKit.framework */; };
-		3D40DE45180729A10048D5EE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3D40DE43180729A10048D5EE /* InfoPlist.strings */; };
-		3D40DE4E18072A5E0048D5EE /* ManagedObjectAdditionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F46A2D716CAACF700BE4F20 /* ManagedObjectAdditionTests.m */; };
-		3D634A8817076EFD00B601B5 /* VIManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D634A8717076EFD00B601B5 /* VIManagedObject.m */; };
-		3DDBEC0C16E2B85D00E9AB57 /* VIManagedObjectMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DDBEC0B16E2B85D00E9AB57 /* VIManagedObjectMap.m */; };
 		6FE6F6ED16C556A600E79EDE /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6FE6F6EC16C556A600E79EDE /* Default-568h@2x.png */; };
-		EA24611B15C6CD3A0065C12D /* VIFetchResultsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = EA24611A15C6CD3A0065C12D /* VIFetchResultsDataSource.m */; };
-		EA26603315C251BF00D61F01 /* VIPersonDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = EA26603215C251BF00D61F01 /* VIPersonDataSource.m */; };
-		EA4FE17915C2EEC700424469 /* VICoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EA4FE17715C2EEC700424469 /* VICoreDataModel.xcdatamodeld */; };
 		EA5F19A515C196500089AA44 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5F19A415C196500089AA44 /* UIKit.framework */; };
 		EA5F19A715C196500089AA44 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5F19A615C196500089AA44 /* Foundation.framework */; };
 		EA5F19A915C196500089AA44 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5F19A815C196500089AA44 /* CoreGraphics.framework */; };
 		EA5F19AF15C196500089AA44 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = EA5F19AD15C196500089AA44 /* InfoPlist.strings */; };
 		EA5F19B115C196500089AA44 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EA5F19B015C196500089AA44 /* main.m */; };
 		EA5F19B515C196500089AA44 /* VIAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EA5F19B415C196500089AA44 /* VIAppDelegate.m */; };
-		EA5F19B815C196500089AA44 /* VIViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA5F19B715C196500089AA44 /* VIViewController.m */; };
+		EA5F19B815C196500089AA44 /* VIPagingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EA5F19B715C196500089AA44 /* VIPagingViewController.m */; };
 		EA5F19CE15C197990089AA44 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA5F19CD15C197990089AA44 /* CoreData.framework */; };
-		EA5F19D115C197F40089AA44 /* VICoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EA5F19D015C197F40089AA44 /* VICoreDataManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,41 +42,41 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		3D095BD016E274340074CBA2 /* VIManagedObjectMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VIManagedObjectMapper.h; path = VICoreDataManager/VIManagedObjectMapper.h; sourceTree = "<group>"; };
-		3D095BD116E274340074CBA2 /* VIManagedObjectMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VIManagedObjectMapper.m; path = VICoreDataManager/VIManagedObjectMapper.m; sourceTree = "<group>"; };
-		3D330BC91707341700B6D42B /* VIPerson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIPerson.h; sourceTree = "<group>"; };
-		3D330BCA1707341700B6D42B /* VIPerson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIPerson.m; sourceTree = "<group>"; };
+		37B7F9D9188EEEC90012A710 /* VIManagedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIManagedObject.h; sourceTree = "<group>"; };
+		37B7F9DA188EEEC90012A710 /* VIManagedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIManagedObject.m; sourceTree = "<group>"; };
+		37B7F9DB188EEEC90012A710 /* VIManagedObjectMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIManagedObjectMap.h; sourceTree = "<group>"; };
+		37B7F9DC188EEEC90012A710 /* VIManagedObjectMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIManagedObjectMap.m; sourceTree = "<group>"; };
+		37B7F9DD188EEEC90012A710 /* VIManagedObjectMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIManagedObjectMapper.h; sourceTree = "<group>"; };
+		37B7F9DE188EEEC90012A710 /* VIManagedObjectMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIManagedObjectMapper.m; sourceTree = "<group>"; };
+		37B7F9DF188EEEC90012A710 /* VICoreDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VICoreDataManager.h; sourceTree = "<group>"; };
+		37B7F9E0188EEEC90012A710 /* VICoreDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VICoreDataManager.m; sourceTree = "<group>"; };
+		37B7F9E1188EEEC90012A710 /* VIFetchResultsDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIFetchResultsDataSource.h; sourceTree = "<group>"; };
+		37B7F9E2188EEEC90012A710 /* VIFetchResultsDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIFetchResultsDataSource.m; sourceTree = "<group>"; };
+		37B7F9EA188EEEDB0012A710 /* VIPlayerDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIPlayerDataSource.h; sourceTree = "<group>"; };
+		37B7F9EB188EEEDB0012A710 /* VIPlayerDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIPlayerDataSource.m; sourceTree = "<group>"; };
+		37B7F9F5188EEFAB0012A710 /* VIDefaultPagingAccessoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIDefaultPagingAccessoryView.h; sourceTree = "<group>"; };
+		37B7F9F6188EEFAB0012A710 /* VIDefaultPagingAccessoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIDefaultPagingAccessoryView.m; sourceTree = "<group>"; };
+		37B7F9F7188EEFAB0012A710 /* VIPagingFetchedResultsDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIPagingFetchedResultsDataSource.h; sourceTree = "<group>"; };
+		37B7F9F8188EEFAB0012A710 /* VIPagingFetchedResultsDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIPagingFetchedResultsDataSource.m; sourceTree = "<group>"; };
+		37B7F9FB188EF35E0012A710 /* VIPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIPlayer.h; sourceTree = "<group>"; };
+		37B7F9FC188EF35E0012A710 /* VIPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIPlayer.m; sourceTree = "<group>"; };
+		37B7FA01188EFE7C0012A710 /* VIPagingDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = VIPagingDataModel.xcdatamodel; sourceTree = "<group>"; };
 		3D40DE34180728BF0048D5EE /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		3D40DE3C180729A10048D5EE /* CoreData Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CoreData Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		3D40DE42180729A10048D5EE /* CoreData Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CoreData Tests-Info.plist"; sourceTree = "<group>"; };
-		3D40DE44180729A10048D5EE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		3D40DE48180729A10048D5EE /* CoreData Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CoreData Tests-Prefix.pch"; sourceTree = "<group>"; };
-		3D634A8617076EFD00B601B5 /* VIManagedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VIManagedObject.h; path = VICoreDataManager/VIManagedObject.h; sourceTree = "<group>"; };
-		3D634A8717076EFD00B601B5 /* VIManagedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VIManagedObject.m; path = VICoreDataManager/VIManagedObject.m; sourceTree = "<group>"; };
-		3DDBEC0A16E2B85D00E9AB57 /* VIManagedObjectMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VIManagedObjectMap.h; path = VICoreDataManager/VIManagedObjectMap.h; sourceTree = "<group>"; };
-		3DDBEC0B16E2B85D00E9AB57 /* VIManagedObjectMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VIManagedObjectMap.m; path = VICoreDataManager/VIManagedObjectMap.m; sourceTree = "<group>"; };
-		6F46A2D716CAACF700BE4F20 /* ManagedObjectAdditionTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ManagedObjectAdditionTests.m; path = ../CoreDataTests/ManagedObjectAdditionTests.m; sourceTree = "<group>"; };
+		3D40DE3C180729A10048D5EE /* PagingCoreData Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PagingCoreData Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6FE6F6EC16C556A600E79EDE /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
-		EA24611915C6CD3A0065C12D /* VIFetchResultsDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VIFetchResultsDataSource.h; path = VICoreDataManager/VIFetchResultsDataSource.h; sourceTree = "<group>"; };
-		EA24611A15C6CD3A0065C12D /* VIFetchResultsDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VIFetchResultsDataSource.m; path = VICoreDataManager/VIFetchResultsDataSource.m; sourceTree = "<group>"; };
-		EA26603115C251BF00D61F01 /* VIPersonDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIPersonDataSource.h; sourceTree = "<group>"; };
-		EA26603215C251BF00D61F01 /* VIPersonDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIPersonDataSource.m; sourceTree = "<group>"; };
-		EA4FE17815C2EEC700424469 /* VICoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = VICoreDataModel.xcdatamodel; sourceTree = "<group>"; };
-		EA5F19A015C196500089AA44 /* CoreData.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoreData.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EA5F19A015C196500089AA44 /* PagingCoreData.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PagingCoreData.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA5F19A415C196500089AA44 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		EA5F19A615C196500089AA44 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		EA5F19A815C196500089AA44 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		EA5F19AC15C196500089AA44 /* CoreData-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CoreData-Info.plist"; sourceTree = "<group>"; };
+		EA5F19AC15C196500089AA44 /* PagingCoreData-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PagingCoreData-Info.plist"; sourceTree = "<group>"; };
 		EA5F19AE15C196500089AA44 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		EA5F19B015C196500089AA44 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		EA5F19B215C196500089AA44 /* CoreData-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CoreData-Prefix.pch"; sourceTree = "<group>"; };
+		EA5F19B215C196500089AA44 /* PagingCoreData-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PagingCoreData-Prefix.pch"; sourceTree = "<group>"; };
 		EA5F19B315C196500089AA44 /* VIAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VIAppDelegate.h; sourceTree = "<group>"; };
 		EA5F19B415C196500089AA44 /* VIAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VIAppDelegate.m; sourceTree = "<group>"; };
-		EA5F19B615C196500089AA44 /* VIViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VIViewController.h; sourceTree = "<group>"; };
-		EA5F19B715C196500089AA44 /* VIViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VIViewController.m; sourceTree = "<group>"; };
+		EA5F19B615C196500089AA44 /* VIPagingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VIPagingViewController.h; sourceTree = "<group>"; };
+		EA5F19B715C196500089AA44 /* VIPagingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VIPagingViewController.m; sourceTree = "<group>"; };
 		EA5F19CD15C197990089AA44 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		EA5F19CF15C197F40089AA44 /* VICoreDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VICoreDataManager.h; path = VICoreDataManager/VICoreDataManager.h; sourceTree = "<group>"; };
-		EA5F19D015C197F40089AA44 /* VICoreDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VICoreDataManager.m; path = VICoreDataManager/VICoreDataManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,52 +104,77 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3D0793FD16E3CFDF00E29F5F /* ManagedObject Management */ = {
+		37B7F9D7188EEEC90012A710 /* VICoreDataManager */ = {
 			isa = PBXGroup;
 			children = (
-				3D634A8617076EFD00B601B5 /* VIManagedObject.h */,
-				3D634A8717076EFD00B601B5 /* VIManagedObject.m */,
-				3DDBEC0A16E2B85D00E9AB57 /* VIManagedObjectMap.h */,
-				3DDBEC0B16E2B85D00E9AB57 /* VIManagedObjectMap.m */,
-				3D095BD016E274340074CBA2 /* VIManagedObjectMapper.h */,
-				3D095BD116E274340074CBA2 /* VIManagedObjectMapper.m */,
+				37B7F9F4188EEFAB0012A710 /* Paged Datasource */,
+				37B7F9D8188EEEC90012A710 /* ManagedObject Management */,
+				37B7F9DF188EEEC90012A710 /* VICoreDataManager.h */,
+				37B7F9E0188EEEC90012A710 /* VICoreDataManager.m */,
+				37B7F9E1188EEEC90012A710 /* VIFetchResultsDataSource.h */,
+				37B7F9E2188EEEC90012A710 /* VIFetchResultsDataSource.m */,
 			);
-			name = "ManagedObject Management";
+			name = VICoreDataManager;
+			path = ../../../VICoreDataManager;
 			sourceTree = "<group>";
 		};
-		3D40DE40180729A10048D5EE /* CoreData Tests */ = {
+		37B7F9D8188EEEC90012A710 /* ManagedObject Management */ = {
 			isa = PBXGroup;
 			children = (
-				6F46A2D716CAACF700BE4F20 /* ManagedObjectAdditionTests.m */,
-				3D40DE41180729A10048D5EE /* Supporting Files */,
+				37B7F9D9188EEEC90012A710 /* VIManagedObject.h */,
+				37B7F9DA188EEEC90012A710 /* VIManagedObject.m */,
+				37B7F9DB188EEEC90012A710 /* VIManagedObjectMap.h */,
+				37B7F9DC188EEEC90012A710 /* VIManagedObjectMap.m */,
+				37B7F9DD188EEEC90012A710 /* VIManagedObjectMapper.h */,
+				37B7F9DE188EEEC90012A710 /* VIManagedObjectMapper.m */,
 			);
-			path = "CoreData Tests";
+			path = "ManagedObject Management";
 			sourceTree = "<group>";
 		};
-		3D40DE41180729A10048D5EE /* Supporting Files */ = {
+		37B7F9E8188EEEDB0012A710 /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
-				3D40DE42180729A10048D5EE /* CoreData Tests-Info.plist */,
-				3D40DE43180729A10048D5EE /* InfoPlist.strings */,
-				3D40DE48180729A10048D5EE /* CoreData Tests-Prefix.pch */,
+				37B7F9E9188EEEDB0012A710 /* Data Sources */,
+				37B7F9EC188EEEDB0012A710 /* Models */,
+				37B7FA00188EFE7C0012A710 /* VIPagingDataModel.xcdatamodeld */,
 			);
-			name = "Supporting Files";
+			path = "Core Data";
 			sourceTree = "<group>";
 		};
-		EA26602615C24B5B00D61F01 /* DataSource */ = {
+		37B7F9E9188EEEDB0012A710 /* Data Sources */ = {
 			isa = PBXGroup;
 			children = (
-				EA26603115C251BF00D61F01 /* VIPersonDataSource.h */,
-				EA26603215C251BF00D61F01 /* VIPersonDataSource.m */,
+				37B7F9EA188EEEDB0012A710 /* VIPlayerDataSource.h */,
+				37B7F9EB188EEEDB0012A710 /* VIPlayerDataSource.m */,
 			);
-			name = DataSource;
+			path = "Data Sources";
+			sourceTree = "<group>";
+		};
+		37B7F9EC188EEEDB0012A710 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				37B7F9FB188EF35E0012A710 /* VIPlayer.h */,
+				37B7F9FC188EF35E0012A710 /* VIPlayer.m */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		37B7F9F4188EEFAB0012A710 /* Paged Datasource */ = {
+			isa = PBXGroup;
+			children = (
+				37B7F9F5188EEFAB0012A710 /* VIDefaultPagingAccessoryView.h */,
+				37B7F9F6188EEFAB0012A710 /* VIDefaultPagingAccessoryView.m */,
+				37B7F9F7188EEFAB0012A710 /* VIPagingFetchedResultsDataSource.h */,
+				37B7F9F8188EEFAB0012A710 /* VIPagingFetchedResultsDataSource.m */,
+			);
+			name = "Paged Datasource";
+			path = "../Optional Datasource Files/Paged Datasource";
 			sourceTree = "<group>";
 		};
 		EA5F199515C196500089AA44 = {
 			isa = PBXGroup;
 			children = (
 				EA5F19AA15C196500089AA44 /* CoreData */,
-				3D40DE40180729A10048D5EE /* CoreData Tests */,
 				EA5F19A315C196500089AA44 /* Frameworks */,
 				EA5F19A115C196500089AA44 /* Products */,
 			);
@@ -158,8 +183,8 @@
 		EA5F19A115C196500089AA44 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				EA5F19A015C196500089AA44 /* CoreData.app */,
-				3D40DE3C180729A10048D5EE /* CoreData Tests.xctest */,
+				EA5F19A015C196500089AA44 /* PagingCoreData.app */,
+				3D40DE3C180729A10048D5EE /* PagingCoreData Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -179,13 +204,12 @@
 		EA5F19AA15C196500089AA44 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				EA5F19C515C1976C0089AA44 /* CoreDataManager */,
-				EA26602615C24B5B00D61F01 /* DataSource */,
-				EA5F19D215C1A6010089AA44 /* Models */,
+				37B7F9D7188EEEC90012A710 /* VICoreDataManager */,
 				EA5F19B315C196500089AA44 /* VIAppDelegate.h */,
 				EA5F19B415C196500089AA44 /* VIAppDelegate.m */,
-				EA5F19B615C196500089AA44 /* VIViewController.h */,
-				EA5F19B715C196500089AA44 /* VIViewController.m */,
+				EA5F19B615C196500089AA44 /* VIPagingViewController.h */,
+				EA5F19B715C196500089AA44 /* VIPagingViewController.m */,
+				37B7F9E8188EEEDB0012A710 /* Core Data */,
 				EA5F19AB15C196500089AA44 /* Supporting Files */,
 			);
 			path = CoreData;
@@ -194,43 +218,21 @@
 		EA5F19AB15C196500089AA44 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				EA5F19AC15C196500089AA44 /* CoreData-Info.plist */,
+				EA5F19AC15C196500089AA44 /* PagingCoreData-Info.plist */,
 				EA5F19AD15C196500089AA44 /* InfoPlist.strings */,
 				EA5F19B015C196500089AA44 /* main.m */,
-				EA5F19B215C196500089AA44 /* CoreData-Prefix.pch */,
+				EA5F19B215C196500089AA44 /* PagingCoreData-Prefix.pch */,
 				6FE6F6EC16C556A600E79EDE /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		EA5F19C515C1976C0089AA44 /* CoreDataManager */ = {
-			isa = PBXGroup;
-			children = (
-				3D0793FD16E3CFDF00E29F5F /* ManagedObject Management */,
-				EA5F19CF15C197F40089AA44 /* VICoreDataManager.h */,
-				EA5F19D015C197F40089AA44 /* VICoreDataManager.m */,
-				EA24611915C6CD3A0065C12D /* VIFetchResultsDataSource.h */,
-				EA24611A15C6CD3A0065C12D /* VIFetchResultsDataSource.m */,
-			);
-			name = CoreDataManager;
-			sourceTree = "<group>";
-		};
-		EA5F19D215C1A6010089AA44 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				3D330BC91707341700B6D42B /* VIPerson.h */,
-				3D330BCA1707341700B6D42B /* VIPerson.m */,
-				EA4FE17715C2EEC700424469 /* VICoreDataModel.xcdatamodeld */,
-			);
-			name = Models;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		3D40DE3B180729A10048D5EE /* CoreData Tests */ = {
+		3D40DE3B180729A10048D5EE /* PagingCoreData Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3D40DE4B180729A10048D5EE /* Build configuration list for PBXNativeTarget "CoreData Tests" */;
+			buildConfigurationList = 3D40DE4B180729A10048D5EE /* Build configuration list for PBXNativeTarget "PagingCoreData Tests" */;
 			buildPhases = (
 				3D40DE38180729A10048D5EE /* Sources */,
 				3D40DE39180729A10048D5EE /* Frameworks */,
@@ -241,14 +243,14 @@
 			dependencies = (
 				3D40DE4A180729A10048D5EE /* PBXTargetDependency */,
 			);
-			name = "CoreData Tests";
+			name = "PagingCoreData Tests";
 			productName = "CoreData Tests";
-			productReference = 3D40DE3C180729A10048D5EE /* CoreData Tests.xctest */;
+			productReference = 3D40DE3C180729A10048D5EE /* PagingCoreData Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		EA5F199F15C196500089AA44 /* CoreData */ = {
+		EA5F199F15C196500089AA44 /* PagingCoreData */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = EA5F19BE15C196500089AA44 /* Build configuration list for PBXNativeTarget "CoreData" */;
+			buildConfigurationList = EA5F19BE15C196500089AA44 /* Build configuration list for PBXNativeTarget "PagingCoreData" */;
 			buildPhases = (
 				EA5F199C15C196500089AA44 /* Sources */,
 				EA5F199D15C196500089AA44 /* Frameworks */,
@@ -258,9 +260,9 @@
 			);
 			dependencies = (
 			);
-			name = CoreData;
+			name = PagingCoreData;
 			productName = CoreData;
-			productReference = EA5F19A015C196500089AA44 /* CoreData.app */;
+			productReference = EA5F19A015C196500089AA44 /* PagingCoreData.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -277,7 +279,7 @@
 					};
 				};
 			};
-			buildConfigurationList = EA5F199A15C196500089AA44 /* Build configuration list for PBXProject "CoreData" */;
+			buildConfigurationList = EA5F199A15C196500089AA44 /* Build configuration list for PBXProject "PagingCoreData" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -289,8 +291,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				EA5F199F15C196500089AA44 /* CoreData */,
-				3D40DE3B180729A10048D5EE /* CoreData Tests */,
+				EA5F199F15C196500089AA44 /* PagingCoreData */,
+				3D40DE3B180729A10048D5EE /* PagingCoreData Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -300,7 +302,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3D40DE45180729A10048D5EE /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -320,7 +321,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3D40DE4E18072A5E0048D5EE /* ManagedObjectAdditionTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -328,17 +328,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37B7FA02188EFE7C0012A710 /* VIPagingDataModel.xcdatamodeld in Sources */,
+				37B7F9E4188EEEC90012A710 /* VIManagedObjectMap.m in Sources */,
+				37B7F9FA188EEFAB0012A710 /* VIPagingFetchedResultsDataSource.m in Sources */,
+				37B7F9F9188EEFAB0012A710 /* VIDefaultPagingAccessoryView.m in Sources */,
+				37B7F9E6188EEEC90012A710 /* VICoreDataManager.m in Sources */,
 				EA5F19B115C196500089AA44 /* main.m in Sources */,
 				EA5F19B515C196500089AA44 /* VIAppDelegate.m in Sources */,
-				EA5F19B815C196500089AA44 /* VIViewController.m in Sources */,
-				EA5F19D115C197F40089AA44 /* VICoreDataManager.m in Sources */,
-				EA26603315C251BF00D61F01 /* VIPersonDataSource.m in Sources */,
-				EA4FE17915C2EEC700424469 /* VICoreDataModel.xcdatamodeld in Sources */,
-				EA24611B15C6CD3A0065C12D /* VIFetchResultsDataSource.m in Sources */,
-				3D095BD216E274340074CBA2 /* VIManagedObjectMapper.m in Sources */,
-				3DDBEC0C16E2B85D00E9AB57 /* VIManagedObjectMap.m in Sources */,
-				3D330BCB1707341700B6D42B /* VIPerson.m in Sources */,
-				3D634A8817076EFD00B601B5 /* VIManagedObject.m in Sources */,
+				EA5F19B815C196500089AA44 /* VIPagingViewController.m in Sources */,
+				37B7F9FD188EF35E0012A710 /* VIPlayer.m in Sources */,
+				37B7F9E3188EEEC90012A710 /* VIManagedObject.m in Sources */,
+				37B7F9E5188EEEC90012A710 /* VIManagedObjectMapper.m in Sources */,
+				37B7F9F1188EEEDB0012A710 /* VIPlayerDataSource.m in Sources */,
+				37B7F9E7188EEEC90012A710 /* VIFetchResultsDataSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -347,20 +349,12 @@
 /* Begin PBXTargetDependency section */
 		3D40DE4A180729A10048D5EE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = EA5F199F15C196500089AA44 /* CoreData */;
+			target = EA5F199F15C196500089AA44 /* PagingCoreData */;
 			targetProxy = 3D40DE49180729A10048D5EE /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		3D40DE43180729A10048D5EE /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				3D40DE44180729A10048D5EE /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
 		EA5F19AD15C196500089AA44 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -390,7 +384,7 @@
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "CoreData Tests/CoreData Tests-Prefix.pch";
+				GCC_PREFIX_HEADER = "CoreData Tests/PagedCoreData Tests-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -399,10 +393,10 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
-				INFOPLIST_FILE = "CoreData Tests/CoreData Tests-Info.plist";
+				INFOPLIST_FILE = "CoreData Tests/PagedCoreData Tests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "PagingCoreData Tests";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -427,14 +421,14 @@
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "CoreData Tests/CoreData Tests-Prefix.pch";
+				GCC_PREFIX_HEADER = "CoreData Tests/PagedCoreData Tests-Prefix.pch";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
-				INFOPLIST_FILE = "CoreData Tests/CoreData Tests-Info.plist";
+				INFOPLIST_FILE = "CoreData Tests/PagedCoreData Tests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "PagingCoreData Tests";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -509,10 +503,10 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "CoreData/CoreData-Prefix.pch";
-				INFOPLIST_FILE = "CoreData/CoreData-Info.plist";
+				GCC_PREFIX_HEADER = "CoreData/PagingCoreData-Prefix.pch";
+				INFOPLIST_FILE = "CoreData/PagingCoreData-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = PagingCoreData;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -522,11 +516,11 @@
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "CoreData/CoreData-Prefix.pch";
+				GCC_PREFIX_HEADER = "CoreData/PagingCoreData-Prefix.pch";
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				INFOPLIST_FILE = "CoreData/CoreData-Info.plist";
+				INFOPLIST_FILE = "CoreData/PagingCoreData-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = PagingCoreData;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -534,7 +528,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		3D40DE4B180729A10048D5EE /* Build configuration list for PBXNativeTarget "CoreData Tests" */ = {
+		3D40DE4B180729A10048D5EE /* Build configuration list for PBXNativeTarget "PagingCoreData Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3D40DE4C180729A10048D5EE /* Debug */,
@@ -543,7 +537,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		EA5F199A15C196500089AA44 /* Build configuration list for PBXProject "CoreData" */ = {
+		EA5F199A15C196500089AA44 /* Build configuration list for PBXProject "PagingCoreData" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				EA5F19BC15C196500089AA44 /* Debug */,
@@ -552,7 +546,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		EA5F19BE15C196500089AA44 /* Build configuration list for PBXNativeTarget "CoreData" */ = {
+		EA5F19BE15C196500089AA44 /* Build configuration list for PBXNativeTarget "PagingCoreData" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				EA5F19BF15C196500089AA44 /* Debug */,
@@ -564,13 +558,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		EA4FE17715C2EEC700424469 /* VICoreDataModel.xcdatamodeld */ = {
+		37B7FA00188EFE7C0012A710 /* VIPagingDataModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				EA4FE17815C2EEC700424469 /* VICoreDataModel.xcdatamodel */,
+				37B7FA01188EFE7C0012A710 /* VIPagingDataModel.xcdatamodel */,
 			);
-			currentVersion = EA4FE17815C2EEC700424469 /* VICoreDataModel.xcdatamodel */;
-			path = VICoreDataModel.xcdatamodeld;
+			currentVersion = 37B7FA01188EFE7C0012A710 /* VIPagingDataModel.xcdatamodel */;
+			path = VIPagingDataModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

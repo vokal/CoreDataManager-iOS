@@ -201,7 +201,8 @@
  *  Fetches an object for a given NSManagedObjectID URI Representation
  *
  *  @param uri          URIRepresetion of an NSManagedObjectId
- *  @param object
+ *  @param object       
+ The object to delete
  *
  *  @return The object matching the uri passed in, if it still exists.
  */
