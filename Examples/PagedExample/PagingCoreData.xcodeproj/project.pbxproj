@@ -13,7 +13,6 @@
 		37B7F9E6188EEEC90012A710 /* VICoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B7F9E0188EEEC90012A710 /* VICoreDataManager.m */; };
 		37B7F9E7188EEEC90012A710 /* VIFetchResultsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B7F9E2188EEEC90012A710 /* VIFetchResultsDataSource.m */; };
 		37B7F9F1188EEEDB0012A710 /* VIPlayerDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B7F9EB188EEEDB0012A710 /* VIPlayerDataSource.m */; };
-		37B7F9F9188EEFAB0012A710 /* VIPongPagingAccessoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B7F9F6188EEFAB0012A710 /* VIPongPagingAccessoryView.m */; };
 		37B7F9FA188EEFAB0012A710 /* VIPagingFetchedResultsDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B7F9F8188EEFAB0012A710 /* VIPagingFetchedResultsDataSource.m */; };
 		37B7F9FD188EF35E0012A710 /* VIPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 37B7F9FC188EF35E0012A710 /* VIPlayer.m */; };
 		37B7FA02188EFE7C0012A710 /* VIPagingDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 37B7FA00188EFE7C0012A710 /* VIPagingDataModel.xcdatamodeld */; };
@@ -55,8 +54,6 @@
 		37B7F9E2188EEEC90012A710 /* VIFetchResultsDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIFetchResultsDataSource.m; sourceTree = "<group>"; };
 		37B7F9EA188EEEDB0012A710 /* VIPlayerDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIPlayerDataSource.h; sourceTree = "<group>"; };
 		37B7F9EB188EEEDB0012A710 /* VIPlayerDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIPlayerDataSource.m; sourceTree = "<group>"; };
-		37B7F9F5188EEFAB0012A710 /* VIPongPagingAccessoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIPongPagingAccessoryView.h; sourceTree = "<group>"; };
-		37B7F9F6188EEFAB0012A710 /* VIPongPagingAccessoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIPongPagingAccessoryView.m; sourceTree = "<group>"; };
 		37B7F9F7188EEFAB0012A710 /* VIPagingFetchedResultsDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIPagingFetchedResultsDataSource.h; sourceTree = "<group>"; };
 		37B7F9F8188EEFAB0012A710 /* VIPagingFetchedResultsDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VIPagingFetchedResultsDataSource.m; sourceTree = "<group>"; };
 		37B7F9FB188EF35E0012A710 /* VIPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VIPlayer.h; sourceTree = "<group>"; };
@@ -165,8 +162,6 @@
 		37B7F9F4188EEFAB0012A710 /* Paged Datasource */ = {
 			isa = PBXGroup;
 			children = (
-				37B7F9F5188EEFAB0012A710 /* VIPongPagingAccessoryView.h */,
-				37B7F9F6188EEFAB0012A710 /* VIPongPagingAccessoryView.m */,
 				37B7F9F7188EEFAB0012A710 /* VIPagingFetchedResultsDataSource.h */,
 				37B7F9F8188EEFAB0012A710 /* VIPagingFetchedResultsDataSource.m */,
 				37B7FA03188F19640012A710 /* VIDefaultPagingAccessory.h */,
@@ -336,7 +331,6 @@
 				37B7FA02188EFE7C0012A710 /* VIPagingDataModel.xcdatamodeld in Sources */,
 				37B7F9E4188EEEC90012A710 /* VIManagedObjectMap.m in Sources */,
 				37B7F9FA188EEFAB0012A710 /* VIPagingFetchedResultsDataSource.m in Sources */,
-				37B7F9F9188EEFAB0012A710 /* VIPongPagingAccessoryView.m in Sources */,
 				37B7F9E6188EEEC90012A710 /* VICoreDataManager.m in Sources */,
 				37B7FA05188F19640012A710 /* VIDefaultPagingAccessory.m in Sources */,
 				EA5F19B115C196500089AA44 /* main.m in Sources */,
