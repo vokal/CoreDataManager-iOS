@@ -36,17 +36,7 @@
         
         [self.indicator setCenter:CGPointMake(label.frame.origin.x - self.indicator.frame.size.width, self.frame.size.height/2)];
         [self addSubview:self.indicator];
-    } else {
-        [self cleanUp];
     }
-}
-
-- (void)cleanUp
-{
-    [self.indicator stopAnimating];
-    [self.indicator removeFromSuperview];
-    
-    self.indicator = nil;
 }
 
 

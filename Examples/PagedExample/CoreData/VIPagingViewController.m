@@ -19,8 +19,13 @@
     UIBarButtonItem *addSomeStuffButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
                                                                                            target:self
                                                                                            action:@selector(loadData)];
+    
+    UIBarButtonItem *removeTableButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+                                                                                        target:self
+                                                                                        action:@selector(removeTable)];
 
-    self.navigationItem.rightBarButtonItems = @[deleteSomeStuffButton, addSomeStuffButton];
+
+    self.navigationItem.rightBarButtonItems = @[deleteSomeStuffButton, addSomeStuffButton, removeTableButton];
 
     [[VICoreDataManager sharedInstance] resetCoreData];
 }
@@ -28,6 +33,14 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [self setupDataSource];
+}
+
+- (void)removeTable
+{
+    [self.tableView removeFromSuperview];
+    self.tableView = nil;
+    self.dataSource = nil;
+    
 }
 
 - (void)setupDataSource
@@ -51,7 +64,10 @@
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
             //Call our finish method to notify accessory views
             [self loadHigherScores];
-            fetchCompleted();
+            
+            if (fetchCompleted) {
+                fetchCompleted();
+            }
         });
     } headerView:nil downAction:^(UITableView *tableView, VICompletionAction fetchCompleted) {
         //Normally this wait would actually be an API call.
@@ -61,7 +77,11 @@
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
             //Call our finish method to notify accessory views
             [self loadLowerScores];
-            fetchCompleted();
+            
+            if (fetchCompleted) {
+                fetchCompleted();
+            }
+            
         });
     } footerView:nil];
 }
