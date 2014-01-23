@@ -68,14 +68,7 @@
 
 - (void)cleanUpPageController
 {
-    [self.headerView removeFromSuperview];
-    self.headerView = nil;
-    
-    [self.footerView removeFromSuperview];
-    self.footerView = nil;
-    
-    self.upAction = nil;
-    self.downAction = nil;
+    [self.tableView removeObserver:self forKeyPath:@"contentSize"];
 }
 
 #pragma mark Scrollview Observing
@@ -170,8 +163,13 @@
 
 - (void)dealloc
 {
+    if (self.upAction || self.downAction) {
+        self.upAction = nil;
+        self.downAction = nil;
+        
+        [self.tableView removeObserver:self forKeyPath:@"contentSize"];
+    }
     NSLog(@"Page controller dealloc'd %@", self);
-    [self.tableView removeObserver:self forKeyPath:@"contentSize"];
 }
 
 @end
