@@ -24,8 +24,11 @@
         
         UILabel *label = [[UILabel alloc] initWithFrame:(CGRect){CGPointZero, self.frame.size}];
         [label setText:@"Pull To Load"];
-        [label setFont:[UIFont boldSystemFontOfSize:20]];
+        [label setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:18]];
         [label setTextAlignment:NSTextAlignmentCenter];
+        [label setTextColor:[UIColor darkGrayColor]];
+        [label setShadowColor:[[UIColor whiteColor] colorWithAlphaComponent:.4]];
+        [label setShadowOffset:CGSizeMake(0, 1)];
         [self addSubview:label];
         [label sizeToFit];
         [label setCenter:CGPointMake(self.frame.size.width/2, self.frame.size.height/2)];
