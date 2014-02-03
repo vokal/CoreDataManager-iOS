@@ -82,6 +82,8 @@ VICoreDataManagerSKZ *VI_SharedObject;
 {
     self.resource = resource;
     self.databaseFilename = database;
+    
+    [self initPersistentStoreCoordinator];
 }
 
 #pragma mark - Getters
@@ -160,8 +162,20 @@ VICoreDataManagerSKZ *VI_SharedObject;
                                                    configuration:nil
                                                              URL:storeURL
                                                          options:options
-                                                           error:&error]) {
-        CDLog(@"Unresolved error %@, %@", error, [error userInfo]);
+                                                           error:&error])
+    {
+        CDLog(@"Full database delete and rebuild");
+        [[NSFileManager defaultManager] removeItemAtPath:storeURL.path error:nil];
+    	if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType
+                                                       configuration:nil
+                                                                 URL:storeURL
+                                                             options:nil
+                                                               error:&error])
+        {
+    		CDLog(@"Unresolved error %@, %@", error, [error userInfo]);
+    		abort();
+    	}
+        
     }
 }
 
