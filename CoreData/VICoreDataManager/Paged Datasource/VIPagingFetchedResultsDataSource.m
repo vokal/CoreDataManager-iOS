@@ -169,7 +169,7 @@
         
         [self.tableView removeObserver:self forKeyPath:@"contentSize"];
     }
-    NSLog(@"Page controller dealloc'd %@", self);
+    CDLog(@"Page controller dealloc'd %@", self);
 }
 
 @end

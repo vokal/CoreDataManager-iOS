@@ -242,6 +242,7 @@
                                 break;
                             case NSFetchedResultsChangeMove:
                                 [self.collectionView moveItemAtIndexPath:obj[0] toIndexPath:obj[1]];
+                                [self.collectionView reloadItemsAtIndexPaths:obj];
                                 break;
                         }
                     }];
