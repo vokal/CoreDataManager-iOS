@@ -74,6 +74,7 @@ VICoreDataManager *VI_SharedObject;
     self = [super init];
     if (self) {
         _mapperCollection = [NSMutableDictionary dictionary];
+        _migrationFailureOptions = kMigrationFailureOptionsNone;
     }
     return self;
 }
@@ -90,16 +91,16 @@ VICoreDataManager *VI_SharedObject;
 - (NSManagedObjectContext *)tempManagedObjectContext
 {
     NSManagedObjectContext *tempManagedObjectContext;
-
+    
     NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
-
+    
     if (coordinator) {
         tempManagedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSConfinementConcurrencyType];
         [tempManagedObjectContext setPersistentStoreCoordinator:coordinator];
     } else {
         CDLog(@"Coordinator is nil & context is %@", [tempManagedObjectContext description]);
     }
-
+    
     return tempManagedObjectContext;
 }
 
@@ -108,7 +109,7 @@ VICoreDataManager *VI_SharedObject;
     if (!_managedObjectContext) {
         [self initManagedObjectContext];
     }
-
+    
     return _managedObjectContext;
 }
 
@@ -117,7 +118,7 @@ VICoreDataManager *VI_SharedObject;
     if (!_managedObjectModel) {
         [self initManagedObjectModel];
     }
-
+    
     return _managedObjectModel;
 }
 
@@ -126,7 +127,7 @@ VICoreDataManager *VI_SharedObject;
     if (!_persistentStoreCoordinator) {
         [self initPersistentStoreCoordinator];
     }
-
+    
     return _persistentStoreCoordinator;
 }
 
@@ -164,30 +165,42 @@ VICoreDataManager *VI_SharedObject;
                                                          options:options
                                                            error:&error])
     {
-        CDLog(@"Full database delete and rebuild");
-        [[NSFileManager defaultManager] removeItemAtPath:storeURL.path error:nil];
-    	if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType
-                                                       configuration:nil
-                                                                 URL:storeURL
-                                                             options:nil
-                                                               error:&error])
+        if (self.migrationFailureOptions == kMigrationFailureOptionWipeRecoveryAndAlert) {
+            [[[UIAlertView alloc] initWithTitle:@"Migration Failed"
+                                        message:@"Migration has failed, data will be erased to ensure application stability."
+                                       delegate:nil
+                              cancelButtonTitle:@""
+                              otherButtonTitles:nil] show];
+        }
+        
+        if (self.migrationFailureOptions == kMigrationFailureOptionWipeRecoveryAndAlert ||
+            self.migrationFailureOptions == kMigrationFailureOptionWipeRecovery)
         {
-    		CDLog(@"Unresolved error %@, %@", error, [error userInfo]);
-    		abort();
-    	}
+            CDLog(@"Full database delete and rebuild");
+            [[NSFileManager defaultManager] removeItemAtPath:storeURL.path error:nil];
+            if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType
+                                                           configuration:nil
+                                                                     URL:storeURL
+                                                                 options:nil
+                                                                   error:&error])
+            {
+                CDLog(@"Unresolved error %@, %@", error, [error userInfo]);
+                abort();
+            }
+        }
         
     }
-
+    
 }
 
 - (void)initManagedObjectContext
 {
     NSAssert([NSOperationQueue currentQueue] == [NSOperationQueue mainQueue], @"Must be on the main queue when initializing main context");
     NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
-
+    
     if (coordinator) {
         _managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSConfinementConcurrencyType];
-
+        
         [_managedObjectContext setPersistentStoreCoordinator:coordinator];
         id mergePolicy = [[NSMergePolicy alloc] initWithMergeType:NSMergeByPropertyObjectTrumpMergePolicyType];
         [_managedObjectContext setMergePolicy:mergePolicy];
@@ -207,18 +220,18 @@ VICoreDataManager *VI_SharedObject;
         (self.mapperCollection)[NSStringFromClass(objectClass)] = objMapper;
         return YES;
     }
-
+    
     return NO;
 }
 
 - (NSArray *)importArray:(NSArray *)inputArray forClass:(Class)objectClass withContext:(NSManagedObjectContext*)contextOrNil;
 {
     VIManagedObjectMapper *mapper = [self mapperForClass:objectClass];
-
+    
     contextOrNil = [self safeContext:contextOrNil];
-
+    
     NSArray *existingObjectArray;
-
+    
     if (mapper.uniqueComparisonKey) {
         NSMutableArray *safeArrayOfUniqueKeys = [NSMutableArray array];
         NSArray *arrayOfUniqueKeys = [inputArray valueForKey:mapper.foreignUniqueComparisonKey];
@@ -239,9 +252,9 @@ VICoreDataManager *VI_SharedObject;
             CDLog(@"ERROR\nExpecting an NSArray full of NSDictionaries");
             return;
         }
-
+        
         NSManagedObject *returnObject;
-
+        
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", mapper.uniqueComparisonKey, [inputDict valueForKey:mapper.foreignUniqueComparisonKey]];
         NSArray *matchingObjects = [existingObjectArray filteredArrayUsingPredicate:predicate];
         NSUInteger matchingObjectsCount = [matchingObjects count];
@@ -293,13 +306,13 @@ VICoreDataManager *VI_SharedObject;
 {
     contextOrNil = [self safeContext:contextOrNil];
     NSFetchRequest *fetchRequest = [self fetchRequestWithClass:managedObjectClass predicate:predicate];
-
+    
     NSError *error;
     NSUInteger count = [contextOrNil countForFetchRequest:fetchRequest error:&error];
     if (error) {
         CDLog(@"%s Fetch Request Error\n%@",__PRETTY_FUNCTION__ ,[error localizedDescription]);
     }
-
+    
     return count;
 }
 
@@ -317,34 +330,34 @@ VICoreDataManager *VI_SharedObject;
 {
     contextOrNil = [self safeContext:contextOrNil];
     NSFetchRequest *fetchRequest = [self fetchRequestWithClass:managedObjectClass predicate:predicate];
-
+    
     NSError *error;
     NSArray *results = [contextOrNil executeFetchRequest:fetchRequest error:&error];
     if (error) {
         CDLog(@"%s Fetch Request Error\n%@",__PRETTY_FUNCTION__ ,[error localizedDescription]);
     }
-
+    
     return results;
 }
 
 - (id)existingObjectAtURI:(NSURL *)uri forManagedObjectContext:(NSManagedObjectContext *)contextOrNil
 {
     NSManagedObjectID *objectID = [self.persistentStoreCoordinator managedObjectIDForURIRepresentation:uri];
-
+    
     NSError *error;
-
+    
     if (!objectID) {
         CDLog(@"No object exists at\n%@", uri);
         return nil;
     }
-
+    
     contextOrNil = [self safeContext:contextOrNil];
     id returnObject = [contextOrNil existingObjectWithID:objectID error:&error];
-
+    
     if (!returnObject) {
         CDLog(@"No object exists at\n%@.\n\nError:\n%@", uri, error);
     }
-
+    
     return returnObject;
 }
 
@@ -358,18 +371,18 @@ VICoreDataManager *VI_SharedObject;
     contextOrNil = [self safeContext:contextOrNil];
     NSFetchRequest *fetchRequest = [self fetchRequestWithClass:managedObjectClass predicate:nil];
     [fetchRequest setIncludesPropertyValues:NO];
-
+    
     NSError *error;
     NSArray *results = [contextOrNil executeFetchRequest:fetchRequest error:&error];
     if (error) {
         CDLog(@"%s Fetch Request Error\n%@",__PRETTY_FUNCTION__ ,[error localizedDescription]);
         return NO;
     }
-
+    
     [results enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         [contextOrNil deleteObject:obj];
     }];
-
+    
     return YES;
 }
 
@@ -379,11 +392,11 @@ VICoreDataManager *VI_SharedObject;
     if (!context) {
         context = [self managedObjectContext];
     }
-
+    
     if (context == [self managedObjectContext]) {
         NSAssert([NSOperationQueue currentQueue] == [NSOperationQueue mainQueue], @"XXX ALERT ALERT XXXX\nNOT ON MAIN QUEUE!");
     }
-
+    
     return context;
 }
 
@@ -424,9 +437,9 @@ VICoreDataManager *VI_SharedObject;
                                              selector:@selector(tempContextSaved:)
                                                  name:NSManagedObjectContextDidSaveNotification
                                                object:tempContext];
-
+    
     [self saveContext:tempContext];
-
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:NSManagedObjectContextDidSaveNotification
                                                   object:tempContext];
@@ -462,7 +475,7 @@ VICoreDataManager *VI_SharedObject;
         NSManagedObjectContext *tempContext = [[VICoreDataManager sharedInstance] temporaryContext];
         writeBlock(tempContext);
         [[VICoreDataManager sharedInstance] saveAndMergeWithMainContext:tempContext];
-
+        
         if (completion) {
             dispatch_async(dispatch_get_main_queue(), completion);
         }
@@ -500,11 +513,11 @@ VICoreDataManager *VI_SharedObject;
 - (void)resetCoreData
 {
     NSArray *stores = [[self persistentStoreCoordinator] persistentStores];
-
+    
     for(NSPersistentStore *store in stores) {
         [[self persistentStoreCoordinator] removePersistentStore:store error:nil];
         if (self.databaseFilename) {
-            [[NSFileManager defaultManager] removeItemAtPath:store.URL.path error:nil];            
+            [[NSFileManager defaultManager] removeItemAtPath:store.URL.path error:nil];
         }
     }
     
