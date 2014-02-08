@@ -22,6 +22,12 @@
 #import "VIManagedObject.h"
 #import "VIFetchResultsDataSource.h"
 
+typedef NS_OPTIONS VIMigrationFailureOptions {
+    kMigrationFailureOptionsNone                = 0,
+    kMigrationFailureOptionWipeRecovery         = 1 << 0,
+    kMigrationFailureOptionWipeRecoveryAlert    = 1 << 1,
+};
+
 @interface VICoreDataManager : NSObject
 
 /**
@@ -263,5 +269,10 @@
  Deletes the persistent stores and resets the main context and model to nil
  */
 - (void)resetCoreData;
+
+/**
+ *  In case of a migration failure, these options allow possible recovery and notification
+ */
+@property VIMigrationFailureOptions migrationFailure;
 
 @end

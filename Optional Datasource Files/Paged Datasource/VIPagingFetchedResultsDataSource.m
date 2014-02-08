@@ -143,7 +143,9 @@
 
 #pragma mark Trigger Calls
 
-- (void)triggerAction:(VIPagingResultsAction)action forAccessoryView:(UIView<VIPagingAccessory> *)accessory withInsets:(UIEdgeInsets)insets
+- (void)triggerAction:(VIPagingResultsAction)action
+     forAccessoryView:(UIView<VIPagingAccessory> *)accessory
+           withInsets:(UIEdgeInsets)insets
 {
     self.isLoading = YES;
     [self.tableView setUserInteractionEnabled:NO];
