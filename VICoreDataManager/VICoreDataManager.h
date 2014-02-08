@@ -22,6 +22,25 @@
 #import "VIManagedObject.h"
 #import "VIFetchResultsDataSource.h"
 
+/**
+ *  <#Description#>
+ */
+typedef NS_OPTIONS (NSInteger, VIMigrationFailureOptions)
+{
+    /**
+     *  No handling of a failed migration, will likely cause app instability and crashing when a migration fails.
+     */
+    kMigrationFailureOptionsNone,
+    /**
+     *  Silently delete and recreate the sqlite database file, data will be erased, but instability and crashing will be avoided
+     */
+    kMigrationFailureOptionWipeRecovery,
+    /**
+     *  Same as kMigrationFailureOptionsWipeRecovery, but will also notify the user that data has been erased via UIAlertView.
+     */
+    kMigrationFailureOptionWipeRecoveryAndAlert,
+};
+
 @interface VICoreDataManager : NSObject
 
 /**
@@ -263,5 +282,10 @@
  Deletes the persistent stores and resets the main context and model to nil
  */
 - (void)resetCoreData;
+
+/**
+ *  In case of a migration failure, these options allow possible recovery and notification
+ */
+@property VIMigrationFailureOptions migrationFailureOptions;
 
 @end

@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "EA5F199F15C196500089AA44"
-               BuildableName = "CoreData.app"
-               BlueprintName = "CoreData"
-               ReferencedContainer = "container:CoreData.xcodeproj">
+               BuildableName = "Paging Data Source Example.app"
+               BlueprintName = "Paging Data Source Example"
+               ReferencedContainer = "container:Paging Data Source Example.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -28,34 +28,14 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       buildConfiguration = "Debug">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6F8B5D1416CBF764004DD1B2"
-               BuildableName = "CoreDataTests.xctest"
-               BlueprintName = "CoreDataTests"
-               ReferencedContainer = "container:CoreData.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "3D40DE3B180729A10048D5EE"
-               BuildableName = "CoreData Tests.xctest"
-               BlueprintName = "CoreData Tests"
-               ReferencedContainer = "container:CoreData.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "EA5F199F15C196500089AA44"
-            BuildableName = "CoreData.app"
-            BlueprintName = "CoreData"
-            ReferencedContainer = "container:CoreData.xcodeproj">
+            BuildableName = "Paging Data Source Example.app"
+            BlueprintName = "Paging Data Source Example"
+            ReferencedContainer = "container:Paging Data Source Example.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -72,9 +52,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "EA5F199F15C196500089AA44"
-            BuildableName = "CoreData.app"
-            BlueprintName = "CoreData"
-            ReferencedContainer = "container:CoreData.xcodeproj">
+            BuildableName = "Paging Data Source Example.app"
+            BlueprintName = "Paging Data Source Example"
+            ReferencedContainer = "container:Paging Data Source Example.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -90,9 +70,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "EA5F199F15C196500089AA44"
-            BuildableName = "CoreData.app"
-            BlueprintName = "CoreData"
-            ReferencedContainer = "container:CoreData.xcodeproj">
+            BuildableName = "Paging Data Source Example.app"
+            BlueprintName = "Paging Data Source Example"
+            ReferencedContainer = "container:Paging Data Source Example.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

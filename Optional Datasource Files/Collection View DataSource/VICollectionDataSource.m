@@ -98,6 +98,13 @@
     return [super fetchedResultsController];
 }
 
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([self.delegate respondsToSelector:@selector(fetchResultsDataSourceSelectedObject:)]) {
+        [self.delegate fetchResultsDataSourceSelectedObject:[self.fetchedResultsController objectAtIndexPath:indexPath]];
+    }
+}
+
 
 #pragma mark - UICollectionVIew
 - (void)reloadData
