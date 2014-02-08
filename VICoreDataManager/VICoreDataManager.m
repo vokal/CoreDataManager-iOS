@@ -82,6 +82,8 @@ VICoreDataManager *VI_SharedObject;
 {
     self.resource = resource;
     self.databaseFilename = database;
+    
+    [self initPersistentStoreCoordinator];
 }
 
 #pragma mark - Getters
@@ -147,7 +149,7 @@ VICoreDataManager *VI_SharedObject;
     
     NSError *error;
     _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
-
+    
     NSURL *storeURL;
     NSString *storeType = NSInMemoryStoreType;
     if (self.databaseFilename) {
@@ -155,14 +157,27 @@ VICoreDataManager *VI_SharedObject;
         storeType = NSSQLiteStoreType;
     }
     
-
+    
     if (![_persistentStoreCoordinator addPersistentStoreWithType:storeType
                                                    configuration:nil
                                                              URL:storeURL
                                                          options:options
-                                                           error:&error]) {
-        CDLog(@"Unresolved error %@, %@", error, [error userInfo]);
+                                                           error:&error])
+    {
+        CDLog(@"Full database delete and rebuild");
+        [[NSFileManager defaultManager] removeItemAtPath:storeURL.path error:nil];
+    	if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType
+                                                       configuration:nil
+                                                                 URL:storeURL
+                                                             options:nil
+                                                               error:&error])
+        {
+    		CDLog(@"Unresolved error %@, %@", error, [error userInfo]);
+    		abort();
+    	}
+        
     }
+
 }
 
 - (void)initManagedObjectContext
