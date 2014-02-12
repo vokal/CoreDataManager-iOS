@@ -8,6 +8,8 @@
 
 #import "VICollectionDataSource.h"
 
+#import "VICoreDataManager.h"
+
 @interface VICollectionDataSource ()
 {
     NSMutableArray *_objectChanges;
