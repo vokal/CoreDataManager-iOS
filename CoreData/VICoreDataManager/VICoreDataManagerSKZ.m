@@ -136,6 +136,16 @@ VICoreDataManagerSKZ *VI_SharedObject;
     NSURL *modelURL = [[NSBundle bundleForClass:[self class]] URLForResource:self.resource withExtension:@"momd"];
     if (!modelURL) {
         modelURL = [[NSBundle bundleForClass:[self class]] URLForResource:self.resource withExtension:@"mom"];
+        
+        if (!modelURL)
+        {
+            modelURL = [[NSBundle mainBundle] URLForResource:self.resource withExtension:@"momd" subdirectory:@"SkillzDataModel.momd"];
+        }
+        if (!modelURL)
+        {
+            modelURL = [[NSBundle mainBundle] URLForResource:self.resource withExtension:@"mom" subdirectory:@"SkillzDataModel.momd"];
+        }
+
     }
     NSAssert(modelURL != nil, @"Managed object model not found.");
     _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
