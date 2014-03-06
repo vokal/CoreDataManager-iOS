@@ -107,6 +107,9 @@
     if (![inputObject isKindOfClass:[NSString class]]) {
         return inputObject;
     }
+    if (!dateFormatter) {
+        dateFormatter = [VIManagedObjectMap defaultDateFormatter];
+    }
     id date = [dateFormatter dateFromString:inputObject];
     return date ? date : inputObject;
 }
