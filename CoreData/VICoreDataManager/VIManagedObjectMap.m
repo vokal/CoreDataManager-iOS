@@ -10,7 +10,7 @@
 
 + (instancetype)mapWithForeignKeyPath:(NSString *)inputKeyPath coreDataKey:(NSString *)coreDataKey
 {
-    return [self mapWithForeignKeyPath:inputKeyPath coreDataKey:coreDataKey dateFormatter:nil];
+    return [self mapWithForeignKeyPath:inputKeyPath coreDataKey:coreDataKey dateFormatter:[self defaultDateFormatter]];
 }
 
 + (instancetype)mapWithForeignKeyPath:(NSString *)inputKeyPath
@@ -53,7 +53,7 @@
     static NSDateFormatter *DefaultDateFormatter;
     dispatch_once(&pred, ^{
         DefaultDateFormatter = [NSDateFormatter new];
-        [DefaultDateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
+        [DefaultDateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'zzz"];
         [DefaultDateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
     });
 

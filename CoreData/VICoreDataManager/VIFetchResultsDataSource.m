@@ -167,16 +167,16 @@
         abort();
     }
     //FOR TESTING ONLY, NOT NECESSARY
-//    [_tableView reloadData];
+    [_tableView reloadData];
 }
 
 - (NSArray *)fetchedObjects
 {
-    NSError *error = nil;
-    if (![_fetchedResultsController performFetch:&error]) {
-        CDLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        abort();
-    }
+//    NSError *error = nil;
+//    if (![_fetchedResultsController performFetch:&error]) {
+//        CDLog(@"Unresolved error %@, %@", error, [error userInfo]);
+//        abort();
+//    }
    return _fetchedResultsController.fetchedObjects;
 }
 
