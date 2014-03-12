@@ -140,9 +140,12 @@
               NSStringFromClass(expectedClass),
               NSStringFromClass([inputObject class]));
         */
-        CDLog(@"Wrong kind of class \nExpected: %@\nReceived: %@",
-              NSStringFromClass(expectedClass),
-              NSStringFromClass([inputObject class]));
+        if (inputObject != nil && ![inputObject isKindOfClass:[NSNull class]])
+        {
+            CDLog(@"Wrong kind of class \nExpected: %@\nReceived: %@",
+                  NSStringFromClass(expectedClass),
+                  NSStringFromClass([inputObject class]));
+        }
         return nil;
     }
     return inputObject;
