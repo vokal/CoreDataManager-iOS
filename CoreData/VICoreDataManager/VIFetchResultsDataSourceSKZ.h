@@ -35,7 +35,7 @@
 @property BOOL clearsTableViewCellSelection;
 
 //you can ignore deprecation warnings in subclasses
-@property (strong, readonly) NSFetchedResultsController *fetchedResultsController DEPRECATED_ATTRIBUTE;
+@property (strong, readonly) NSFetchedResultsController *fetchedResultsController;
 
 - (NSArray *)fetchedObjects;
 
