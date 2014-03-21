@@ -53,7 +53,7 @@
     static NSDateFormatter *DefaultDateFormatter;
     dispatch_once(&pred, ^{
         DefaultDateFormatter = [NSDateFormatter new];
-        [DefaultDateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'zzz"];
+        [DefaultDateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
         [DefaultDateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
     });
 
