@@ -417,7 +417,7 @@ NSString *const COOL_RANCH_KEYPATH_KEY = @"prefs.coolRanch";
 {
     NSDictionary *dict = @{FIRST_NAME_DEFAULT_KEY :  @"BILLY",
                            LAST_NAME_DEFAULT_KEY : @"TESTCASE" ,
-                           BIRTHDAY_DEFAULT_KEY : @"1983-07-24T03:22:15Z",
+                           BIRTHDAY_DEFAULT_KEY : @"1983-07-24T03:22:15ZGMT",
                            CATS_DEFAULT_KEY : @17,
                            COOL_RANCH_DEFAULT_KEY : @NO};
     return dict;
@@ -477,7 +477,7 @@ NSString *const COOL_RANCH_KEYPATH_KEY = @"prefs.coolRanch";
 {
     NSDictionary *dict = @{FIRST_NAME_DEFAULT_KEY :  @"BILLY",
                            LAST_NAME_DEFAULT_KEY :  [NSNull null],
-                           BIRTHDAY_DEFAULT_KEY : @"1983-07-24T03:22:15Z",
+                           BIRTHDAY_DEFAULT_KEY : @"1983-07-24T03:22:15ZGMT",
                            COOL_RANCH_DEFAULT_KEY : @NO};
     return dict;
 }
@@ -495,7 +495,7 @@ NSString *const COOL_RANCH_KEYPATH_KEY = @"prefs.coolRanch";
 {
     NSDictionary *dict = @{FIRST_NAME_DEFAULT_KEY :  @"BILLY",
                            LAST_NAME_DEFAULT_KEY : @"TESTCASE" ,
-                           BIRTHDAY_DEFAULT_KEY : @"1983-07-24T03:22:15Z",
+                           BIRTHDAY_DEFAULT_KEY : @"1983-07-24T03:22:15ZGMT",
                            CATS_DEFAULT_KEY : @[@17],
                            COOL_RANCH_DEFAULT_KEY : @{@"something": @NO}};
     return dict;
