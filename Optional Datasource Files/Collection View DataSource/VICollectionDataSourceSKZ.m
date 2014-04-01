@@ -185,7 +185,7 @@
 {
     if ([_sectionChanges count] > 0)
     {
-        [self.collectionView performBatchUpdates:^{
+       /* [self.collectionView performBatchUpdates:^{
             
             for (NSDictionary *change in _sectionChanges)
             {
@@ -206,7 +206,8 @@
                     }
                 }];
             }
-        } completion:nil];
+        } completion:nil];*/
+        [self.collectionView reloadData];
     }
     
     if ([_objectChanges count] > 0 && [_sectionChanges count] == 0)
@@ -222,7 +223,7 @@
             
         } else {
             
-            [self.collectionView performBatchUpdates:^{
+            /*[self.collectionView performBatchUpdates:^{
                 
                 for (NSDictionary *change in _objectChanges)
                 {
@@ -247,7 +248,8 @@
                         }
                     }];
                 }
-            } completion:nil];
+            } completion:nil];*/
+            [self.collectionView reloadData];
         }
     }
     
