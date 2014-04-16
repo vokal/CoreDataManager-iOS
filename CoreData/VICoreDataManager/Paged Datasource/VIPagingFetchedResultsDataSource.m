@@ -48,14 +48,14 @@
 - (void)setupAccessoryViews
 {
     //Attach given views, or generate default views.
-    if (!self.headerView) {
+    if (!self.headerView && self.upAction) {
         self.headerView = [[VIDefaultPagingAccessory alloc] initWithFrame:(CGRect){0, -30, self.tableView.frame.size.width, 30}];
     }
     
     [self.headerView setFrame:(CGRect){0, -self.headerView.frame.size.height, self.headerView.frame.size}];
     [self.tableView addSubview:self.headerView];
     
-    if (!self.footerView) {
+    if (!self.footerView && self.downAction) {
         self.footerView = [[VIDefaultPagingAccessory alloc] initWithFrame:(CGRect){0,
             MAX(self.tableView.contentSize.height, self.tableView.bounds.size.height),
             self.tableView.frame.size.width, 30}];
@@ -154,7 +154,9 @@
             [accessory loadingHasFinished];
             
             [self.tableView setUserInteractionEnabled:YES];
-            [self.tableView setContentInset:self.orginalInsets];
+            [UIView animateWithDuration:.3 animations:^{
+                [self.tableView setContentInset:self.orginalInsets];
+            }];
         };
         
         action(self.tableView, completionAction);
