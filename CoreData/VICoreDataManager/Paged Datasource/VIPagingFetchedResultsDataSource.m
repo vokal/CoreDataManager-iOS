@@ -171,6 +171,14 @@
         
         [self.tableView removeObserver:self forKeyPath:@"contentSize"];
     }
+    
+    if (self.tableView.delegate == self) {
+        self.tableView.delegate = nil;
+    }
+    
+    if (self.tableView.dataSource == self) {
+        self.tableView.dataSource = nil;
+    }
     CDLog(@"Page controller dealloc'd %@", self);
 }
 
