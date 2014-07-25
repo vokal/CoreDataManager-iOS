@@ -182,7 +182,7 @@
 
 - (id)objectAtIndexPath:(NSIndexPath *)path
 {
-    return [_fetchedResultsController objectAtIndexPath:path];
+    return [self.fetchedResultsController objectAtIndexPath:path];
 }
 
 #pragma mark - UITableViewDelegate
