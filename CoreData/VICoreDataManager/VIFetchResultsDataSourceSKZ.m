@@ -202,7 +202,12 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return [[_fetchedResultsController sections] count];
+    NSInteger sectionCount = [[_fetchedResultsController sections] count];
+    if (!sectionCount && [_delegate respondsToSelector:@selector(fetchResultsDataSourceHasResults:)]) {
+        [_delegate fetchResultsDataSourceHasResults:NO];
+    }
+    
+    return sectionCount;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
