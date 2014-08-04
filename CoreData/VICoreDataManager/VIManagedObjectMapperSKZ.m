@@ -134,16 +134,12 @@
 {
     Class expectedClass = [self expectedClassForObject:object andKey:key];
     if (![inputObject isKindOfClass:expectedClass]) {
-        /*
-        CDLog(@"Wrong kind of class for %@\nProperty: %@ \nExpected: %@\nReceived: %@",
-              object,
-              key,
-              NSStringFromClass(expectedClass),
-              NSStringFromClass([inputObject class]));
-        */
+        
         if (inputObject != nil && ![inputObject isKindOfClass:[NSNull class]])
         {
-            CDLog(@"Wrong kind of class \nExpected: %@\nReceived: %@",
+            CDLog(@"Wrong kind of class for %@\nProperty: %@ \nExpected: %@\nReceived: %@",
+                  [object class],
+                  key,
                   NSStringFromClass(expectedClass),
                   NSStringFromClass([inputObject class]));
         }
