@@ -152,6 +152,8 @@
         case NSFetchedResultsChangeDelete:
             change[@(type)] = @(sectionIndex);
             break;
+        default:
+            break;
     }
     
     [_sectionChanges addObject:change];
