@@ -139,11 +139,11 @@ VICoreDataManagerSKZ *VI_SharedObject;
         
         if (!modelURL)
         {
-            modelURL = [[NSBundle mainBundle] URLForResource:self.resource withExtension:@"momd" subdirectory:@"SkillzDataModel.momd"];
+            modelURL = [[NSBundle bundleForClass:[self class]] URLForResource:self.resource withExtension:@"momd" subdirectory:@"SkillzDataModel.momd"];
         }
         if (!modelURL)
         {
-            modelURL = [[NSBundle mainBundle] URLForResource:self.resource withExtension:@"mom" subdirectory:@"SkillzDataModel.momd"];
+            modelURL = [[NSBundle bundleForClass:[self class]] URLForResource:self.resource withExtension:@"mom" subdirectory:@"SkillzDataModel.momd"];
         }
 
     }
