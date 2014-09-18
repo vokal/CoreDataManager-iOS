@@ -133,17 +133,17 @@ VICoreDataManagerSKZ *VI_SharedObject;
 #pragma mark - Initializers
 - (void)initManagedObjectModel
 {
-    NSURL *modelURL = [[NSBundle bundleForClass:[self class]] URLForResource:self.resource withExtension:@"momd"];
+    NSURL *modelURL = [[NSBundle skillzBundle] URLForResource:self.resource withExtension:@"momd"];
     if (!modelURL) {
-        modelURL = [[NSBundle bundleForClass:[self class]] URLForResource:self.resource withExtension:@"mom"];
+        modelURL = [[NSBundle skillzBundle] URLForResource:self.resource withExtension:@"mom"];
         
         if (!modelURL)
         {
-            modelURL = [[NSBundle bundleForClass:[self class]] URLForResource:self.resource withExtension:@"momd" subdirectory:@"SkillzDataModel.momd"];
+            modelURL = [[NSBundle skillzBundle] URLForResource:self.resource withExtension:@"momd" subdirectory:@"SkillzDataModel.momd"];
         }
         if (!modelURL)
         {
-            modelURL = [[NSBundle bundleForClass:[self class]] URLForResource:self.resource withExtension:@"mom" subdirectory:@"SkillzDataModel.momd"];
+            modelURL = [[NSBundle skillzBundle] URLForResource:self.resource withExtension:@"mom" subdirectory:@"SkillzDataModel.momd"];
         }
 
     }
