@@ -15,6 +15,15 @@
 #endif
 #endif
 
+#define WRITE_QUEUE_LOGGING  0
+#ifndef WriteQueueLog
+#if WRITE_QUEUE_LOGGING
+#   define WriteQueueLog(...) NSLog(@"%s\n%@", __PRETTY_FUNCTION__, [NSString stringWithFormat:__VA_ARGS__])
+#else
+#   define WriteQueueLog(...) /* */
+#endif
+#endif
+
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 

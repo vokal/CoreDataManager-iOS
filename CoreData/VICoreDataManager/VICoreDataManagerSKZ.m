@@ -440,19 +440,45 @@ VICoreDataManagerSKZ *VI_SharedObject;
 }
 
 #pragma mark - Convenience Methods
+NSInteger blockNumber = 0;
+
 + (void)writeToTemporaryContext:(void (^)(NSManagedObjectContext *tempContext))writeBlock
                      completion:(void (^)(void))completion
 {
-    [[VICoreDataManagerSKZ sharedInstance]  managedObjectContext];
+#if WRITE_QUEUE_LOGGING
+    blockNumber++;
+    NSInteger blockId = blockNumber;
+#endif
+    
+    [[VICoreDataManagerSKZ sharedInstance] managedObjectContext];
     NSAssert(writeBlock, @"Write block must not be nil");
+
+    WriteQueueLog(@"%ld Add Block", (long)blockId);
+    
     [VI_WritingQueue addOperationWithBlock:^{
-        
+        WriteQueueLog(@"%ld Begin write",  (long)blockId);
         NSManagedObjectContext *tempContext = [[VICoreDataManagerSKZ sharedInstance] temporaryContext];
         writeBlock(tempContext);
+#if WRITE_QUEUE_LOGGING
+        Class insertedClass = [[[tempContext insertedObjects] anyObject] class];
+        Class updatedClass = [[[tempContext updatedObjects] anyObject] class];
+#endif
         [[VICoreDataManagerSKZ sharedInstance] saveAndMergeWithMainContext:tempContext];
-
+        
+#if WRITE_QUEUE_LOGGING
+        WriteQueueLog(@"%ld Finish write took %.2f secs",  (long)blockId, [[NSDate date] timeIntervalSinceDate:startDate]);
+        if (insertedClass) {
+            WriteQueueLog(@"%@ inserted", NSStringFromClass(insertedClass));
+        }
+        
+        if (updatedClass) {
+            WriteQueueLog(@"%@ updated", NSStringFromClass(updatedClass));
+        }
+#endif
         if (completion) {
-            dispatch_async(dispatch_get_main_queue(), completion);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completion();
+            });
         }
     }];
 }
