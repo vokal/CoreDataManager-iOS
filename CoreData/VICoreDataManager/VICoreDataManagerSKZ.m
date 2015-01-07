@@ -488,6 +488,7 @@ NSInteger blockNumber = 0;
     NSString *entityName = NSStringFromClass(managedObjectClass);
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:entityName];
     [fetchRequest setPredicate:predicate];
+    [fetchRequest setReturnsObjectsAsFaults:NO];
     return fetchRequest;
 }
 

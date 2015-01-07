@@ -256,6 +256,8 @@
     [fetchRequest setSortDescriptors:_sortDescriptors];
 
     [fetchRequest setPredicate:_predicate];
+    
+    [fetchRequest setReturnsObjectsAsFaults:NO];
 
     NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
                                                                                                 managedObjectContext:_managedObjectContext
