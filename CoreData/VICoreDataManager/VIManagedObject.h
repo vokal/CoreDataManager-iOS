@@ -61,6 +61,24 @@
  **/
 + (NSArray *)addWithArraySKZ:(NSArray *)inputArray forManagedObjectContext:(NSManagedObjectContext*)contextOrNil;
 
+
+/*
+ Create or update many NSManagedObjects, respecting overwriteObjectsWithServerChanges.
+ This should only be used to set all properties of an entity, any mapped attributes not included in the input dictionaries will be set to nil.
+ This will overwrite ALL of an NSManagedObject's properties.
+ @param inputArray
+ An array of dictionaries with foreign data to inport.
+ @param shouldDeletePendingObjects
+ Any objects not updated or created by an entry in inputArray will be deleted if this is set to YES.
+ @param contextOfNil
+ The managed object context to update and/or insert the objects. If nil, the main context will be used.
+ @return
+ An array of this subclass of NSManagedObject.
+ **/
++ (NSArray *)addWithArraySKZ:(NSArray *)inputArray
+         deletePendingObject:(BOOL)shouldDeletePendingObjects
+     forManagedObjectContext:(NSManagedObjectContext*)contextOrNil;
+
 /*
  Create or update a single NSManagedObject, respecting overwriteObjectsWithServerChanges.
  This should only be used to set all properties of an entity, any mapped attributes not included in the input dictionaries will be set to nil.
