@@ -49,7 +49,7 @@
      forManagedObjectContext:(NSManagedObjectContext*)contextOrNil
 {
     
-    NSArray *pendingObjects = [self fetchAllForPredicateSKZ:nil forManagedObject:contextOrNil];
+    NSArray *pendingObjects = [self fetchAllForPredicateSKZ:nil forManagedObjectContext:contextOrNil];
     NSArray *addedObjects = [[VICoreDataManagerSKZ sharedInstance] importArray:inputArray forClass:[self class] withContext:contextOrNil];
     if (shouldDeletePendingObjects) {
         [pendingObjects enumerateObjectsUsingBlock:^(NSManagedObject *oldObj, NSUInteger idx, BOOL *stop) {
