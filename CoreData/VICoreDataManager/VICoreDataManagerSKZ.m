@@ -166,7 +166,9 @@ VICoreDataManagerSKZ *VI_SharedObject;
         storeURL = [[self applicationLibraryDirectory] URLByAppendingPathComponent:self.databaseFilename];
         storeType = NSSQLiteStoreType;
     }
-    
+
+
+    [self determineModelVersion:storeURL forStoreType:storeType];
 
     if (![_persistentStoreCoordinator addPersistentStoreWithType:storeType
                                                    configuration:nil
@@ -176,7 +178,7 @@ VICoreDataManagerSKZ *VI_SharedObject;
     {
         CDLog(@"Full database delete and rebuild");
         [[NSFileManager defaultManager] removeItemAtPath:storeURL.path error:nil];
-    	if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType
+    	if (![_persistentStoreCoordinator addPersistentStoreWithType:storeType
                                                        configuration:nil
                                                                  URL:storeURL
                                                              options:nil
@@ -187,6 +189,17 @@ VICoreDataManagerSKZ *VI_SharedObject;
     	}
         
     }
+}
+
+- (BOOL)determineModelVersion:(NSURL *)storeURL forStoreType:(NSString *)storeType
+{
+    NSError *error;
+    NSDictionary *storeMetadata = [NSPersistentStoreCoordinator metadataForPersistentStoreOfType:storeType URL:storeURL error:&error];
+    if (!storeMetadata) {
+        return NO;
+    }
+    
+    return NO;
 }
 
 - (void)initManagedObjectContext
