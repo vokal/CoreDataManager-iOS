@@ -256,6 +256,8 @@
     [fetchRequest setSortDescriptors:_sortDescriptors];
 
     [fetchRequest setPredicate:_predicate];
+    
+    [fetchRequest setReturnsObjectsAsFaults:NO];
 
     NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
                                                                                                 managedObjectContext:_managedObjectContext
@@ -278,6 +280,10 @@
            atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type
 {
     switch (type) {
+        case NSFetchedResultsChangeUpdate:
+            [_tableView reloadSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+
         case NSFetchedResultsChangeInsert:
             [_tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
             break;
@@ -285,6 +291,7 @@
         case NSFetchedResultsChangeDelete:
             [_tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
             break;
+
         default:
             break;
     }

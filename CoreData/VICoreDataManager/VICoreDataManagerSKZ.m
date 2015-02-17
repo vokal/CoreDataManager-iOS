@@ -167,7 +167,9 @@ VICoreDataManagerSKZ *VI_SharedObject;
         storeURL = [[self applicationLibraryDirectory] URLByAppendingPathComponent:self.databaseFilename];
         storeType = NSSQLiteStoreType;
     }
-    
+
+
+    NSDictionary *previousModelVersionHashes = [self fetchModelVersionHashes:storeURL forStoreType:storeType];
 
     if (![_persistentStoreCoordinator addPersistentStoreWithType:storeType
                                                    configuration:nil
@@ -175,18 +177,41 @@ VICoreDataManagerSKZ *VI_SharedObject;
                                                          options:options
                                                            error:&error])
     {
-        CDLog(@"Full database delete and rebuild");
-        [[NSFileManager defaultManager] removeItemAtPath:storeURL.path error:nil];
-    	if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType
-                                                       configuration:nil
-                                                                 URL:storeURL
-                                                             options:nil
-                                                               error:&error])
-        {
-    		CDLog(@"Unresolved error %@, %@", error, [error userInfo]);
-    		abort();
-    	}
-        
+        [self resetPersistantStore:storeURL forStoreType:storeType];
+    } else if (previousModelVersionHashes.count) {
+        NSDictionary *newModelVersionHashes = [self fetchModelVersionHashes:storeURL forStoreType:storeType];
+        if (![previousModelVersionHashes isEqual:newModelVersionHashes]) {
+            NSPersistentStore *outdatedStore = [_persistentStoreCoordinator persistentStoreForURL:storeURL];
+            [_persistentStoreCoordinator removePersistentStore:outdatedStore error:&error];
+            [self resetPersistantStore:storeURL forStoreType:storeType];
+        }
+    }
+}
+
+- (void)resetPersistantStore:(NSURL *)storeURL forStoreType:(NSString *)storeType
+{
+    NSError *error;
+    CDLog(@"Full database delete and rebuild");
+    [[NSFileManager defaultManager] removeItemAtPath:storeURL.path error:nil];
+    if (![_persistentStoreCoordinator addPersistentStoreWithType:storeType
+                                                   configuration:nil
+                                                             URL:storeURL
+                                                         options:nil
+                                                           error:&error])
+    {
+        CDLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
+}
+
+- (NSDictionary *)fetchModelVersionHashes:(NSURL *)storeURL forStoreType:(NSString *)storeType
+{
+    NSError *error;
+    NSDictionary *storeMetadata = [NSPersistentStoreCoordinator metadataForPersistentStoreOfType:storeType URL:storeURL error:&error];
+    if (!storeMetadata) {
+        return nil;
+    } else {
+        return storeMetadata[@"NSStoreModelVersionHashes"];
     }
 }
 
@@ -347,6 +372,7 @@ VICoreDataManagerSKZ *VI_SharedObject;
     contextOrNil = [self safeContext:contextOrNil];
     NSFetchRequest *fetchRequest = [self fetchRequestWithClass:managedObjectClass predicate:nil];
     [fetchRequest setIncludesPropertyValues:NO];
+    [fetchRequest setReturnsObjectsAsFaults:YES];
 
     NSError *error;
     NSArray *results = [contextOrNil executeFetchRequest:fetchRequest error:&error];
@@ -489,6 +515,7 @@ NSInteger blockNumber = 0;
     NSString *entityName = NSStringFromClass(managedObjectClass);
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:entityName];
     [fetchRequest setPredicate:predicate];
+    [fetchRequest setReturnsObjectsAsFaults:NO];
     return fetchRequest;
 }
 

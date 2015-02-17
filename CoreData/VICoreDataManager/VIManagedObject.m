@@ -44,6 +44,24 @@
     return [[VICoreDataManagerSKZ sharedInstance] importArray:inputArray forClass:[self class] withContext:contextOrNil];
 }
 
++ (NSArray *)addWithArraySKZ:(NSArray *)inputArray
+         deletePendingObject:(BOOL)shouldDeletePendingObjects
+     forManagedObjectContext:(NSManagedObjectContext*)contextOrNil
+{
+    
+    NSArray *pendingObjects = [self fetchAllForPredicateSKZ:nil forManagedObjectContext:contextOrNil];
+    NSArray *addedObjects = [[VICoreDataManagerSKZ sharedInstance] importArray:inputArray forClass:[self class] withContext:contextOrNil];
+    if (shouldDeletePendingObjects) {
+        [pendingObjects enumerateObjectsUsingBlock:^(NSManagedObject *oldObj, NSUInteger idx, BOOL *stop) {
+            if (![addedObjects containsObject:oldObj]) {
+                [contextOrNil deleteObject:oldObj];
+            }
+        }];
+    }
+    
+    return addedObjects;
+}
+
 + (instancetype)addWithDictionarySKZ:(NSDictionary *)inputDict forManagedObjectContext:(NSManagedObjectContext*)contextOrNil
 {
     if (!inputDict || [[NSNull null] isEqual:inputDict]) {
