@@ -180,8 +180,8 @@ VICoreDataManagerSKZ *VI_SharedObject;
     } else if (previousModelVersionHashes.count) {
         NSArray *newModelVersionHashes = [self fetchModelVersionHashes:storeURL forStoreType:storeType];
 
-        NSSet oldHashesSet = [NSSet setWithArray:oldHashesSet];
-        NSSet newHashesSet = [NSSet setWithArray:newModelVersionHashes];
+        NSSet *oldHashesSet = [NSSet setWithArray:previousModelVersionHashes];
+        NSSet *newHashesSet = [NSSet setWithArray:newModelVersionHashes];
 
         if (![oldHashesSet isEqualToSet:newHashesSet]) {
             [self resetPersistantStore:storeURL forStoreType:storeType];
