@@ -7,7 +7,6 @@
 
 @interface VICoreDataManagerSKZ () {
     NSManagedObjectContext *_managedObjectContext;
-    NSManagedObjectContext *_temporaryManagedObjectContext;
     NSManagedObjectModel *_managedObjectModel;
     NSPersistentStoreCoordinator *_persistentStoreCoordinator;
 }
@@ -88,20 +87,20 @@ VICoreDataManagerSKZ *VI_SharedObject;
 }
 
 #pragma mark - Getters
-
 - (NSManagedObjectContext *)tempManagedObjectContext
 {
-    if ( !_temporaryManagedObjectContext) {
-        NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
+    NSManagedObjectContext *tempManagedObjectContext;
 
-        if (coordinator) {
-            _temporaryManagedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-            [_temporaryManagedObjectContext setPersistentStoreCoordinator:coordinator];
-        } else {
-            CDLog(@"Coordinator is nil & context is %@", [_temporaryManagedObjectContext description]);
-        }
+    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
+
+    if (coordinator) {
+        tempManagedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSConfinementConcurrencyType];
+        [tempManagedObjectContext setPersistentStoreCoordinator:coordinator];
+    } else {
+        CDLog(@"Coordinator is nil & context is %@", [tempManagedObjectContext description]);
     }
-    return _temporaryManagedObjectContext;
+
+    return tempManagedObjectContext;
 }
 
 - (NSManagedObjectContext *)managedObjectContext
@@ -221,7 +220,7 @@ VICoreDataManagerSKZ *VI_SharedObject;
     NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
 
     if (coordinator) {
-        _managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+        _managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSConfinementConcurrencyType];
 
         [_managedObjectContext setPersistentStoreCoordinator:coordinator];
         id mergePolicy = [[NSMergePolicy alloc] initWithMergeType:NSMergeByPropertyObjectTrumpMergePolicyType];
