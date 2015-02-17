@@ -179,8 +179,9 @@ VICoreDataManagerSKZ *VI_SharedObject;
         [self resetPersistantStore:storeURL forStoreType:storeType];
     } else if (previousModelVersionHashes.count) {
         NSDictionary *newModelVersionHashes = [self fetchModelVersionHashes:storeURL forStoreType:storeType];
-
         if (![previousModelVersionHashes isEqual:newModelVersionHashes]) {
+            NSPersistentStore *outdatedStore = [_persistentStoreCoordinator persistentStoreForURL:storeURL];
+            [_persistentStoreCoordinator removePersistentStore:outdatedStore error:&error];
             [self resetPersistantStore:storeURL forStoreType:storeType];
         }
     }
