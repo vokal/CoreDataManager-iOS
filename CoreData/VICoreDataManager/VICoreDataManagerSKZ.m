@@ -168,7 +168,7 @@ VICoreDataManagerSKZ *VI_SharedObject;
     }
 
 
-    NSArray *previousModelVersionHashes = [self fetchModelVersionHashes:storeURL forStoreType:storeType];
+    NSDictionary *previousModelVersionHashes = [self fetchModelVersionHashes:storeURL forStoreType:storeType];
 
     if (![_persistentStoreCoordinator addPersistentStoreWithType:storeType
                                                    configuration:nil
@@ -178,12 +178,9 @@ VICoreDataManagerSKZ *VI_SharedObject;
     {
         [self resetPersistantStore:storeURL forStoreType:storeType];
     } else if (previousModelVersionHashes.count) {
-        NSArray *newModelVersionHashes = [self fetchModelVersionHashes:storeURL forStoreType:storeType];
+        NSDictionary *newModelVersionHashes = [self fetchModelVersionHashes:storeURL forStoreType:storeType];
 
-        NSSet *oldHashesSet = [NSSet setWithArray:previousModelVersionHashes];
-        NSSet *newHashesSet = [NSSet setWithArray:newModelVersionHashes];
-
-        if (![oldHashesSet isEqualToSet:newHashesSet]) {
+        if (![previousModelVersionHashes isEqual:newModelVersionHashes]) {
             [self resetPersistantStore:storeURL forStoreType:storeType];
         }
     }
@@ -205,7 +202,7 @@ VICoreDataManagerSKZ *VI_SharedObject;
     }
 }
 
-- (NSArray *)fetchModelVersionHashes:(NSURL *)storeURL forStoreType:(NSString *)storeType
+- (NSDictionary *)fetchModelVersionHashes:(NSURL *)storeURL forStoreType:(NSString *)storeType
 {
     NSError *error;
     NSDictionary *storeMetadata = [NSPersistentStoreCoordinator metadataForPersistentStoreOfType:storeType URL:storeURL error:&error];
