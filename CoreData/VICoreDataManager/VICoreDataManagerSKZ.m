@@ -168,7 +168,7 @@ VICoreDataManagerSKZ *VI_SharedObject;
     }
 
 
-    [self determineModelVersion:storeURL forStoreType:storeType];
+    NSArray *previousModelVersionHashes = [self fetchModelVersionHashes:storeURL forStoreType:storeType];
 
     if (![_persistentStoreCoordinator addPersistentStoreWithType:storeType
                                                    configuration:nil
@@ -176,30 +176,44 @@ VICoreDataManagerSKZ *VI_SharedObject;
                                                          options:options
                                                            error:&error])
     {
-        CDLog(@"Full database delete and rebuild");
-        [[NSFileManager defaultManager] removeItemAtPath:storeURL.path error:nil];
-    	if (![_persistentStoreCoordinator addPersistentStoreWithType:storeType
-                                                       configuration:nil
-                                                                 URL:storeURL
-                                                             options:nil
-                                                               error:&error])
-        {
-    		CDLog(@"Unresolved error %@, %@", error, [error userInfo]);
-    		abort();
-    	}
-        
+        [self resetPersistantStore:storeURL forStoreType:storeType];
+    } else if (previousModelVersionHashes.count) {
+        NSArray *newModelVersionHashes = [self fetchModelVersionHashes:storeURL forStoreType:storeType];
+
+        NSSet oldHashesSet = [NSSet setWithArray:oldHashesSet];
+        NSSet newHashesSet = [NSSet setWithArray:newModelVersionHashes];
+
+        if (![oldHashesSet isEqualToSet:newHashesSet]) {
+            [self resetPersistantStore:storeURL forStoreType:storeType];
+        }
     }
 }
 
-- (BOOL)determineModelVersion:(NSURL *)storeURL forStoreType:(NSString *)storeType
+- (void)resetPersistantStore:(NSURL *)storeURL forStoreType:(NSString *)storeType
+{
+    NSError *error;
+    CDLog(@"Full database delete and rebuild");
+    [[NSFileManager defaultManager] removeItemAtPath:storeURL.path error:nil];
+    if (![_persistentStoreCoordinator addPersistentStoreWithType:storeType
+                                                   configuration:nil
+                                                             URL:storeURL
+                                                         options:nil
+                                                           error:&error])
+    {
+        CDLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
+}
+
+- (NSArray *)fetchModelVersionHashes:(NSURL *)storeURL forStoreType:(NSString *)storeType
 {
     NSError *error;
     NSDictionary *storeMetadata = [NSPersistentStoreCoordinator metadataForPersistentStoreOfType:storeType URL:storeURL error:&error];
     if (!storeMetadata) {
-        return NO;
+        return nil;
+    } else {
+        return storeMetadata[@"NSStoreModelVersionHashes"];
     }
-    
-    return NO;
 }
 
 - (void)initManagedObjectContext
