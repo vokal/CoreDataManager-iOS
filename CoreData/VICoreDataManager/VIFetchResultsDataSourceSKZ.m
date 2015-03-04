@@ -182,7 +182,15 @@
 
 - (id)objectAtIndexPath:(NSIndexPath *)path
 {
-    return [self.fetchedResultsController objectAtIndexPath:path];
+    id result = nil;
+    
+    @try {
+        result = [self.fetchedResultsController objectAtIndexPath:path];
+    }
+    @catch (NSException *exception) {
+        return nil;
+    }
+    return result;
 }
 
 #pragma mark - UITableViewDelegate
