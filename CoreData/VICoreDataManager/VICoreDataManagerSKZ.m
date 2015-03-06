@@ -449,8 +449,11 @@ VICoreDataManagerSKZ *VI_SharedObject;
 - (void)tempContextSaved:(NSNotification *)notification
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [[self managedObjectContext] mergeChangesFromContextDidSaveNotification:notification];
-        [[self managedObjectContext] processPendingChanges];
+        @try {
+            [[self managedObjectContext] mergeChangesFromContextDidSaveNotification:notification];
+            [[self managedObjectContext] processPendingChanges];
+        }
+        @catch (NSException *exception) {}
     });
 }
 
