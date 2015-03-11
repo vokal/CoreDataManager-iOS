@@ -11,7 +11,7 @@
 @end
 
 @interface VIManagedObjectMapperSKZ()
-@property (nonatomic) NSArray *mapsArray;
+@property (readwrite) NSArray *mapsArray;
 - (void)updateForeignComparisonKey;
 - (id)checkNull:(id)inputObject;
 - (id)checkDate:(id)inputObject withDateFormatter:(NSDateFormatter *)dateFormatter;

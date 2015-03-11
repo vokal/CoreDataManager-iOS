@@ -82,6 +82,16 @@
  */
 - (BOOL)setObjectMapper:(VIManagedObjectMapperSKZ *)objMap
                forClass:(Class)objectClass;
+
+/**
+ Returns the object mapper for a give NSManagedObject subclass
+ @param objectClass 
+ Specifies the class to instantiate or fetch when importing data.
+ @return
+ VIManagedObjectMapper for a given class if one exists, otherwise nil
+ */
+- (VIManagedObjectMapperSKZ *)mapperForClass:(Class)objectClass;
+
 /**
  Deserializes the NSDictionaries full of strings and creates/updates instances in the given context.
  @param inputArray
