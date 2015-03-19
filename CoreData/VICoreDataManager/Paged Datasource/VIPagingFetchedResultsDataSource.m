@@ -36,7 +36,7 @@
 
 - (void)dealloc
 {
-    [self.pagingManager cleanUpPageController];
+    [self.pagingManager cleanUpPagingManager];
     CDLog(@"Page controller dealloc'd %@", self);
 }
 

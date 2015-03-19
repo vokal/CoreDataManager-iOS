@@ -53,6 +53,6 @@ typedef void (^VIPagingResultsAction)(UITableView *tableView, VICompletionAction
 /**
  *  Call to handle memory management before deallocating a view that contains this class.
  */
-- (void)cleanUpPageController;
+- (void)cleanUpPagingManager;
 
 @end

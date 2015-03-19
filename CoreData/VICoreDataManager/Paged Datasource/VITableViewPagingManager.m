@@ -93,7 +93,7 @@
                      downAction:(VIPagingResultsAction)downPageActionOrNil
                      footerView:(UIView<VIPagingAccessory> *)footerViewOrNil;
 {
-    [self cleanUpPageController];
+    [self cleanUpPagingManager];
 
     self.upAction = upPageActionOrNil;
     self.downAction = downPageActionOrNil;
@@ -133,7 +133,7 @@
                         context:NULL];
 }
 
-- (void)cleanUpPageController
+- (void)cleanUpPagingManager
 {
     if (self.headerView || self.footerView) {
         [self.headerView removeFromSuperview];
@@ -248,6 +248,6 @@
         [self.tableView removeObserver:self forKeyPath:@"contentSize"];
     }
 
-    CDLog(@"Page controller dealloc'd %@", self);
+    CDLog(@"Paging manager dealloc'd %@", self);
 }
 @end
