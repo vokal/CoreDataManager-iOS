@@ -15,7 +15,7 @@
 /// Used internally to filter input data. Updates automatically to match the uniqueComparisonKey.
 @property (readonly) NSString *foreignUniqueComparisonKey;
 
-@property (readonly) NSArray *mapsArray;
+@property (readonly, nonatomic) NSArray *mapsArray;
 /// If set to NO changes are discarded if a local object exists with the same unique comparison key. Defaults to YES.
 @property BOOL overwriteObjectsWithServerChanges;
 
