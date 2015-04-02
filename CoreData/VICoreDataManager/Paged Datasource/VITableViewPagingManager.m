@@ -54,7 +54,7 @@
 
 @interface VITableViewPagingManager () <UIScrollViewDelegate>
 
-@property (weak) UITableView *tableView;
+@property (strong) UITableView *tableView;
 
 @property (copy) VIPagingResultsAction upAction;
 @property (copy) VIPagingResultsAction downAction;
@@ -244,8 +244,11 @@
     if (self.upAction || self.downAction) {
         self.upAction = nil;
         self.downAction = nil;
+    }
 
+    if (self.tableView) {
         [self.tableView removeObserver:self forKeyPath:@"contentSize"];
+        self.tableView = nil;
     }
 
     CDLog(@"Paging manager dealloc'd %@", self);
