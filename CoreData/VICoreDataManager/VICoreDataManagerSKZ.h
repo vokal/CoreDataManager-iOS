@@ -266,6 +266,12 @@
  */
 - (void)saveAndMergeWithMainContext:(NSManagedObjectContext *)context;
 
+
+/** 
+ Returns either the main managed object context or the temporary context
+*/
+- (NSManagedObjectContext *)safeContext;
+
 /**
  Deletes the persistent stores and resets the main context and model to nil
  */

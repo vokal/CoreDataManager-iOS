@@ -102,13 +102,19 @@
 #pragma mark - UICollectionVIew
 - (void)reloadData
 {
-    NSError *error = nil;
-    if (![_fetchedResultsController performFetch:&error]) {
-        CDLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        abort();
-    }
-    //FOR REVIEW controllerWillChangeContent is not being called in tests - this updates the table explicitly
-    [_collectionView reloadData];
+    
+    NSManagedObjectContext* context = [[VICoreDataManagerSKZ sharedInstance] safeContext];
+    
+    [context performBlock:^{
+        NSError *error = nil;
+
+        if (![self.fetchedResultsController performFetch:&error]) {
+            CDLog(@"Unresolved error %@, %@", error, [error userInfo]);
+            abort();
+        }
+        //FOR REVIEW controllerWillChangeContent is not being called in tests - this updates the table explicitly
+        [_collectionView reloadData];
+    }];
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView

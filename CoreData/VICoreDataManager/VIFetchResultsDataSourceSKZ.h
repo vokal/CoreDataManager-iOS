@@ -12,9 +12,7 @@
 - (void)fetchResultsDataSourceHasResults:(BOOL)hasResults;
 @end
 
-@interface VIFetchResultsDataSourceSKZ : NSObject <NSFetchedResultsControllerDelegate, UITableViewDelegate, UITableViewDataSource> {
-    NSFetchedResultsController *_fetchedResultsController;
-}
+@interface VIFetchResultsDataSourceSKZ : NSObject <NSFetchedResultsControllerDelegate, UITableViewDelegate, UITableViewDataSource>
 
 @property (readonly) Class managedObjectClass;
 @property (weak, readonly) UITableView *tableView;
@@ -35,7 +33,7 @@
 @property BOOL clearsTableViewCellSelection;
 
 //you can ignore deprecation warnings in subclasses
-@property (strong, readonly) NSFetchedResultsController *fetchedResultsController;
+@property (strong, nonatomic, readonly) NSFetchedResultsController* fetchedResultsController;
 
 - (NSArray *)fetchedObjects;
 
