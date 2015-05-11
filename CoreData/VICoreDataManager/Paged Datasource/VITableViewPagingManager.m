@@ -165,9 +165,12 @@
     if (!self.isLoading) {
         //Calculate scrollable height
         CGFloat contentHeight = scrollView.contentSize.height;
-        CGFloat scrollableHeight = contentHeight - scrollView.bounds.size.height;
+        CGFloat scrollableHeight = contentHeight - CGRectGetHeight(scrollView.bounds);
 
-        if (scrollView.contentOffset.y > (scrollableHeight + self.triggerDistance) && self.downAction) {
+        if (scrollView.contentOffset.y > (scrollableHeight + self.triggerDistance) &&
+            contentHeight > CGRectGetHeight(scrollView.bounds) &&
+            self.downAction)
+        {
 
             UIEdgeInsets newInsets = self.orginalInsets;
             newInsets.bottom += self.footerView.frame.size.height;
@@ -179,7 +182,7 @@
         if (topOffset < (-self.triggerDistance) && self.upAction) {
 
             UIEdgeInsets newInsets = self.orginalInsets;
-            newInsets.top += self.headerView.frame.size.height;
+            newInsets.top += CGRectGetHeight(self.headerView.frame);
 
             [self triggerAction:self.upAction forAccessoryView:self.headerView withInsets:newInsets];
         }
