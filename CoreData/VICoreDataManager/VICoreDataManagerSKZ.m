@@ -55,6 +55,15 @@
     [self sharedInstance];
 }
 
++ (NSManagedObjectContext *)contextForCurrentThread
+{
+    if ([NSOperationQueue mainQueue] == [NSOperationQueue currentQueue]) {
+        return [[VICoreDataManagerSKZ sharedInstance] managedObjectContext];
+    } else {
+        return [[VICoreDataManagerSKZ sharedInstance] temporaryContext];
+    }
+}
+
 NSOperationQueue *VI_WritingQueue;
 VICoreDataManagerSKZ *VI_SharedObject;
 + (VICoreDataManagerSKZ *)sharedInstance

@@ -34,6 +34,13 @@
 @interface VICoreDataManagerSKZ : NSObject
 
 /**
+ Returns the correct context for either the main thread or a secondary thread.
+ @return Either the managedObjectContext for the main thread or a tempory context
+ for secondary threads.
+ */
++ (NSManagedObjectContext *)contextForCurrentThread;
+
+/**
  Returns the singleton core data manager. VICoreDataManagerSKZ is not expected to be subclassed.
  On launch you should also set the resource and database names. Example:
  @code
