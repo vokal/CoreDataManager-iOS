@@ -174,7 +174,6 @@
             abort();
         }
     }];
-    [self.tableView reloadData];
 }
 
 - (NSArray *)fetchedObjects
