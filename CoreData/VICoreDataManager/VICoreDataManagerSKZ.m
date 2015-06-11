@@ -458,9 +458,6 @@ NSInteger blockNumber = 0;
 
     [[[self sharedInstance] temporaryContext] performBlock:^{
         writeBlock([[self sharedInstance] temporaryContext]);
-        
-        [[[self sharedInstance] temporaryContext] save:nil];
-        
         if (completion) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 completion();
