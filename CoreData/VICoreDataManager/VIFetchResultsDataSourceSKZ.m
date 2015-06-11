@@ -10,7 +10,6 @@
 
 @property NSString *sectionNameKeyPath;
 @property NSString *cacheName;
-@property (strong, nonatomic, readwrite) NSFetchedResultsController* fetchedResultsController;
 
 @end
 
@@ -153,39 +152,32 @@
 - (void)reloadFetchedResults:(NSNotification *)note
 {
     CDLog(@"NSNotification: Underlying data changed ... refreshing!");
-    
-    [self.fetchedResultsController.managedObjectContext performBlockAndWait:^{
-        NSError *error = nil;
-
-        if (![self.fetchedResultsController performFetch:&error]) {
-            CDLog(@"Unresolved error %@, %@", error, [error userInfo]);
-            abort();
-        }
-    }];
+    NSError *error = nil;
+    if (![_fetchedResultsController performFetch:&error]) {
+        CDLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
 }
 
 - (void)reloadData
 {
-    [self.fetchedResultsController.managedObjectContext performBlockAndWait:^{
-        NSError *error = nil;
-
-        if (![self.fetchedResultsController performFetch:&error]) {
-            CDLog(@"Unresolved error %@, %@", error, [error userInfo]);
-            abort();
-        }
-    }];
+    NSError *error = nil;
+    if (![_fetchedResultsController performFetch:&error]) {
+        CDLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
+    //FOR TESTING ONLY, NOT NECESSARY
+    [_tableView reloadData];
 }
 
 - (NSArray *)fetchedObjects
 {
-    [self.fetchedResultsController.managedObjectContext performBlockAndWait:^{
-        NSError *error = nil;
-
-        if (![self.fetchedResultsController performFetch:&error]) {
-            CDLog(@"Unresolved error %@, %@", error, [error userInfo]);
-            abort();
-        }}];
-    return self.fetchedResultsController.fetchedObjects;
+    NSError *error = nil;
+    if (![_fetchedResultsController performFetch:&error]) {
+        CDLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
+   return _fetchedResultsController.fetchedObjects;
 }
 
 - (id)objectAtIndexPath:(NSIndexPath *)path
@@ -206,7 +198,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([_delegate respondsToSelector:@selector(fetchResultsDataSourceSelectedObject:)]) {
-        [_delegate fetchResultsDataSourceSelectedObject:[self.fetchedResultsController objectAtIndexPath:indexPath]];
+        [_delegate fetchResultsDataSourceSelectedObject:[_fetchedResultsController objectAtIndexPath:indexPath]];
     }
 
     if (self.clearsTableViewCellSelection) {
@@ -218,7 +210,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    NSInteger sectionCount = [[self.fetchedResultsController sections] count];
+    NSInteger sectionCount = [[_fetchedResultsController sections] count];
     if (!sectionCount && [_delegate respondsToSelector:@selector(fetchResultsDataSourceHasResults:)]) {
         [_delegate fetchResultsDataSourceHasResults:NO];
     }
@@ -228,15 +220,13 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    id <NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController sections][section];
+    id <NSFetchedResultsSectionInfo> sectionInfo = [_fetchedResultsController sections][section];
 
     if ([_delegate respondsToSelector:@selector(fetchResultsDataSourceHasResults:)]) {
         [_delegate fetchResultsDataSourceHasResults:([sectionInfo numberOfObjects] > 0)];
     }
 
-    NSInteger num = [[self.fetchedResultsController fetchedObjects] count];
-    
-    return num;
+    return [sectionInfo numberOfObjects];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

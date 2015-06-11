@@ -14,9 +14,9 @@
 @property (copy) NSString *resource;
 @property (copy) NSString *databaseFilename;
 @property NSMutableDictionary *mapperCollection;
-@property (nonatomic, strong) NSManagedObjectContext* temporaryContext;
 
 //Getters
+- (NSManagedObjectContext *)tempManagedObjectContext;
 - (NSManagedObjectContext *)managedObjectContext;
 - (NSManagedObjectModel *)managedObjectModel;
 - (NSPersistentStoreCoordinator *)persistentStoreCoordinator;
@@ -26,9 +26,13 @@
 - (void)initPersistentStoreCoordinator;
 - (void)initManagedObjectContext;
 
+//Thread Safety with Main MOC
+- (NSManagedObjectContext *)safeContext:(NSManagedObjectContext *)context;
+
 //Context Saving and Merging
 - (void)saveContext:(NSManagedObjectContext *)managedObjectContext;
 - (void)saveTempContext:(NSManagedObjectContext *)tempContext;
+- (void)tempContextSaved:(NSNotification *)notification;
 
 //Convenience Methods
 - (NSFetchRequest *)fetchRequestWithClass:(Class)managedObjectClass predicate:(NSPredicate *)predicate;
@@ -51,12 +55,15 @@
     [self sharedInstance];
 }
 
+NSOperationQueue *VI_WritingQueue;
 VICoreDataManagerSKZ *VI_SharedObject;
 + (VICoreDataManagerSKZ *)sharedInstance
 {
     static dispatch_once_t pred;
     dispatch_once(&pred,^{
         VI_SharedObject = [[self alloc] init];
+        VI_WritingQueue = [[NSOperationQueue alloc] init];
+        [VI_WritingQueue setMaxConcurrentOperationCount:1];
     });
     return VI_SharedObject;
 }
@@ -79,6 +86,21 @@ VICoreDataManagerSKZ *VI_SharedObject;
 }
 
 #pragma mark - Getters
+- (NSManagedObjectContext *)tempManagedObjectContext
+{
+    NSManagedObjectContext *tempManagedObjectContext;
+
+    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
+
+    if (coordinator) {
+        tempManagedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSConfinementConcurrencyType];
+        [tempManagedObjectContext setPersistentStoreCoordinator:coordinator];
+    } else {
+        CDLog(@"Coordinator is nil & context is %@", [tempManagedObjectContext description]);
+    }
+
+    return tempManagedObjectContext;
+}
 
 - (NSManagedObjectContext *)managedObjectContext
 {
@@ -114,10 +136,12 @@ VICoreDataManagerSKZ *VI_SharedObject;
     if (!modelURL) {
         modelURL = [[NSBundle skillzBundle] URLForResource:self.resource withExtension:@"mom"];
         
-        if (!modelURL) {
+        if (!modelURL)
+        {
             modelURL = [[NSBundle skillzBundle] URLForResource:self.resource withExtension:@"momd" subdirectory:@"SkillzDataModel.momd"];
         }
-        if (!modelURL) {
+        if (!modelURL)
+        {
             modelURL = [[NSBundle skillzBundle] URLForResource:self.resource withExtension:@"mom" subdirectory:@"SkillzDataModel.momd"];
         }
 
@@ -195,7 +219,7 @@ VICoreDataManagerSKZ *VI_SharedObject;
     NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
 
     if (coordinator) {
-        _managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+        _managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSConfinementConcurrencyType];
 
         [_managedObjectContext setPersistentStoreCoordinator:coordinator];
         id mergePolicy = [[NSMergePolicy alloc] initWithMergeType:NSMergeByPropertyObjectTrumpMergePolicyType];
@@ -204,10 +228,9 @@ VICoreDataManagerSKZ *VI_SharedObject;
 }
 
 #pragma mark - Create and configure
-
 - (NSManagedObject *)managedObjectOfClass:(Class)managedObjectClass inContext:(NSManagedObjectContext *)contextOrNil
 {
-    contextOrNil = [self safeContext];
+    contextOrNil = [self safeContext:contextOrNil];
     return [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass(managedObjectClass) inManagedObjectContext:contextOrNil];
 }
 
@@ -225,51 +248,48 @@ VICoreDataManagerSKZ *VI_SharedObject;
 {
     VIManagedObjectMapperSKZ *mapper = [self mapperForClass:objectClass];
 
-    contextOrNil = [self safeContext];
-    NSMutableArray *returnArray = [NSMutableArray array];
+    contextOrNil = [self safeContext:contextOrNil];
 
-    [contextOrNil performBlockAndWait:^{
-        NSArray *existingObjectArray;
+    NSArray *existingObjectArray;
 
-        if (mapper.uniqueComparisonKey) {
-            NSMutableArray *safeArrayOfUniqueKeys = [NSMutableArray array];
-            NSArray *arrayOfUniqueKeys = [inputArray valueForKey:mapper.foreignUniqueComparisonKey];
-            NSNull *nullObj = [NSNull null];
-            [arrayOfUniqueKeys enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                if (![nullObj isEqual:obj]) {
-                    [safeArrayOfUniqueKeys addObject:obj];
-                }
-            }];
-            arrayOfUniqueKeys = [safeArrayOfUniqueKeys copy];
-            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(%K IN %@)", mapper.uniqueComparisonKey, arrayOfUniqueKeys];
-            existingObjectArray = [self arrayForClass:objectClass withPredicate:predicate forContext:contextOrNil];
-        }
-        
-        [inputArray enumerateObjectsUsingBlock:^(NSDictionary *inputDict, NSUInteger idx, BOOL *stop) {
-            if (![inputDict isKindOfClass:[NSDictionary class]]) {
-                CDLog(@"ERROR\nExpecting an NSArray full of NSDictionaries");
-                return;
+    if (mapper.uniqueComparisonKey) {
+        NSMutableArray *safeArrayOfUniqueKeys = [NSMutableArray array];
+        NSArray *arrayOfUniqueKeys = [inputArray valueForKey:mapper.foreignUniqueComparisonKey];
+        NSNull *nullObj = [NSNull null];
+        [arrayOfUniqueKeys enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            if (![nullObj isEqual:obj]) {
+                [safeArrayOfUniqueKeys addObject:obj];
             }
+        }];
+        arrayOfUniqueKeys = [safeArrayOfUniqueKeys copy];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(%K IN %@)", mapper.uniqueComparisonKey, arrayOfUniqueKeys];
+        existingObjectArray = [self arrayForClass:objectClass withPredicate:predicate forContext:contextOrNil];
+    }
+    
+    NSMutableArray *returnArray = [NSMutableArray array];
+    [inputArray enumerateObjectsUsingBlock:^(NSDictionary *inputDict, NSUInteger idx, BOOL *stop) {
+        if (![inputDict isKindOfClass:[NSDictionary class]]) {
+            CDLog(@"ERROR\nExpecting an NSArray full of NSDictionaries");
+            return;
+        }
 
-            NSManagedObject *returnObject;
+        NSManagedObject *returnObject;
 
-            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", mapper.uniqueComparisonKey, [inputDict valueForKey:mapper.foreignUniqueComparisonKey]];
-            NSArray *matchingObjects = [existingObjectArray filteredArrayUsingPredicate:predicate];
-            NSUInteger matchingObjectsCount = [matchingObjects count];
-            if (matchingObjectsCount) {
-                NSAssert(matchingObjectsCount < 2, @"UNIQUE IDENTIFIER IS NOT UNIQUE. MORE THAN ONE MATCHING OBJECT FOUND");
-                returnObject = matchingObjects[0];
-                if (mapper.overwriteObjectsWithServerChanges) {
-                    [self setInformationFromDictionary:inputDict forManagedObject:returnObject];
-                }
-            } else {
-                returnObject = [self managedObjectOfClass:objectClass inContext:contextOrNil];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", mapper.uniqueComparisonKey, [inputDict valueForKey:mapper.foreignUniqueComparisonKey]];
+        NSArray *matchingObjects = [existingObjectArray filteredArrayUsingPredicate:predicate];
+        NSUInteger matchingObjectsCount = [matchingObjects count];
+        if (matchingObjectsCount) {
+            NSAssert(matchingObjectsCount < 2, @"UNIQUE IDENTIFIER IS NOT UNIQUE. MORE THAN ONE MATCHING OBJECT FOUND");
+            returnObject = matchingObjects[0];
+            if (mapper.overwriteObjectsWithServerChanges) {
                 [self setInformationFromDictionary:inputDict forManagedObject:returnObject];
             }
-            [returnArray addObject:returnObject];
-        }];
+        } else {
+            returnObject = [self managedObjectOfClass:objectClass inContext:contextOrNil];
+            [self setInformationFromDictionary:inputDict forManagedObject:returnObject];
+        }
+        [returnArray addObject:returnObject];
     }];
-    [contextOrNil save:nil];
     
     return [returnArray copy];
 }
@@ -281,7 +301,6 @@ VICoreDataManagerSKZ *VI_SharedObject;
 }
 
 #pragma mark - Convenient Output
-
 - (NSDictionary *)dictionaryRepresentationOfManagedObject:(NSManagedObject *)object respectKeyPaths:(BOOL)keyPathsEnabled
 {
     VIManagedObjectMapperSKZ *mapper = [self mapperForClass:[object class]];
@@ -293,7 +312,6 @@ VICoreDataManagerSKZ *VI_SharedObject;
 }
 
 #pragma mark - Count, Fetch, and Delete
-
 - (NSUInteger)countForClass:(Class)managedObjectClass
 {
     return [self countForClass:managedObjectClass forContext:nil];
@@ -306,19 +324,15 @@ VICoreDataManagerSKZ *VI_SharedObject;
 
 - (NSUInteger)countForClass:(Class)managedObjectClass withPredicate:(NSPredicate *)predicate forContext:(NSManagedObjectContext *)contextOrNil
 {
-    contextOrNil = [self safeContext];
+    contextOrNil = [self safeContext:contextOrNil];
     NSFetchRequest *fetchRequest = [self fetchRequestWithClass:managedObjectClass predicate:predicate];
 
-    __block NSError *error;
-    __block NSUInteger count;
-    
-    [contextOrNil performBlockAndWait:^{
-        count = [contextOrNil countForFetchRequest:fetchRequest error:&error];
-        if (error) {
-            CDLog(@"%s Fetch Request Error\n%@",__PRETTY_FUNCTION__ ,[error localizedDescription]);
-        }
-    }];
-    
+    NSError *error;
+    NSUInteger count = [contextOrNil countForFetchRequest:fetchRequest error:&error];
+    if (error) {
+        CDLog(@"%s Fetch Request Error\n%@",__PRETTY_FUNCTION__ ,[error localizedDescription]);
+    }
+
     return count;
 }
 
@@ -334,16 +348,11 @@ VICoreDataManagerSKZ *VI_SharedObject;
 
 - (NSArray *)arrayForClass:(Class)managedObjectClass withPredicate:(NSPredicate *)predicate forContext:(NSManagedObjectContext *)contextOrNil
 {
-    contextOrNil = [self safeContext];
+    contextOrNil = [self safeContext:contextOrNil];
     NSFetchRequest *fetchRequest = [self fetchRequestWithClass:managedObjectClass predicate:predicate];
 
-    __block NSError *error;
-    __block NSArray *results;
-    
-    [contextOrNil performBlockAndWait:^{
-
-        results = [contextOrNil executeFetchRequest:fetchRequest error:&error];
-    }];
+    NSError *error;
+    NSArray *results = [contextOrNil executeFetchRequest:fetchRequest error:&error];
     if (error) {
         CDLog(@"%s Fetch Request Error\n%@",__PRETTY_FUNCTION__ ,[error localizedDescription]);
     }
@@ -353,96 +362,110 @@ VICoreDataManagerSKZ *VI_SharedObject;
 
 - (void)deleteObject:(NSManagedObject *)object
 {
-    [[object managedObjectContext] performBlock:^{
-        [[object managedObjectContext] deleteObject:object];
-    }];
+    [[object managedObjectContext] deleteObject:object];
 }
 
 - (BOOL)deleteAllObjectsOfClass:(Class)managedObjectClass context:(NSManagedObjectContext *)contextOrNil
 {
-    contextOrNil = [self safeContext];
+    contextOrNil = [self safeContext:contextOrNil];
     NSFetchRequest *fetchRequest = [self fetchRequestWithClass:managedObjectClass predicate:nil];
     [fetchRequest setIncludesPropertyValues:NO];
     [fetchRequest setReturnsObjectsAsFaults:YES];
-    __block NSError *error;
-    __block NSArray *results;
-    
-    [contextOrNil performBlockAndWait:^{
-        results = [contextOrNil executeFetchRequest:fetchRequest error:&error];
-        
-        if (error) {
-            CDLog(@"%s Fetch Request Error\n%@",__PRETTY_FUNCTION__ ,[error localizedDescription]);
-            return;
-        }
 
-        [results enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            [contextOrNil deleteObject:obj];
-        }];
+    NSError *error;
+    NSArray *results = [contextOrNil executeFetchRequest:fetchRequest error:&error];
+    if (error) {
+        CDLog(@"%s Fetch Request Error\n%@",__PRETTY_FUNCTION__ ,[error localizedDescription]);
+        return NO;
+    }
+
+    [results enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [contextOrNil deleteObject:obj];
     }];
- 
-   if (error) {
-       return NO;
-   }
 
     return YES;
 }
 
 #pragma mark - Thread Safety with Main MOC
-- (NSManagedObjectContext *)safeContext
+- (NSManagedObjectContext *)safeContext:(NSManagedObjectContext *)context
 {
-    if ([NSThread isMainThread]) {
-        return [self managedObjectContext];
+    if (!context) {
+        context = [self managedObjectContext];
     }
-        
-    return [self temporaryContext];
+
+    if (context == [self managedObjectContext]) {
+        NSAssert([NSOperationQueue currentQueue] == [NSOperationQueue mainQueue], @"XXX ALERT ALERT XXXX\nNOT ON MAIN QUEUE!");
+    }
+
+    return context;
 }
 
 #pragma mark - Context Saving and Merging
-
 - (void)saveMainContext
 {
-    [[self managedObjectContext] performBlock:^{
-        [[self managedObjectContext] save:nil];
-    }];
+    if ([NSOperationQueue mainQueue] == [NSOperationQueue currentQueue]) {
+        [self saveContext:[self managedObjectContext]];
+    } else {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self saveContext:[self managedObjectContext]];
+        });
+    }
 }
 
 - (void)saveMainContextAndWait
 {
-    [[self managedObjectContext] performBlockAndWait: ^{
-        [[self managedObjectContext] save:nil];
-    }];
+    if ([NSOperationQueue mainQueue] == [NSOperationQueue currentQueue]) {
+        [self saveContext:[self managedObjectContext]];
+    } else {
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [self saveContext:[self managedObjectContext]];
+        });
+    }
 }
 
 - (void)saveContext:(NSManagedObjectContext *)context
 {
-    [context performBlock:^{
-        [context save:nil];
-    }];
+    NSError *error;
+    if (![context save:&error]) {
+        CDLog(@"Unresolved error %@, %@", error, [error localizedDescription]);
+    }
 }
 
 - (void)saveTempContext:(NSManagedObjectContext *)tempContext
 {
-    [tempContext performBlock: ^{
-        [tempContext save:nil];
-    }];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(tempContextSaved:)
+                                                 name:NSManagedObjectContextDidSaveNotification
+                                               object:tempContext];
+
+    [self saveContext:tempContext];
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:NSManagedObjectContextDidSaveNotification
+                                                  object:tempContext];
+}
+
+- (void)tempContextSaved:(NSNotification *)notification
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        @try {
+            [[self managedObjectContext] mergeChangesFromContextDidSaveNotification:notification];
+            [[self managedObjectContext] processPendingChanges];
+        }
+        @catch (NSException *exception) {}
+    });
 }
 
 - (NSManagedObjectContext *)temporaryContext
 {
-    if (!_temporaryContext) { // can be reset to nil, so no dispatch_once
-        _temporaryContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-        [_temporaryContext setParentContext:[self managedObjectContext]];
-    }
-    return _temporaryContext;
+    return [self tempManagedObjectContext];
 }
 
 - (void)saveAndMergeWithMainContext:(NSManagedObjectContext *)context
 {
-    [context performBlock:^{
-        [context save:nil];
-    }];
+    NSAssert(context != [self managedObjectContext], @"This is NOT for saving the main context.");
+    [self saveTempContext:context];
 }
-
 
 #pragma mark - Convenience Methods
 NSInteger blockNumber = 0;
@@ -454,16 +477,37 @@ NSInteger blockNumber = 0;
     blockNumber++;
     NSInteger blockId = blockNumber;
 #endif
+    
+    [[VICoreDataManagerSKZ sharedInstance] managedObjectContext];
     NSAssert(writeBlock, @"Write block must not be nil");
 
-    [[[self sharedInstance] temporaryContext] performBlock:^{
-        writeBlock([[self sharedInstance] temporaryContext]);
+    WriteQueueLog(@"%ld Add Block", (long)blockId);
+    
+    [VI_WritingQueue addOperationWithBlock:^{
+        WriteQueueLog(@"%ld Begin write",  (long)blockId);
+        NSManagedObjectContext *tempContext = [[VICoreDataManagerSKZ sharedInstance] temporaryContext];
+        writeBlock(tempContext);
+#if WRITE_QUEUE_LOGGING
+        Class insertedClass = [[[tempContext insertedObjects] anyObject] class];
+        Class updatedClass = [[[tempContext updatedObjects] anyObject] class];
+#endif
+        [[VICoreDataManagerSKZ sharedInstance] saveAndMergeWithMainContext:tempContext];
+        
+#if WRITE_QUEUE_LOGGING
+        WriteQueueLog(@"%ld Finish write took %.2f secs",  (long)blockId, [[NSDate date] timeIntervalSinceDate:startDate]);
+        if (insertedClass) {
+            WriteQueueLog(@"%@ inserted", NSStringFromClass(insertedClass));
+        }
+        
+        if (updatedClass) {
+            WriteQueueLog(@"%@ updated", NSStringFromClass(updatedClass));
+        }
+#endif
         if (completion) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 completion();
             });
         }
-        
     }];
 }
 
@@ -509,7 +553,6 @@ NSInteger blockNumber = 0;
     
     _persistentStoreCoordinator = nil;
     _managedObjectContext = nil;
-    _temporaryContext = nil;
     _managedObjectModel = nil;
     [_mapperCollection removeAllObjects];
 }
