@@ -198,7 +198,7 @@
 
         CGFloat topOffset = scrollView.contentOffset.y + scrollView.contentInset.top;
 
-        if (topOffset > scrollableHeight) {
+        if (topOffset > scrollableHeight && scrollView.contentSize.height > CGRectGetHeight(scrollView.frame)) {
             CGFloat distanceOverscrolled = topOffset - scrollableHeight;
             [self.footerView hasOverScrolled:(distanceOverscrolled/self.triggerDistance)];
         } else {
