@@ -142,16 +142,20 @@ VICoreDataManagerSKZ *VI_SharedObject;
 - (void)initManagedObjectModel
 {
     NSURL *modelURL = [[NSBundle skillzBundle] URLForResource:self.resource withExtension:@"momd"];
+    SKZLog(@"model URL %@", modelURL);
     if (!modelURL) {
         modelURL = [[NSBundle skillzBundle] URLForResource:self.resource withExtension:@"mom"];
+        SKZLog(@"model URL %@", modelURL);
         
         if (!modelURL)
         {
             modelURL = [[NSBundle skillzBundle] URLForResource:self.resource withExtension:@"momd" subdirectory:@"SkillzDataModel.momd"];
+            SKZLog(@"model URL %@", modelURL);
         }
         if (!modelURL)
         {
             modelURL = [[NSBundle skillzBundle] URLForResource:self.resource withExtension:@"mom" subdirectory:@"SkillzDataModel.momd"];
+            SKZLog(@"model URL %@", modelURL);
         }
 
     }
