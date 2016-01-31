@@ -12,6 +12,8 @@
 
 @interface VIManagedObjectMapperSKZ()
 @property (readwrite) NSArray *mapsArray;
+@property (readwrite) NSDictionary *mapsInputKeyPathLookup;
+@property (readwrite) NSDictionary *mapsCoreDataKeyLookup;
 - (void)updateForeignComparisonKey;
 - (id)checkNull:(id)inputObject;
 - (id)checkDate:(id)inputObject withDateFormatter:(NSDateFormatter *)dateFormatter;
@@ -25,9 +27,37 @@
 + (instancetype)mapperWithUniqueKey:(NSString *)comparisonKey andMaps:(NSArray *)mapsArray;
 {
     VIManagedObjectMapperSKZ *mapper = [[self alloc] init];
+    NSUInteger mapCount = mapsArray.count;
+    
+    id maps[mapCount];
+    id inputKeyPaths[mapCount];
+    id coreDataKeys[mapCount];
+    NSUInteger i = 0;
+    
+    for ( VIManagedObjectMapSKZ *map in mapsArray )
+    {
+        maps[i] = map;
+        inputKeyPaths[i] = map.inputKeyPath;
+        coreDataKeys[i] = map.coreDataKey;
+        i++;
+    }
+    
+    mapper.mapsInputKeyPathLookup = [NSDictionary dictionaryWithObjects:maps forKeys:inputKeyPaths count:mapCount];
+    mapper.mapsCoreDataKeyLookup = [NSDictionary dictionaryWithObjects:maps forKeys:coreDataKeys count:mapCount];
+    
     [mapper setMapsArray:mapsArray];
     [mapper setUniqueComparisonKey:comparisonKey];
     return mapper;
+}
+
+- (nullable VIManagedObjectMapSKZ *)mapForInputKeyPath:(nonnull NSString *)inputKeyPath
+{
+    return self.mapsInputKeyPathLookup[inputKeyPath];
+}
+
+- (nullable VIManagedObjectMapSKZ *)mapForCoreDataKey:(NSString *)coreDataKey
+{
+    return self.mapsCoreDataKeyLookup[coreDataKey];
 }
 
 + (instancetype)defaultMapper

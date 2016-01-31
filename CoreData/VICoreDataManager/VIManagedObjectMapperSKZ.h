@@ -8,6 +8,8 @@
 
 #import "VIManagedObjectMapSKZ.h"
 
+@class VIManagedObjectMapSKZ;
+
 @interface VIManagedObjectMapperSKZ : NSObject
 
 /// Used to identify and update NSManagedObjects. Like a "primary key" in databases.
@@ -36,5 +38,17 @@
  A default mapper wherein the local keys and foreign keys are identical.
  */
 + (instancetype)defaultMapper;
+
+/**
+ Lookup individual maps by inputKeyPath
+ @return Map corresponding to inputKeyPath or nil
+ */
+- (nullable VIManagedObjectMapSKZ *)mapForInputKeyPath:(nonnull NSString *)inputKeyPath;
+
+/**
+ Lookup individual maps by coreDataKey
+ @return Map corresponding to coreDataKey or nil
+ */
+- (nullable VIManagedObjectMapSKZ *)mapForCoreDataKey:(nonnull NSString *)coreDataKey;
 
 @end

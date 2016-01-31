@@ -535,12 +535,16 @@ NSInteger blockNumber = 0;
 
 - (VIManagedObjectMapperSKZ *)mapperForClass:(Class)objectClass
 {
-    VIManagedObjectMapperSKZ * mapper = self.mapperCollection[NSStringFromClass(objectClass)];
-    while (!mapper && objectClass) {
+    NSString *className = NSStringFromClass(objectClass);
+    VIManagedObjectMapperSKZ * mapper = self.mapperCollection[className];
+    
+    while (!mapper && objectClass)
+    {
         objectClass = [objectClass superclass];
-        mapper = self.mapperCollection[NSStringFromClass(objectClass)];
+        mapper = self.mapperCollection[className];
         
-        if (objectClass == [NSManagedObject class] && !mapper) {
+        if (objectClass == [NSManagedObject class] && !mapper)
+        {
             mapper = [VIManagedObjectMapperSKZ defaultMapper];
         }
     }

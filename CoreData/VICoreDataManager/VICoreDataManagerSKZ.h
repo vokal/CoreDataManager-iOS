@@ -278,4 +278,9 @@
  */
 - (void)resetCoreData;
 
+/**
+ Provides a real data context and checks thread safety
+ */
+- (NSManagedObjectContext *)safeContext:(NSManagedObjectContext *)context;
+
 @end
